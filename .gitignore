@@ -1,0 +1,61 @@
+# =========================
+# Build / Dependencies
+# =========================
+target/
+build/
+out/
+
+# Compiled class files
+*.class
+
+# Package archives
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# =========================
+# Eclipse
+# =========================
+.project
+.classpath
+.settings/
+.apt_generated/
+.factorypath
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# NetBeans (nếu ai dùng thêm)
+# =========================
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# =========================
+# OS-specific
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Local configs
+# =========================
+*.env
+*.properties

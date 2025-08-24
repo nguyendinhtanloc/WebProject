@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự án Hệ thống Đặt Vé Xe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* Soft gray background */
+            color: #1f2937;
+        }
+        .container-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Deeper shadow for a "floating" effect */
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .container-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .code-block {
+            background-color: #1a202c; /* Darker background for code */
+            color: #a0aec0; /* Lighter gray for code text */
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+        }
+        .code-block code {
+            font-family: monospace;
+        }
+        .section-title {
+            font-size: 2rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #1d4ed8; /* Darker blue for titles */
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #93c5fd; /* A subtle blue underline */
+            padding-bottom: 0.5rem;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            text-align: left;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem 1.5rem;
+        }
+        thead tr {
+            background-color: #cbd5e1;
+            color: #334155;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        tbody tr:hover {
+            background-color: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header Section -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-indigo-700 tracking-tight leading-tight">Dự án Hệ thống Đặt Vé Xe 🚌</h1>
+            <p class="mt-4 text-xl md:text-2xl text-gray-600">Bus Booking System Project Documentation</p>
+        </header>
+
+        <!-- Giới thiệu (Introduction) -->
+        <section class="container-card">
+            <h2 class="section-title">Giới thiệu</h2>
+            <p class="text-gray-700 leading-relaxed text-lg">
+                Dự án xây dựng hệ thống web đặt vé xe buýt sử dụng <strong>Java Servlet/JSP</strong> kết hợp <strong>Maven</strong>. Hệ thống hỗ trợ:
+            </p>
+            <ul class="list-disc list-inside mt-5 text-gray-700 space-y-3 text-lg">
+                <li>Người dùng: tìm chuyến, đặt vé, thanh toán và quản lý vé.</li>
+                <li>Nhà xe: quản lý chuyến xe, tài xế, phương tiện.</li>
+                <li>Quản trị viên: quản lý toàn hệ thống và thống kê dữ liệu.</li>
+            </ul>
+        </section>
+
+        <!-- Cấu trúc dự án (Project Structure) -->
+        <section class="container-card">
+            <h2 class="section-title">Cấu trúc dự án</h2>
+            <pre class="code-block whitespace-pre-wrap">
+BusBooking/
+│
+├─ src/
+│ ├─ main/
+│ │ ├─ java/
+│ │ │ ├─ controller/ <span class="text-gray-400"># Các Servlet điều khiển</span>
+│ │ │ ├─ model/ <span class="text-gray-400"># Các lớp mô hình</span>
+│ │ │ ├─ dao/ <span class="text-gray-400"># Truy xuất dữ liệu</span>
+│ │ │ └─ util/ <span class="text-gray-400"># Tiện ích (DB, Email, QRCode)</span>
+│ │ │
+│ │ └─ webapp/
+│ │ ├─ WEB-INF/
+│ │ │ ├─ jsp/ <span class="text-gray-400"># Giao diện JSP (auth, user, company, admin)</span>
+│ │ │ └─ web.xml <span class="text-gray-400"># Cấu hình Servlet</span>
+│ │ └─ static/ <span class="text-gray-400"># CSS, JS, Images</span>
+│ │
+├─ pom.xml <span class="text-gray-400"># Cấu hình Maven</span>
+├─ README.md
+├─ report/
+│ ├─ report.docx
+│ ├─ report.ppt
+└─ .gitignore</pre>
+        </section>
+
+        <!-- Yêu cầu môi trường (Environment Requirements) -->
+        <section class="container-card">
+            <h2 class="section-title">Yêu cầu môi trường</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
+                <li>Java (JDK 8 trở lên)</li>
+                <li>Apache Maven</li>
+                <li>Apache Tomcat</li>
+                <li>PostgreSQL</li>
+            </ul>
+        </section>
+
+        <!-- Cách chạy dự án (How to Run) -->
+        <section class="container-card">
+            <h2 class="section-title">Cách chạy dự án</h2>
+            <div class="space-y-6">
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">1. Truy cập folder dự án</p>
+                    <div class="code-block mt-2">
+                        <code>cd &lt;đường_dẫn_folder&gt;</code>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">2. Clone dự án</p>
+                    <div class="code-block mt-2">
+                        <code>git clone &lt;url&gt;</code>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">3. Build dự án và tạo file .war</p>
+                    <div class="code-block mt-2">
+                        <code>cd BusBooking<br>mvn clean package</code>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">4. Deploy vào Tomcat</p>
+                    <p class="mt-2 text-gray-700">Copy file .war vào thư mục <code>Tomcat/webapps/</code></p>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">5. Khởi động Tomcat</p>
+                    <div class="code-block mt-2">
+                        <code># MacOs/Linux<br>./startup.sh<br><br># Windows<br>startup.bat</code>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-lg">6. Dừng Tomcat</p>
+                    <div class="code-block mt-2">
+                        <code># MacOs/Linux<br>./startup.sh<br><br># Windows<br>startup.bat</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quy tắc phát triển (Development Rules) -->
+        <section class="container-card">
+            <h2 class="section-title">Quy tắc phát triển</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-gray-800 text-lg">Quy tắc đặt tên nhánh (gitflow):</h3>
+                    <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                        <li><code>main</code> &rarr; code đã ổn định, sẵn sàng chạy production.</li>
+                        <li><code>develop</code> &rarr; nhánh tích hợp tính năng</li>
+                        <li><code>feature/*</code> &rarr; nhánh tính năng mới (vd: <code>feature/backend</code>).</li>
+                        <li><code>release/*</code> &rarr; chuẩn bị phát hành (vd: <code>release/v1.0</code>).</li>
+                        <li><code>hotfix/*</code> &rarr; sửa lỗi khẩn cấp trên production (vd: <code>hotfix/payment-bug</code>)</li>
+                        <li><code>support/*</code> &rarr; hỗ trợ các phiên bản cũ.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800 text-lg">Quy tắc đặt tên code</h3>
+                    <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                        <li>Tên package: chữ thường (vd: <code>controller</code>, <code>dao</code>).</li>
+                        <li>Tên class: PascalCase (vd: <code>BookingServlet</code>).</li>
+                        <li>Tên biến/hàm: camelCase (vd: <code>getUserById()</code>).</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800 text-lg">Quy tắc commit:</h3>
+                    <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                        <li><code>[feat]</code> Thêm chức năng đặt vé.</li>
+                        <li><code>[fix]</code> Sửa lỗi chọn ghế.</li>
+                        <li><code>[refactor]</code> Cấu trúc lại DAO.</li>
+                        <li><code>[docs]</code> Cập nhật README <code>[test]</code> Viết unit test cho TripDAO.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thành viên nhóm (Team Members) -->
+        <section class="container-card">
+            <h2 class="section-title">Thành viên nhóm</h2>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Họ và tên</th>
+                            <th>MSSV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mai Quốc Thái</td>
+                            <td>23133071</td>
+                        </tr>
+                        <tr>
+                            <td>Nguyễn Vũ Minh</td>
+                            <td>23133044</td>
+                        </tr>
+                        <tr>
+                            <td>Nguyễn Tiến Đạt</td>
+                            <td>23133016</td>
+                        </tr>
+                        <tr>
+                            <td>Đinh Hoàng Phương</td>
+                            <td>23133059</td>
+                        </tr>
+                        <tr>
+                            <td>Nguyễn Đình Tấn Lộc</td>
+                            <td>23133041</td>
+                        </tr>
+                        <tr>
+                            <td>Đoàn Cao Thái</td>
+                            <td>23133070</td>
+                        </tr>
+                        <tr>
+                            <td>Nguyễn Lê Hoàng Kiệt</td>
+                            <td>23133040</td>
+                        </tr>
+                        <tr>
+                            <td>Nguyễn Đức Thịnh</td>
+                            <td>23133073</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Liên hệ (Contact) -->
+        <section class="container-card">
+            <h2 class="section-title">Liên hệ</h2>
+            <p class="text-gray-700 text-lg">
+                Nếu có bất kỳ thắc mắc nào vui lòng liên hệ qua email: <a href="mailto:23133041@student.hcmute.edu.vn" class="text-blue-600 hover:underline font-medium">23133041@student.hcmute.edu.vn</a>
+            </p>
+        </section>
+
+    </div>
+</body>
+</html>
