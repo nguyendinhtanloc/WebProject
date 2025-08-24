@@ -4,7 +4,7 @@
 Dự án xây dựng hệ thống web đặt vé xe buýt sử dụng **Java Servlet/JSP** kết hợp **Maven**.  
 Hệ thống hỗ trợ:
 - Người dùng: tìm chuyến, đặt vé, thanh toán và quản lý vé.
-- Nhà xe: quản lý chuyến xe, tài xế, phương tiện.
+- Nhà xe: quản lý chuyến xe, tài xế, phương tiện, thông tin người dùng (đã đạt vé).
 - Quản trị viên: quản lý toàn hệ thống và thống kê dữ liệu.
 
 ---
@@ -38,9 +38,9 @@ BusBooking/
 
 ## Yêu cầu môi trường
 
-- Java (JDK 8 trở lên)  
-- Apache Maven  
-- Apache Tomcat  
+- Java (>= 17)
+- Apache Maven (>= 3.9)
+- Apache Tomcat (>= 9)
 - PostgreSQL
 
 ---
