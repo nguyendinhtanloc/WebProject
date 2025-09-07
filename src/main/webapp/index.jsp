@@ -41,7 +41,7 @@
             <ul class="nav-menu">
                 <li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
                 <li><a href="#"><i class="fas fa-route"></i> Chuyến xe</a></li>
-                <li><a href="#"><i class="fas fa-info-circle"></i> Thông tin</a></li>
+                <li><a href="ticketLookup.jsp"><i class="fas fa-search"></i> Tra cứu vé</a></li>
                 <li><a href="#"><i class="fas fa-phone"></i> Liên hệ</a></li>
             </ul>
         </nav>
