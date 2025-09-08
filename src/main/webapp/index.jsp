@@ -173,3 +173,107 @@
 </style>
 </body>
 </html>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-main">
+        <div class="footer-grid">
+            <!-- Company Info -->
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="styles/logo.png" alt="BusGo Logo">
+                    <h2>Biển Xanh Travel</h2>
+                </div>
+                <p class="footer-description">
+                    Hành trình an toàn - Vươn xa mỗi ngày. Chúng tôi cam kết mang đến dịch vụ
+                    vận chuyển hành khách chất lượng cao với sự an toàn và tiện nghi tối đa.
+                </p>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>Hotline: 1900 6067</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@bienxanhtravel.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>123 Nguyễn Văn Linh, Q.7, TP.HCM</span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-home"></i>Trang chủ</a></li>
+                    <li><a href="#"><i class="fas fa-route"></i>Tuyến xe</a></li>
+                    <li><a href="#"><i class="fas fa-search"></i>Tra cứu vé</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i>Tin tức</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i>Liên hệ</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i>Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="footer-section">
+                <h3>Dịch vụ</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-ticket-alt"></i>Đặt vé online</a></li>
+                    <li><a href="#"><i class="fas fa-bus"></i>Thuê xe</a></li>
+                    <li><a href="#"><i class="fas fa-gift"></i>Ưu đãi đặc biệt</a></li>
+                    <li><a href="#"><i class="fas fa-credit-card"></i>Thanh toán</a></li>
+                    <li><a href="#"><i class="fas fa-undo"></i>Đổi trả vé</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i>Chương trình thành viên</a></li>
+                </ul>
+            </div>
+
+            <!-- Social & Newsletter -->
+            <div class="footer-section social-section">
+                <h3>Theo dõi chúng tôi</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link youtube" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link twitter" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link linkedin" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link tiktok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+
+                <div class="newsletter">
+                    <h4>Đăng ký nhận tin</h4>
+                    <p>Nhận thông tin ưu đãi mới nhất</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Email của bạn" required>
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <p>&copy; 2024 Biển Xanh Travel. Tất cả quyền được bảo lưu.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </div>
+</footer>
