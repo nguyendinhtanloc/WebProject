@@ -8,13 +8,19 @@ html {
 
 body {
   font-size: 1.6rem;
-  font-family: "Sora", sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 /* common */
 .main-content {
     width: calc(100% - 48px);
     margin: 0 auto;
+    /* display: grid;
+    grid-template-columns: repeat(12, 1fr); */
+}
+
+a {
+    text-decoration: none;
 }
 /* common */
 
@@ -72,28 +78,6 @@ header {
     margin-left: 10px;
 }
 
-/* container */
-.container {
-    display: flex;
-    min-height: calc(100vh - 60px);
-}
-
-.sidebar {
-    width: 280px;
-    background: #fff;
-    box-shadow: 
-    4px 4px 6px -2px rgba(0,0,0,0.2);
-
-}
-
-/* main */
-
-.main {
-    width: 1160px;
-    background: #bfc1c3;
-    position: relative;
-}
-
 .dropdown {
     position: absolute;
     top: 100%;
@@ -130,3 +114,107 @@ header {
 .dropdown-checkbox:checked ~ .dropdown {
     display: block;
 }
+
+/* container */
+.container {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+
+/* side bar */
+.sidebar {
+    width: 280px;
+    background: #fff;
+    box-shadow: 
+    4px 4px 6px -2px rgba(0,0,0,0.2);
+
+}
+
+.sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.sidebar-item {
+    margin: 5px 24px;
+}
+
+.sidebar-item a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 5px;
+    color: #333;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover */
+.sidebar-item a:hover {
+    background: #f0f4ff;
+}
+
+/* Active item */
+.sidebar-item.active a {
+    background: #1f35ac;
+    color: #fff;
+}
+
+.sidebar-item .icon {
+    font-size: 2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar-item .text {
+    flex: 1;
+}
+
+
+/* main */
+
+.main {
+    width: 1160px;
+    background: #bfc1c3;
+    position: relative;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 20px;
+}
+
+.infor-card {
+    margin-top: 15px;
+    grid-column: span 3;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    height: 90px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.big-chart {
+    margin-top: 15px;
+    grid-column: span 8;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    height: 350px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.premium-chart {
+    margin-top: 15px;
+    grid-column: span 4;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    height: 350px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+
