@@ -37,13 +37,20 @@ header {
     width: 280px;
     background-color: #f9fbfc;
     /* background: red; */
+    display: flex;
+}
+
+.header-left__logo {
+    width: 60px;
+    height: 60px;
+    margin-left: 24px;
 }
 
 .menu-header__icon {
     width: 24px;
     height: 21px;
     margin-top: 21px;
-    margin-left: 232px;
+    margin-left: 148px;
 }
 
 .header-right {
@@ -151,7 +158,6 @@ header {
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Hover */
 .sidebar-item a:hover {
     background: #f0f4ff;
 }
@@ -162,7 +168,7 @@ header {
     color: #fff;
 }
 
-.sidebar-item .icon {
+.sidebar-item__icon {
     font-size: 2rem;
     width: 24px;
     text-align: center;
