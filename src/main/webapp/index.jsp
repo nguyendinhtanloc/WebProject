@@ -46,9 +46,29 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <a href="#" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
-            <a href="#" class="btn btn-primary"><i class="fas fa-user-plus"></i> Đăng ký</a>
+            <c:choose>
+                <c:when test="${not empty sessionScope.userEmail}">
+                    <div class="user-dropdown">
+                        <i class="fas fa-user-circle user-icon"></i>
+                        <div class="dropdown-content">
+                            <p class="user-name">${sessionScope.userEmail}</p>
+                            <a href="logout" class="logout-link">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <a href="login.jsp" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </a>
+                    <a href="register.jsp" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Đăng ký
+                    </a>
+                </c:otherwise>
+            </c:choose>
         </div>
+
     </div>
 </header>
 

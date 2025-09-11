@@ -1,7 +1,0 @@
-model\Trip.class
-ticket\controller\TicketController$1.class
-ticket\model\Ticket.class
-ticket\controller\TicketController.class
-util\SupabaseClient.class
-controller\HomeServlet$1.class
-controller\HomeServlet.class
