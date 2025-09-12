@@ -1,0 +1,104 @@
+/* Đặt nền full screen */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: url('../styles/bia.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-group {
+  display: flex;
+  align-items: center;       /* canh icon và input cùng hàng */
+  background: rgba(255,255,255,0.8);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+}
+
+.form-group i {
+  font-size: 16px;
+  color: #333;
+  margin-right: 8px;
+}
+
+.form-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+}
+
+
+/* Khung ngoài form */
+#register-wrapper {
+  width: 100%;
+  max-width: 450px;
+  padding: 25px;
+  border-radius: 15px;
+
+  /* hiệu ứng kính */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* viền và bóng */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* Tiêu đề */
+#register-wrapper h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Input chung */
+#register-form input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.8);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* Placeholder */
+#register-form input::placeholder {
+  color: #555;
+}
+
+/* Nút submit */
+#register-form button {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #54a0ff, #2e86de);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#register-form button:hover {
+  background: linear-gradient(135deg, #2e86de, #54a0ff);
+}

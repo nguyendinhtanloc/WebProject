@@ -1,0 +1,299 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusGo - Tìm chuyến xe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+<div class="intro-banner">
+    <h1>Biển Xanh Travel</h1>
+    <p>Hành trình an toàn - Vươn xa mỗi ngày</p>
+
+    <!-- Icon floating xung quanh -->
+    <i class="fas fa-bus floating-icon" style="top: 10%; left: 5%;"></i>
+    <i class="fas fa-anchor floating-icon" style="top: 20%; right: 10%;"></i>
+    <i class="fas fa-ship floating-icon" style="bottom: 10%; left: 15%;"></i>
+    <i class="fas fa-water floating-icon" style="top: 30%; left: 60%;"></i>
+    <i class="fas fa-compass floating-icon" style="bottom: 20%; right: 15%;"></i>
+    <i class="fas fa-route floating-icon" style="top: 5%; right: 25%;"></i>
+    <i class="fas fa-map floating-icon" style="top: 40%; left: 30%;"></i>
+    <i class="fas fa-map-marker-alt floating-icon" style="bottom: 30%; right: 5%;"></i>
+    <i class="fas fa-plane-departure floating-icon" style="top: 15%; left: 40%;"></i>
+    <i class="fas fa-umbrella-beach floating-icon" style="bottom: 5%; left: 50%;"></i>
+    <i class="fas fa-traffic-light floating-icon" style="top: 25%; right: 40%;"></i>
+    <i class="fas fa-ferry floating-icon" style="bottom: 15%; right: 25%;"></i>
+</div>
+
+
+
+<!-- Header -->
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="styles/logo.png" alt="BusGo Logo">
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li><a href="#"><i class="fas fa-route"></i> Chuyến xe</a></li>
+                <li><a href="ticketLookup.jsp"><i class="fas fa-search"></i> Tra cứu vé</a></li>
+                <li><a href="#"><i class="fas fa-phone"></i> Liên hệ</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <c:choose>
+                <c:when test="${not empty sessionScope.userEmail}">
+                    <div class="user-dropdown">
+                        <i class="fas fa-user-circle user-icon"></i>
+                        <div class="dropdown-content">
+                            <p class="user-name">${sessionScope.userEmail}</p>
+                            <a href="logout" class="logout-link">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <a href="login.jsp" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </a>
+                    <a href="register.jsp" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Đăng ký
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+    </div>
+</header>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Error Message (if any) -->
+    <c:if test="${not empty errorMessage}">
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+                ${errorMessage}
+        </div>
+    </c:if>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <h2 class="search-title">Tìm chuyến xe</h2>
+        <p class="search-subtitle">Tìm và đặt vé xe khách dễ dàng, nhanh chóng</p>
+
+        <form action="home" method="get">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fromPlace">Điểm đi:</label>
+                    <i class="form-icon fas fa-map-marker-alt"></i>
+                    <input type="text" id="fromPlace" name="fromPlace" required
+                           placeholder="Nhập điểm đi"
+                           value="${fromPlace != null ? fromPlace : ''}">
+                </div>
+
+                <div class="arrow-separator">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="toPlace">Điểm đến:</label>
+                    <i class="form-icon fas fa-flag-checkered"></i>
+                    <input type="text" id="toPlace" name="toPlace" required
+                           placeholder="Nhập điểm đến"
+                           value="${toPlace != null ? toPlace : ''}">
+                </div>
+
+                <div class="form-group">
+                    <label for="departureDate">Ngày đi:</label>
+                    <i class="form-icon fas fa-calendar-alt"></i>
+                    <input type="date" id="departureDate" name="departureDate" required
+                           value="${departureDate != null ? departureDate : ''}">
+                </div>
+
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Đặt vé 24/7</h3>
+                <p>Dịch vụ hoạt động 24/7, đặt vé bất cứ lúc nào</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>An toàn & Bảo mật</h3>
+                <p>Thông tin được bảo mật tuyệt đối</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>Hỗ trợ 24/7</h3>
+                <p>Đội ngũ hỗ trợ sẵn sàng phục vụ</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Vé điện tử</h3>
+                <p>Vé điện tử tiện lợi trên mobile</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Set minimum date to today
+    document.getElementById('departureDate').min = new Date().toISOString().split('T')[0];
+
+    // Add loading animation to search button
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = document.querySelector('.search-button');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+    });
+</script>
+
+<!-- Add error message styles -->
+<style>
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid #f5c6cb;
+    }
+
+    .error-message i {
+        color: #dc3545;
+    }
+</style>
+</body>
+</html>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-main">
+        <div class="footer-grid">
+            <!-- Company Info -->
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="styles/logo.png" alt="BusGo Logo">
+                    <h2>Biển Xanh Travel</h2>
+                </div>
+                <p class="footer-description">
+                    Hành trình an toàn - Vươn xa mỗi ngày. Chúng tôi cam kết mang đến dịch vụ
+                    vận chuyển hành khách chất lượng cao với sự an toàn và tiện nghi tối đa.
+                </p>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>Hotline: 1900 6067</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@bienxanhtravel.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>123 Nguyễn Văn Linh, Q.7, TP.HCM</span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-home"></i>Trang chủ</a></li>
+                    <li><a href="#"><i class="fas fa-route"></i>Tuyến xe</a></li>
+                    <li><a href="#"><i class="fas fa-search"></i>Tra cứu vé</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i>Tin tức</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i>Liên hệ</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i>Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="footer-section">
+                <h3>Dịch vụ</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-ticket-alt"></i>Đặt vé online</a></li>
+                    <li><a href="#"><i class="fas fa-bus"></i>Thuê xe</a></li>
+                    <li><a href="#"><i class="fas fa-gift"></i>Ưu đãi đặc biệt</a></li>
+                    <li><a href="#"><i class="fas fa-credit-card"></i>Thanh toán</a></li>
+                    <li><a href="#"><i class="fas fa-undo"></i>Đổi trả vé</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i>Chương trình thành viên</a></li>
+                </ul>
+            </div>
+
+            <!-- Social & Newsletter -->
+            <div class="footer-section social-section">
+                <h3>Theo dõi chúng tôi</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link youtube" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link twitter" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link linkedin" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link tiktok" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+
+                <div class="newsletter">
+                    <h4>Đăng ký nhận tin</h4>
+                    <p>Nhận thông tin ưu đãi mới nhất</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Email của bạn" required>
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <p>&copy; 2024 Biển Xanh Travel. Tất cả quyền được bảo lưu.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </div>
+</footer>

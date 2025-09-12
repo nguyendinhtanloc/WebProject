@@ -1,0 +1,19 @@
+.view-container {
+    border-radius: 20px;
+    background-color: white !important;
+    padding: 20px;
+}
+
+.ticket-inf {
+    background-color: white !important;
+}
+
+.features-booking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seat-container {
+    display: flex;
+}
