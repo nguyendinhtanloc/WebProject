@@ -19,6 +19,8 @@ public class EmailService {
     // Value là "Mật khẩu ứng dụng" (App Password) tương ứng của email đó.
     private final Map<String, String> adminMap;
 
+  
+  
     /**
      * Hàm khởi tạo (Constructor) của lớp EmailService.
      * Khi một đối tượng EmailService được tạo, nó sẽ tự động đọc file .env

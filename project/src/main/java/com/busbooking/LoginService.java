@@ -1,48 +1,45 @@
-// muốn test kết nối supabase, chạy hai lệnh sau trong terminal 
-// mvn clean compile
-// mvn exec:java -Dexec.mainClass="com.busbooking.LoginService"
-
-// Khai báo package cho lớp, giúp tổ chức code
 package com.busbooking;
 
 // Import các thư viện cần thiết
 import io.github.cdimascio.dotenv.Dotenv; // Thư viện để đọc các biến môi trường từ file .env
-import okhttp3.*; // Thư viện để thực hiện các cuộc gọi HTTP (gửi request đến server)
+import okhttp3.*; // Thư viện để thực hiện các cuộc gọi HTTP
 import com.fasterxml.jackson.databind.JsonNode; // Thư viện để xử lý dữ liệu JSON
 import com.fasterxml.jackson.databind.ObjectMapper; // Thư viện để chuyển đổi giữa đối tượng Java và JSON
-import com.busbooking.util.EmailService; // Import lớp EmailService tự định nghĩa để xử lý việc gửi email
+import com.busbooking.util.EmailService; // Lớp dịch vụ tự định nghĩa để gửi email
 
-import java.io.IOException; // Import để xử lý các ngoại lệ về Input/Output
-import java.util.Scanner; // Import để đọc dữ liệu nhập vào từ người dùng
+import java.io.IOException; // Xử lý các ngoại lệ liên quan đến I/O
+import java.util.Scanner; // Lớp để đọc dữ liệu nhập từ người dùng
+import java.util.Random; // Lớp để tạo số ngẫu nhiên
 
 /**
- * Lớp này xử lý logic đăng nhập của người dùng.
- * Nó nhận email và mật khẩu, xác thực với Supabase,
- * và thực hiện các hành động tiếp theo như gửi email thông báo nếu người dùng là admin.
+ * Lớp LoginService thực hiện chức năng đăng nhập 2 bước với Supabase.
+ * Bước 1: Xác thực email và mật khẩu thông qua API của Supabase.
+ * Bước 2: Gửi và xác thực mã OTP qua email.
  */
 public class LoginService {
 
-    // Phương thức main là điểm khởi đầu của chương trình
     public static void main(String[] args) {
-        // Tải các biến môi trường từ file .env. Giúp bảo mật các thông tin nhạy cảm.
+        // Tải các biến môi trường từ file .env
         Dotenv dotenv = Dotenv.load();
         String supabaseUrl = dotenv.get("SUPABASE_URL"); // Lấy URL của Supabase
-        String anonKey = dotenv.get("SUPABASE_ANON_KEY"); // Lấy khóa công khai (anon key) của Supabase
+        String serviceKey = dotenv.get("SUPABASE_SERVICE_KEY"); // Lấy Service Key để có quyền quản trị
 
-        // Tạo một đối tượng Scanner để nhận dữ liệu đầu vào từ bàn phím
+        // Tạo đối tượng Scanner để nhận input từ console
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Nhập email: ");
-        String email = scanner.nextLine(); // Đọc email người dùng nhập
-        System.out.print("Nhập mật khẩu: ");
-        String password = scanner.nextLine(); // Đọc mật khẩu người dùng nhập
 
-        // Khởi tạo đối tượng EmailService để sử dụng các chức năng liên quan đến email
+        // Yêu cầu người dùng nhập email và mật khẩu
+        System.out.print("Nhập email: ");
+        String email = scanner.nextLine();
+        System.out.print("Nhập mật khẩu: ");
+        String password = scanner.nextLine();
+
+        // Khởi tạo EmailService để xử lý các tác vụ liên quan đến email
         EmailService emailService = new EmailService();
-        // Kiểm tra xem email người dùng nhập có nằm trong danh sách email của quản trị viên không
+        // Kiểm tra xem email người dùng nhập có nằm trong danh sách admin hay không
         boolean isAdmin = emailService.getAllAdminEmails().contains(email);
         System.out.println(isAdmin ? email + " là admin" : email + " không phải admin");
 
-        // Tạo một đối tượng OkHttpClient để gửi request HTTP
+        // Khởi tạo một OkHttpClient để gửi request đến server
         OkHttpClient client = new OkHttpClient();
 
         // Tạo chuỗi JSON chứa email và mật khẩu để gửi đi trong body của request
@@ -50,46 +47,64 @@ public class LoginService {
         // Tạo RequestBody từ chuỗi JSON
         RequestBody body = RequestBody.create(jsonBody, MediaType.get("application/json; charset=utf-8"));
 
-        // Xây dựng request POST để gửi đến API xác thực của Supabase
+        // Xây dựng request POST để xác thực người dùng với Supabase
         Request request = new Request.Builder()
-                .url(supabaseUrl + "/auth/v1/token?grant_type=password") // Đặt URL của API endpoint
-                .post(body) // Chỉ định phương thức là POST và đính kèm body
-                .addHeader("apikey", anonKey) // Thêm header 'apikey' cần thiết cho Supabase
-                .addHeader("Content-Type", "application/json") // Thêm header để chỉ định định dạng nội dung là JSON
-                .build(); // Hoàn thành việc xây dựng request
+                .url(supabaseUrl + "/auth/v1/token?grant_type=password") // Endpoint xác thực của Supabase
+                .post(body) // Gửi dữ liệu bằng phương thức POST
+                .addHeader("apikey", serviceKey) // Thêm Service Key vào header để xác thực API
+                .addHeader("Authorization", "Bearer " + serviceKey) // Thêm Bearer token (cũng là service key)
+                .addHeader("Content-Type", "application/json") // Định dạng nội dung là JSON
+                .build();
 
-        // Thực thi request và xử lý response trong một khối try-with-resources
-        // để đảm bảo response được đóng tự động
+        // Thực thi request và xử lý response trong khối try-with-resources để tự động đóng response
         try (Response response = client.newCall(request).execute()) {
-            // Kiểm tra xem request có thành công không (mã trạng thái 2xx)
+            // Nếu request thành công (HTTP status code 2xx)
             if (response.isSuccessful()) {
-                // Lấy nội dung của response dưới dạng chuỗi
+                // Đọc nội dung response
                 String responseBody = response.body().string();
-                // Tạo một ObjectMapper để phân tích chuỗi JSON
                 ObjectMapper mapper = new ObjectMapper();
-                JsonNode json = mapper.readTree(responseBody); // Chuyển chuỗi JSON thành một cây cấu trúc dữ liệu
-                System.out.println("Đăng nhập thành công!");
+                JsonNode json = mapper.readTree(responseBody);
 
-                // Nếu người dùng đăng nhập là admin
-                if (isAdmin) {
-                    // Gửi email thông báo đến tất cả các admin khác
-                    emailService.sendEmailToAllAdmins(
-                            "Thông báo đăng nhập", // Tiêu đề email
-                            "User " + email + " đã đăng nhập thành công." // Nội dung email
-                    );
+                System.out.println("Đăng nhập thành công bước 1 (email + mật khẩu)");
+
+                // ---- BẮT ĐẦU BƯỚC 2: XÁC THỰC OTP ----
+
+                // Tạo một mã OTP ngẫu nhiên gồm 6 chữ số
+                int otp = 100000 + new Random().nextInt(900000);
+                // Gửi mã OTP đến email của người dùng
+                emailService.sendEmail(email, "Mã xác minh OTP", "Mã xác minh của bạn là: " + otp);
+
+                // Yêu cầu người dùng nhập mã OTP đã nhận được
+                System.out.print("Nhập mã OTP đã gửi đến email: ");
+                String inputOtp = scanner.nextLine();
+
+                // So sánh mã OTP người dùng nhập với mã đã tạo
+                if (String.valueOf(otp).equals(inputOtp)) {
+                    System.out.println("Xác thực OTP thành công. Bạn đã login!");
+
+                    // Nếu người dùng là admin, gửi email thông báo cho tất cả các admin khác
+                    if (isAdmin) {
+                        emailService.sendEmailToAllAdmins(
+                                "Thông báo đăng nhập",
+                                "Admin " + email + " đã đăng nhập thành công."
+                        );
+                    }
+                } else {
+                    // Nếu mã OTP sai
+                    System.out.println("Sai mã OTP. Đăng nhập thất bại.");
                 }
 
             } else {
-                // Nếu đăng nhập thất bại, in ra mã lỗi và nội dung lỗi từ server
+                // Nếu request không thành công, in ra mã lỗi và thông điệp lỗi từ server
                 System.out.println("Đăng nhập thất bại: " + response.code());
                 System.out.println(response.body().string());
             }
         } catch (IOException e) {
-            // Bắt và xử lý các lỗi có thể xảy ra trong quá trình gửi request (ví dụ: mất mạng)
+            // Xử lý các lỗi có thể xảy ra trong quá trình gửi request (ví dụ: mất mạng)
             e.printStackTrace();
         }
 
-        // Đóng đối tượng scanner để giải phóng tài nguyên hệ thống
+        // Đóng đối tượng scanner để giải phóng tài nguyên
         scanner.close();
     }
 }
