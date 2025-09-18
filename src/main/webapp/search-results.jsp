@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -96,7 +97,6 @@
                     <span><i class="fas fa-map-marker-alt"></i> ${fromPlace}</span>
                     <i class="fas fa-arrow-right"></i>
                     <span><i class="fas fa-flag-checkered"></i> ${toPlace}</span>
-                    <span><i class="fas fa-calendar"></i> ${departureDate}</span>
                 </div>
             </div>
 
@@ -121,7 +121,11 @@
                         </td>
                         <td data-label="Ngày giờ">
                             <div class="date-time">
-                                <div><i class="fas fa-calendar"></i> ${trip.departure_date}</div>
+                                <div>
+                                    <i class="fas fa-calendar"></i>
+                                    <fmt:formatDate value="${trip.formattedDepartureDate}" pattern="dd/MM/yyyy" />
+                                </div>
+
                                 <div><i class="fas fa-clock"></i> ${trip.departure_time}</div>
                             </div>
                         </td>
@@ -133,7 +137,7 @@
                         <td data-label="Loại xe">
                             <span class="vehicle-badge">
                                 <i class="fas fa-bus"></i>
-                                ${trip.vehicle_type}
+                                ${trip.vehicle.type}
                             </span>
                         </td>
                         <td data-label="Thao tác">

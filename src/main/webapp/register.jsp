@@ -64,7 +64,7 @@
         alert('Đăng ký lỗi: ' + error.message);
       } else {
         alert('Đăng ký thành công!');
-        window.location.href = 'login.html';
+        window.location.href = 'login.jsp';
       }
     });
   </script>

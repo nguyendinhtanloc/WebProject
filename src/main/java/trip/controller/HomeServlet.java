@@ -1,8 +1,9 @@
 package trip.controller;
+import trip.model.Trip;
 import java.time.LocalDate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.Trip;
+
 import util.SupabaseClient;
 import java.io.IOException;
 import javax.servlet.*;
@@ -47,6 +48,7 @@ public class HomeServlet extends HttpServlet {
             // Đặt lại ngày cho phần query Supabase
             date = dateForQuery;
 
+
         } catch (Exception e) {
             e.printStackTrace();
             // fallback nếu lỗi
@@ -56,7 +58,9 @@ public class HomeServlet extends HttpServlet {
             date = today.toString();
         }
 
-        req.setAttribute("departureDate", date); //
+
+
+
         // Kiểm tra xem có tham số tìm kiếm không
         if (from != null && to != null && date != null &&
                 !from.trim().isEmpty() && !to.trim().isEmpty() && !date.trim().isEmpty()) {
@@ -64,7 +68,7 @@ public class HomeServlet extends HttpServlet {
             // Tạo query parameters cho Supabase
             // Sử dụng * thay vì % cho wildcard trong Supabase ILIKE
             String queryParams = String.format(
-                    "departure_place=ilike.*%s*&arrival_place=ilike.*%s*&departure_date=eq.%s",
+                    "select=*,vehicle(*)&departure_place=ilike.*%s*&arrival_place=ilike.*%s*&departure_date=eq.%s",
                     urlEncode(from.trim()), urlEncode(to.trim()), urlEncode(date.trim())
             );
 
@@ -85,6 +89,17 @@ public class HomeServlet extends HttpServlet {
                 req.setAttribute("departureDate", date.trim());
 
                 // Forward đến trang kết quả tìm kiếm
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                for (Trip trip : trips) {
+                    try {
+                        LocalDate localDate = LocalDate.parse(trip.getDeparture_date(), formatter);
+                        java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+                        trip.setFormattedDepartureDate(sqlDate);
+                    } catch (Exception e) {
+                        e.printStackTrace(); // nếu có lỗi format ngày
+                    }
+                }
                 req.getRequestDispatcher("/search-results.jsp").forward(req, resp);
 
             } catch (Exception e) {
@@ -99,10 +114,12 @@ public class HomeServlet extends HttpServlet {
 
                 req.getRequestDispatcher("/index.jsp").forward(req, resp);
             }
+
         } else {
             // Không có tham số tìm kiếm hoặc tham số rỗng - hiển thị trang chủ
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
+
 
     }
 

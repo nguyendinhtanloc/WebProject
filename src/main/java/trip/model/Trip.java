@@ -1,4 +1,4 @@
-package model;
+package trip.model;
 
 public class Trip {
     private String id;
@@ -8,7 +8,7 @@ public class Trip {
     private String departure_time;
     private int price;
     private String vehicle_type;
-
+    private Vehicle vehicle;
     // getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -30,4 +30,16 @@ public class Trip {
 
     public String getVehicle_type() { return vehicle_type; }
     public void setVehicle_type(String vehicle_type) { this.vehicle_type = vehicle_type; }
+    public Vehicle getVehicle() { return vehicle; }
+    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
+    private java.sql.Date formattedDepartureDate;
+
+    public java.sql.Date getFormattedDepartureDate() {
+        return formattedDepartureDate;
+    }
+
+    public void setFormattedDepartureDate(java.sql.Date formattedDepartureDate) {
+        this.formattedDepartureDate = formattedDepartureDate;
+    }
+
 }
