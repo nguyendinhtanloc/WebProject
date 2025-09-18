@@ -44,7 +44,7 @@ public class ResendOtpServlet extends HttpServlet {
         // Kiểm tra xem có đúng là người dùng đang trong quá trình xác thực OTP không.
         // Nếu không có email trong session, tức là vào trang này bất hợp pháp -> "chuyển hộ khẩu" về login.
         if (userEmail == null) {
-            response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/view/login.jsp");
             return;
         }
 
@@ -54,7 +54,7 @@ public class ResendOtpServlet extends HttpServlet {
         if (lastResendTime != null && (currentTime - lastResendTime < RESEND_COOLDOWN)) {
             // ...thì báo lỗi và không cho gửi.
             request.setAttribute("errorMessage", "Vui lòng đợi một chút trước khi gửi lại mã.");
-            request.getRequestDispatcher("/jsp/otp.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/otp.jsp").forward(request, response);
             return; // Dừng lại luôn.
         }
 
@@ -73,6 +73,6 @@ public class ResendOtpServlet extends HttpServlet {
         // Set một thông báo thành công để báo cho người dùng biết là mail đã được gửi đi.
         request.setAttribute("successMessage", "Một mã OTP mới đã được gửi đến email của bạn.");
         // Forward về lại trang OTP để hiển thị thông báo và cho người dùng nhập mã mới.
-        request.getRequestDispatcher("/jsp/otp.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/otp.jsp").forward(request, response);
     }
 }

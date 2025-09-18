@@ -1,3 +1,7 @@
+// muốn test kết nối supabase, chạy hai lệnh sau trong terminal 
+// mvn clean compile
+// mvn exec:java -Dexec.mainClass="com.busbooking.LoginService"
+
 package com.busbooking;
 
 // Import các thư viện cần thiết

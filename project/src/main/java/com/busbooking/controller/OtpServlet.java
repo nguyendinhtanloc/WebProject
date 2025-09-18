@@ -40,7 +40,7 @@ public class OtpServlet extends HttpServlet {
         // Check xem người dùng có "đi đường tắt" vào trang này không.
         // Nếu không có email hoặc timestamp trong session, nghĩa là chưa qua bước đăng nhập, đá về trang login ngay.
         if (userEmail == null || otpTimestamp == null) {
-            response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/view/login.jsp");
             return; // Dùng return để kết thúc hàm ngay lập tức.
         }
 
@@ -60,7 +60,7 @@ public class OtpServlet extends HttpServlet {
             // Gửi một thông báo lỗi đặc biệt để người dùng biết là mã đã hết hạn.
             request.setAttribute("errorMessage", "Mã OTP đã hết hạn. Một mã mới đã được gửi đến email của bạn.");
             // Forward về lại trang otp.jsp để họ nhập mã mới.
-            request.getRequestDispatcher("/jsp/otp.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/otp.jsp").forward(request, response);
             return; // Kết thúc hàm.
         }
 
@@ -72,7 +72,7 @@ public class OtpServlet extends HttpServlet {
         // So sánh mã người dùng nhập với mã trong session.
         if (sessionOtp != null && sessionOtp.equals(enteredOtp)) {
             // --- TRƯỜNG HỢP ĐÚNG OTP ---
-            // Đăng nhập thành công! 🎉
+            // Đăng nhập thành công! 
 
             // Tạo đối tượng User để lưu vào session, đánh dấu là người dùng này đã đăng nhập thành công.
             User user = new User(userEmail);
@@ -88,7 +88,7 @@ public class OtpServlet extends HttpServlet {
             session.removeAttribute("otp_attempts");
 
             // Chuyển hướng tới trang dashboard của người dùng.
-            response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/view/dashboard.jsp");
         } else {
             // --- TRƯỜNG HỢP SAI OTP ---
             attempts++; // Tăng bộ đếm số lần nhập sai lên 1.
@@ -114,7 +114,7 @@ public class OtpServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Mã OTP không chính xác. Bạn còn " + remainingAttempts + " lần thử.");
             }
             // Dù sai kiểu gì thì cuối cùng cũng forward về lại trang otp.jsp để người dùng nhập lại.
-            request.getRequestDispatcher("/jsp/otp.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/otp.jsp").forward(request, response);
         }
     }
 }

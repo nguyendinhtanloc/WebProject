@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * Servlet này siêu đơn giản, chỉ có một nhiệm vụ là xử lý việc đăng xuất của người dùng.
- * Cứ gọi đến nó là nó "đá" người dùng về trang login. 😂
+ * Cứ gọi đến nó là nó "đá" người dùng về trang login. 
  */
 @WebServlet("/logout") // Đăng ký servlet này với URL "/logout". Khi người dùng bấm vào link/nút Đăng xuất thì sẽ trỏ vào đây.
 public class LogoutServlet extends HttpServlet {
@@ -31,6 +31,6 @@ public class LogoutServlet extends HttpServlet {
         // Bước 2: Chuyển hướng người dùng quay trở lại trang đăng nhập.
         // Sau khi đăng xuất thành công thì phải cho họ về trang login để đăng nhập lại.
         // Dùng getContextPath() để đường dẫn luôn đúng dù mình có đổi tên project sau này.
-        response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+        response.sendRedirect(request.getContextPath() + "/view/login.jsp");
     }
 }

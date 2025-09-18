@@ -1,0 +1,128 @@
+.login {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    font-weight: bold;
+    font-size: x-large;
+    text-align: center;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    min-height: 100vh;       
+    background: #f9f9f9; 
+}
+
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 350px;
+    width: 300px;
+    gap: 35px;
+    background: #e3e3e3;
+    box-shadow: 16px 16px 32px #c8c8c8,
+                -16px -16px 32px #fefefe;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.inputBox {
+    position: relative;
+    width: 100%;
+}
+
+.inputBox input {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    color: #000;
+    font-size: 1em;
+    background: transparent;
+    border-left: 2px solid #000;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+.inputBox span {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    pointer-events: none;
+    font-size: 12px;
+    color: #000;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 2px;
+}
+
+.inputBox input:focus ~ span,
+.inputBox input:valid ~ span {
+    transform: translateY(-20px);
+    font-size: 0.8em;
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.enter {
+    height: 45px;
+    width: 100px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.enter:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+.otp-info {
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+}
+
+.resend-btn {
+    height: 45px;
+    width: 150px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 10px;
+}
+
+.resend-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.resend-btn:hover:enabled {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}

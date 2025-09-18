@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
 
                 // Đăng nhập thành công, chuyển hướng người dùng sang trang nhập OTP (otp.jsp).
                 // Dùng sendRedirect để URL trên trình duyệt thay đổi.
-                response.sendRedirect(request.getContextPath() + "/jsp/otp.jsp");
+                response.sendRedirect(request.getContextPath() + "/view/otp.jsp");
             } else {
                 // Nếu đăng nhập thất bại (email hoặc mật khẩu không đúng)...
 
@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
                 // Dùng RequestDispatcher để "forward" (chuyển tiếp) request đến trang login.jsp.
                 // Forward sẽ giữ lại request và response hiện tại, nên trang login.jsp có thể đọc được cái "errorMessage".
-                request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/view/login.jsp").forward(request, response);
             }
         } catch (IOException e) {
             // Bắt các lỗi hệ thống, ví dụ như không gọi được API xác thực...
@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
             // Set một thông báo lỗi chung chung cho người dùng.
             request.setAttribute("errorMessage", "Đã xảy ra lỗi hệ thống. Vui lòng thử lại.");
             // Chuyển về lại trang login để hiển thị lỗi.
-            request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/login.jsp").forward(request, response);
         }
     }
 }
