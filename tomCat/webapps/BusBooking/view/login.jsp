@@ -1,10 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- 1. Import lớp helper với package chính xác --%>
+<%@ page import="com.busbooking.util.AssetHasher" %>
+
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css?v=2">
+    <%-- 2. Gọi phương thức getHash --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css?v=<%= AssetHasher.getHash(application, "/styles/login.css") %>">
 </head>
 <body>
     <div class="container">
