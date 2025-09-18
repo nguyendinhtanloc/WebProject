@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -112,9 +114,17 @@
                 <div class="form-group">
                     <label for="departureDate">Ngày đi:</label>
                     <i class="form-icon fas fa-calendar-alt"></i>
-                    <input type="date" id="departureDate" name="departureDate" required
+                    <input type="text" id="departureDate" name="departureDate" required
                            value="${departureDate != null ? departureDate : ''}">
                 </div>
+                <script>
+                    flatpickr("#departureDate", {
+                        dateFormat: "d/m/Y",   // Hiển thị dd/MM/yyyy
+                        allowInput: true,
+                        minDate: "today",      // Chỉ cho chọn hôm nay trở đi
+                        defaultDate: "today"   // Tự động chọn hôm nay khi mở trang
+                    });
+                </script>
 
                 <button type="submit" class="search-button">
                     <i class="fas fa-search"></i>

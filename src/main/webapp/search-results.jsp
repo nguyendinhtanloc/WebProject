@@ -91,7 +91,6 @@
     <c:if test="${not empty trips}">
         <section class="results-section">
             <div class="results-header">
-                <i class="fas fa-list"></i>
                 <h3>Kết quả tìm kiếm - ${trips.size()} chuyến xe</h3>
                 <div class="search-info">
                     <span><i class="fas fa-map-marker-alt"></i> ${fromPlace}</span>
@@ -158,7 +157,6 @@
                 <button class="btn btn-outline" disabled>
                     <i class="fas fa-chevron-left"></i> Trước
                 </button>
-                <span class="page-info">Trang 1 của 1</span>
                 <button class="btn btn-outline" disabled>
                     Sau <i class="fas fa-chevron-right"></i>
                 </button>

@@ -1,17 +1,18 @@
-package controller;
-
+package trip.controller;
+import java.time.LocalDate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.Trip;
 import util.SupabaseClient;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
 import java.io.IOException;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
 import java.lang.reflect.Type;
 import java.util.List;
-
+import java.time.format.DateTimeFormatter;
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -24,7 +25,38 @@ public class HomeServlet extends HttpServlet {
         String from = req.getParameter("fromPlace");
         String to = req.getParameter("toPlace");
         String date = req.getParameter("departureDate");
+        LocalDate parsedDate = null;
 
+        try {
+            if (date == null || date.trim().isEmpty()) {
+                parsedDate = LocalDate.now();
+            } else {
+                // Parse từ định dạng dd/MM/yyyy của form
+                DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                parsedDate = LocalDate.parse(date.trim(), inputFormat);
+            }
+
+            // Convert lại sang yyyy-MM-dd để query Supabase
+            String dateForQuery = parsedDate.toString();
+
+            // Format lại dd/MM/yyyy để hiển thị lại lên form
+            String formattedDate = parsedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            req.setAttribute("departureDate", formattedDate);
+
+            // Đặt lại ngày cho phần query Supabase
+            date = dateForQuery;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // fallback nếu lỗi
+            LocalDate today = LocalDate.now();
+            String fallbackDate = today.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            req.setAttribute("departureDate", fallbackDate);
+            date = today.toString();
+        }
+
+        req.setAttribute("departureDate", date); //
         // Kiểm tra xem có tham số tìm kiếm không
         if (from != null && to != null && date != null &&
                 !from.trim().isEmpty() && !to.trim().isEmpty() && !date.trim().isEmpty()) {
@@ -71,6 +103,7 @@ public class HomeServlet extends HttpServlet {
             // Không có tham số tìm kiếm hoặc tham số rỗng - hiển thị trang chủ
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
+
     }
 
     @Override
@@ -92,4 +125,5 @@ public class HomeServlet extends HttpServlet {
             return value.trim().replaceAll("[^a-zA-Z0-9\\s]", ""); // fallback: chỉ giữ ký tự an toàn
         }
     }
+
 }
