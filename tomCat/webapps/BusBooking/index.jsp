@@ -1,3 +1,1 @@
-<%
-    response.sendRedirect("view/login.jsp");
-%>
+<% response.sendRedirect("view/login.jsp"); %>
