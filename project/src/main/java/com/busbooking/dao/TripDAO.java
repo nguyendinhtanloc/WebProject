@@ -1,55 +1,66 @@
 package com.busbooking.dao;
 
 import com.busbooking.model.Trips;
-import com.busbooking.util.DatabaseConnection; // Sử dụng lớp kết nối của bạn
+import com.busbooking.util.DatabaseConnection;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TripDAO {
+
+    private static Map<String, String> columnMapping;
+
+    static {
+        try {
+            // Đọc file JSON từ resources
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream is = TripDAO.class.getClassLoader().getResourceAsStream("mapping/trips_mapping.json");
+            if (is != null) {
+                columnMapping = mapper.readValue(is, Map.class);
+            } else {
+                throw new RuntimeException("Không tìm thấy file trips_mapping.json trong resources/mapping/");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            columnMapping = new HashMap<>();
+        }
+    }
 
     /**
      * Phương thức này lấy tất cả các chuyến xe từ cơ sở dữ liệu.
      * @return một danh sách (List) các đối tượng Trips.
      */
     public List<Trips> getAllTrips() {
-        // Khởi tạo một danh sách rỗng để chứa các chuyến xe
         List<Trips> tripList = new ArrayList<>();
-        // Câu lệnh SQL để chọn tất cả các cột từ bảng trips
         String sql = "SELECT * FROM trips";
-        
-        // Sử dụng try-with-resources để đảm bảo Connection, PreparedStatement và ResultSet được đóng tự động
+
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet rs = preparedStatement.executeQuery()) {
 
-            // Lặp qua từng dòng kết quả trả về từ câu lệnh SQL
             while (rs.next()) {
-                // Tạo một đối tượng Trips mới cho mỗi dòng
                 Trips trip = new Trips();
 
-                // Đọc dữ liệu từ ResultSet và gán vào đối tượng trip
-                trip.setTripId(rs.getString("tripId"));
-                trip.setCompanyId(rs.getString("companyId"));
-                trip.setVehicleId(rs.getString("vehicleId"));
-                trip.setDriverId(rs.getString("driverId"));
-                trip.setDeparturePlace(rs.getString("departurePlace"));
-                trip.setArrivalPlace(rs.getString("arrivalPlace"));
-                trip.setDepartureDate(rs.getDate("departureDate"));
-                trip.setDepartureTime(rs.getTime("departureTime"));
-                trip.setPrice(rs.getFloat("price"));
-                trip.setStatus(rs.getString("status"));
+                // Ánh xạ bằng JSON mapping
+                trip.setTripId(rs.getString(columnMapping.get("tripId")));
+                trip.setCompanyId(rs.getString(columnMapping.get("companyId")));
+                trip.setVehicleId(rs.getString(columnMapping.get("vehicleId")));
+                trip.setDriverId(rs.getString(columnMapping.get("driverId")));
+                trip.setDeparturePlace(rs.getString(columnMapping.get("departurePlace")));
+                trip.setArrivalPlace(rs.getString(columnMapping.get("arrivalPlace")));
+                trip.setDepartureDate(rs.getDate(columnMapping.get("departureDate")));
+                trip.setDepartureTime(rs.getTime(columnMapping.get("departureTime")));
+                trip.setPrice(rs.getFloat(columnMapping.get("price")));
+                trip.setStatus(rs.getString(columnMapping.get("status")));
 
-                // Thêm đối tượng trip đã có dữ liệu vào danh sách
                 tripList.add(trip);
             }
         } catch (SQLException e) {
-            // In ra lỗi nếu có sự cố xảy ra khi tương tác với database
             e.printStackTrace();
         }
-        
-        // Trả về danh sách các chuyến xe
+
         return tripList;
     }
 }

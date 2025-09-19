@@ -41,7 +41,7 @@ public class AuthService {
         // Lưu ý: Key này là SUPABASE_SERVICE_KEY, có full quyền admin.
         // Bình thường nên dùng ANON_KEY (chỉ có quyền đọc công khai) nhưng ở đây chắc cần quyền cao hơn.
         // Phải bảo mật key này cẩn thận!
-        this.anonKey = dotenv.get("SUPABASE_SERVICE_KEY"); 
+        this.anonKey = dotenv.get("SUPABASE_ANON_KEY"); 
         this.emailService = new EmailService(); // Khởi tạo service gửi mail.
     }
 

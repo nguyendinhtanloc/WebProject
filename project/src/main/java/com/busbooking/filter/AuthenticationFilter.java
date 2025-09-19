@@ -8,22 +8,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Filter này hoạt động như một "người gác cổng" cho ứng dụng.
- * Nó chặn tất cả các yêu cầu đến các trang trong thư mục /view/
- * và kiểm tra xem người dùng đã đăng nhập hay chưa.
+ * Filter này kiểm tra trạng thái đăng nhập trước khi truy cập các trang cần bảo vệ.
+ * Các JSP giờ nằm trong /WEB-INF/view/ nên user không truy cập trực tiếp được.
  */
-@WebFilter("/view/*")
+@WebFilter("/*") // Bắt tất cả request
 public class AuthenticationFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Phương thức này được gọi một lần khi filter được khởi tạo.
-    }
+    public void init(FilterConfig filterConfig) throws ServletException { }
 
-    /**
-     * Đây là phương thức quan trọng nhất, nơi xử lý logic kiểm tra.
-     * Nó được gọi mỗi khi có một request khớp với urlPatterns ("/view/*").
-     */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
@@ -32,47 +25,35 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
 
-        String requestURI = request.getRequestURI();
+        String uri = request.getRequestURI();
+        String contextPath = request.getContextPath();
 
-        // Kiểm tra xem người dùng đã đăng nhập ĐẦY ĐỦ hay chưa
-        // (chỉ khi xác thực OTP thành công thì session mới có attribute "user")
+        // Kiểm tra login
         boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 
-        // === PHẦN SỬA LỖI ===
-        // Tạo một biến để kiểm tra xem trang được yêu cầu có phải là trang công khai không.
-        // Trang công khai là trang mà người dùng chưa đăng nhập vẫn có thể truy cập.
-        boolean isPublicPage = requestURI.endsWith("login.jsp") || requestURI.endsWith("otp.jsp");
-        // === KẾT THÚC SỬA LỖI ===
-
+        // Kiểm tra trang công khai (chỉ dùng URL Servlet, không check JSP nữa)
+        boolean isPublicPage = uri.equals(contextPath + "/login") ||
+                               uri.equals(contextPath + "/verify-otp") ||
+                               uri.equals(contextPath + "/resend-otp");
 
         if (isLoggedIn) {
-            // --- Nếu người dùng ĐÃ đăng nhập đầy đủ ---
-
-            // Nếu họ đã đăng nhập mà lại cố vào trang login hoặc otp, chuyển họ về trang chủ.
+            // Nếu đã login mà cố vào public page → redirect về dashboard/home
             if (isPublicPage) {
-                response.sendRedirect(request.getContextPath() + "/view/home.jsp");
+                response.sendRedirect(contextPath + "/dashboard");
             } else {
-                // Nếu họ truy cập các trang khác cần bảo vệ (home.jsp, drivers.jsp,...), cho phép đi tiếp.
-                chain.doFilter(req, res);
+                chain.doFilter(req, res); // Cho phép truy cập trang bảo vệ
             }
         } else {
-            // --- Nếu người dùng CHƯA đăng nhập đầy đủ ---
-
-            // Nếu họ đang cố truy cập một trang công khai (login hoặc otp), cho phép đi tiếp.
-            // Đây là logic quan trọng sửa lỗi của bạn.
+            // Chưa login
             if (isPublicPage) {
-                chain.doFilter(req, res);
+                chain.doFilter(req, res); // Cho phép truy cập login/verify-otp/resend-otp
             } else {
-                // Nếu họ cố truy cập bất kỳ trang nào khác mà chưa đăng nhập,
-                // "đá" họ về trang login.
-                response.sendRedirect(request.getContextPath() + "/view/login.jsp");
+                // Truy cập bất kỳ trang bảo vệ nào → redirect login
+                response.sendRedirect(contextPath + "/login");
             }
         }
     }
 
     @Override
-    public void destroy() {
-        // Được gọi khi filter bị hủy.
-    }
+    public void destroy() { }
 }
-

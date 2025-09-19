@@ -5,11 +5,8 @@ pageEncoding="UTF-8"%>
 
 <header class="header">
     <div class="header-left">
-        <img
-            src="${pageContext.request.contextPath}/images/logo(1).png"
-            alt="logo"
-            class="header-left__logo"
-        />
+        <img src="${pageContext.request.contextPath}/images/logo(1).png" alt="logo" class="header-left__logo" />
+
         <svg
             class="menu-header__icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -24,11 +21,8 @@ pageEncoding="UTF-8"%>
     <div class="header-right">
         <div class="main-content">
             <div class="header-account">
-                <img
-                    src="${pageContext.request.contextPath}/images/IMG_4612.jpg"
-                    alt="avatar"
-                    class="header-account__avatar"
-                />
+                <img src="${pageContext.request.contextPath}/images/IMG_4612.jpg" alt="avatar" class="header-account__avatar" />
+
                 <label for="dropdown">
                     <svg
                         class="header-account__dropdown-icon"
