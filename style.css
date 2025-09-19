@@ -26,6 +26,62 @@ a {
     text-decoration: none;
 }
 
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-top: 15px;
+}
+
+.top {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+}
+
+.table-head {
+    background: #f1f5f9;
+    text-align: left;
+}
+
+.table-head th {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+/* Body */
+.table-body td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #4b5563;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+/* Cột hành động */
+.table-body td:last-child {
+    text-align: center;
+}
+
+.table-row:hover {
+    background: #f9fafb;
+}
+
 .addbutton {
     background: var(--main-color);
     color: var(--add-button-color);
@@ -41,6 +97,83 @@ a {
 .addbutton:hover {
     background: #1e40af;
     color: #fff;
+}
+
+.addform {
+    background: #fff;
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    top: 5%;
+    left: 5%;
+    position: absolute;
+    display: none;
+    z-index: 2;
+}
+
+.addform-checkbox {
+    display: none;
+}
+
+.addform-checkbox:checked ~ .addform {
+    display: block;
+}
+
+.addform-checkbox:checked ~ .overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.addform__title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+    color: #333;
+}
+
+.addform__form {
+    display: flex;
+    flex-direction: column;
+    /* gap: 16px; khoảng cách giữa các trường */
+}
+
+.addform__form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.addform__form input[type="text"],
+.addform__form input[type="number"] {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.addform__form input[type="text"]:focus,
+.addform__form input[type="number"]:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
+    outline: none;
+}
+
+.addform__form input[type="submit"] {
+    padding: 12px;
+    background: #4a90e2;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.addform__form input[type="submit"]:hover {
+    background: #357ab7;
 }
 
 .editbutton {
@@ -73,6 +206,16 @@ a {
 .deletebutton:hover {
     background: #b91c1c;
     color: #fff;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    /* background: blue; */
+    opacity: 0;
+    visibility: hidden;
 }
 /* common */
 
@@ -275,77 +418,5 @@ header {
 }
 
 /* driver */
-.driver-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    margin-top: 15px;
-}
 
-.driver-top {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    margin-top: 15px;
-}
-
-.addform {
-    background: #fff;
-    width: 90%;
-    height: 700px;
-    top: 5%;
-    left: 5%;
-    position: absolute;
-    display: none;
-}
-
-.addform-checkbox {
-    display: none;
-}
-
-.addform-checkbox:checked ~ .addform {
-    display: block;
-}
-
-.driver-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-top: 15px;
-}
-
-/* Head */
-.driver-table__head {
-    background: #f1f5f9;
-    text-align: left;
-}
-
-.driver-table__head th {
-    padding: 12px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: center;
-}
-
-/* Body */
-.driver-table__body td {
-    padding: 12px 16px;
-    font-size: 14px;
-    color: #4b5563;
-    border-bottom: 1px solid #f1f5f9;
-    text-align: center;
-}
-
-.driver-table__row:hover {
-    background: #f9fafb;
-}
-
-/* Cột hành động */
-.driver-table__body td:last-child {
-    text-align: center;
-}
+/* buses */
