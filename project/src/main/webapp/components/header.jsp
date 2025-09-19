@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%-- Import hằng số từ CsrfTokenFilter để code sạch hơn --%>
+<%@ page import="com.busbooking.filter.CsrfTokenFilter" %>
+
 <header class="header">
     <div class="header-left">
         <img
-            src="${pageContext.request.contextPath }/images/logo(1).png"
+            src="${pageContext.request.contextPath}/images/logo(1).png"
             alt="logo"
             class="header-left__logo"
         />
@@ -22,7 +25,7 @@ pageEncoding="UTF-8"%>
         <div class="main-content">
             <div class="header-account">
                 <img
-                    src="${pageContext.request.contextPath }/images/IMG_4612.jpg"
+                    src="${pageContext.request.contextPath}/images/IMG_4612.jpg"
                     alt="avatar"
                     class="header-account__avatar"
                 />
@@ -47,7 +50,17 @@ pageEncoding="UTF-8"%>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">Profile</li>
                         <li class="dropdown-item">Settings</li>
-                        <li class="dropdown-item">Logout</li>
+                        
+                        <!-- === NÂNG CẤP BẢO MẬT: Chuyển link logout thành form === -->
+                        <li class="dropdown-item">
+                            <form action="${pageContext.request.contextPath}/logout" method="post" style="display: inline;">
+                                <!-- Thêm token bí mật vào form -->
+                                <input type="hidden" name="<%= CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR %>" value="${sessionScope.csrfToken}">
+                                <button type="submit" class="logout-button">Logout</button>
+                            </form>
+                        </li>
+                        <!-- === KẾT THÚC NÂNG CẤP === -->
+
                     </ul>
                 </div>
                 <p class="header-account__name">Tien Dat</p>
@@ -55,3 +68,21 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 </header>
+<%-- Thêm một chút CSS để nút logout trông giống như một link bình thường --%>
+<style>
+    .logout-button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+    }
+    .logout-button:hover {
+        /* Bạn có thể thêm hiệu ứng hover ở đây nếu muốn */
+        text-decoration: underline;
+    }
+</style>

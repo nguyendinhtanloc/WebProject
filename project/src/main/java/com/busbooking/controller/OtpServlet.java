@@ -72,20 +72,25 @@ public class OtpServlet extends HttpServlet {
         // So sánh mã người dùng nhập với mã trong session.
         if (sessionOtp != null && sessionOtp.equals(enteredOtp)) {
             // --- TRƯỜNG HỢP ĐÚNG OTP ---
-            // Đăng nhập thành công! 
+            // Đăng nhập thành công!
 
-            // Tạo đối tượng User để lưu vào session, đánh dấu là người dùng này đã đăng nhập thành công.
-            User user = new User(userEmail);
-            session.setAttribute("user", user);
+            // === NÂNG CẤP BẢO MẬT: CHỐNG TẤN CÔNG SESSION FIXATION ===
+            // 1. Lưu lại thông tin cần thiết từ session cũ (chỉ email).
+            String authenticatedEmail = (String) session.getAttribute("user_email");
+
+            // 2. Hủy hoàn toàn session hiện tại.
+            session.invalidate();
+
+            // 3. Tạo một session HOÀN TOÀN MỚI cho người dùng.
+            HttpSession newSession = request.getSession(true);
+            // === KẾT THÚC NÂNG CẤP BẢO MẬT ===
+
+            // 4. Lưu thông tin người dùng đã đăng nhập vào session MỚI.
+            User user = new User(authenticatedEmail);
+            newSession.setAttribute("user", user);
 
             // (Chức năng thêm) Gửi email thông báo cho admin là có người vừa đăng nhập thành công.
-            authService.notifyAdmins(userEmail);
-            
-            // Dọn dẹp session: Xóa các thuộc tính OTP đi vì không cần nữa, giữ cho session gọn gàng.
-            session.removeAttribute("otp_code");
-            session.removeAttribute("user_email");
-            session.removeAttribute("otp_timestamp");
-            session.removeAttribute("otp_attempts");
+            authService.notifyAdmins(authenticatedEmail);
 
             // Chuyển hướng tới trang dashboard của người dùng.
             response.sendRedirect(request.getContextPath() + "/view/home.jsp");
@@ -97,14 +102,14 @@ public class OtpServlet extends HttpServlet {
             if (attempts >= MAX_ATTEMPTS) {
                 // Nếu đã nhập sai quá giới hạn (3 lần)...
                 authService.sendSecurityAlert(userEmail); // Gửi email cảnh báo bảo mật cho người dùng.
-                
+
                 // Tạo và gửi một mã OTP HOÀN TOÀN MỚI để tránh bị dò mã.
                 String newOtp = authService.generateAndSendOtp(userEmail, request);
-                
+
                 // Reset lại mọi thứ trong session y như lúc OTP hết hạn.
                 session.setAttribute("otp_code", newOtp);
                 session.setAttribute("otp_timestamp", System.currentTimeMillis());
-                session.setAttribute("otp_attempts", 0); 
+                session.setAttribute("otp_attempts", 0);
 
                 // Gửi thông báo cho người dùng biết là họ đã nhập sai quá 3 lần và mã mới đã được gửi.
                 request.setAttribute("errorMessage", "Bạn đã nhập sai 3 lần. Một mã OTP mới đã được gửi để bảo mật.");

@@ -1,36 +1,53 @@
 package com.busbooking.controller;
 
+import com.busbooking.filter.CsrfTokenFilter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Servlet này siêu đơn giản, chỉ có một nhiệm vụ là xử lý việc đăng xuất của người dùng.
- * Cứ gọi đến nó là nó "đá" người dùng về trang login. 
- */
-@WebServlet("/logout") // Đăng ký servlet này với URL "/logout". Khi người dùng bấm vào link/nút Đăng xuất thì sẽ trỏ vào đây.
+@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
-    
+
     /**
-     * Xử lý yêu cầu GET.
-     * Thường thì chức năng đăng xuất chỉ cần một cái link (thẻ <a>),
-     * mà bấm vào link là tạo ra GET request nên mình dùng doGet là hợp lý.
-     * @param request  Đối tượng request từ client.
-     * @param response Đối tượng response để gửi về client.
+     * Chuyển sang doPost để xử lý yêu cầu từ form, an toàn hơn doGet.
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        // --- NÂNG CẤP BẢO MẬT: KIỂM TRA CSRF TOKEN ---
+        String sessionToken = (String) session.getAttribute(CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR);
+        String requestToken = request.getParameter(CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR);
+
+        if (sessionToken == null || !sessionToken.equals(requestToken)) {
+            // Nếu token không khớp, đây có thể là một cuộc tấn công CSRF.
+            // Hủy session và chuyển hướng về trang login.
+            if (session != null) {
+                session.invalidate();
+            }
+            response.sendRedirect(request.getContextPath() + "/view/login.jsp?error=csrf");
+            return;
+        }
+        // --- KẾT THÚC KIỂM TRA ---
+
+        // Nếu token hợp lệ, tiến hành đăng xuất bình thường.
+        if (session != null) {
+            session.invalidate();
+        }
+        response.sendRedirect(request.getContextPath() + "/view/login.jsp");
+    }
+
+    /**
+     * Vẫn giữ lại doGet để xử lý các bookmark cũ, nhưng chuyển hướng nó sang trang lỗi
+     * hoặc trang login để buộc người dùng phải logout đúng cách.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        // Bước 1: Hủy session hiện tại của người dùng.
-        // Dòng này là quan trọng nhất: nó sẽ xóa sạch session và mọi thứ lưu trong đó (như user_email, is_logged_in,...).
-        request.getSession().invalidate();
-        
-        // Bước 2: Chuyển hướng người dùng quay trở lại trang đăng nhập.
-        // Sau khi đăng xuất thành công thì phải cho họ về trang login để đăng nhập lại.
-        // Dùng getContextPath() để đường dẫn luôn đúng dù mình có đổi tên project sau này.
+        // Chuyển hướng về trang đăng nhập để tránh logout bằng phương thức GET.
         response.sendRedirect(request.getContextPath() + "/view/login.jsp");
     }
 }

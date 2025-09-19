@@ -2,7 +2,9 @@ package com.busbooking.controller;
 
 import com.busbooking.model.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
-
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,84 +13,73 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Servlet này xử lý logic đăng nhập cho người dùng.
- * Nó nhận email và password từ form đăng nhập, gọi AuthService để xác thực,
- * và nếu thành công thì chuyển sang bước xác thực OTP.
- */
-@WebServlet("/login") // Annotation này để map cái servlet này với URL "/login". Khách submit form là nó chạy vào đây.
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    // Khai báo một đối tượng AuthService để xử lý logic nghiệp vụ (check pass, gửi mail,...)
     private AuthService authService;
 
-    // LỖI SỐ 2: THÊM LẠI PHƯƠNG THỨC NÀY
-    /**
-     * Phương thức init() được servlet container gọi một lần duy nhất khi servlet được khởi tạo.
-     * Dùng nó để khởi tạo các đối tượng cần thiết.
-     * >> FIX LỖI: Phải có hàm này để new cái authService ra, không là lúc gọi ở doPost nó sẽ bị NullPointerException.
-     */
+    // --- NÂNG CẤP BẢO MẬT: Chống Brute-Force ---
+    private static final int MAX_FAILED_ATTEMPTS = 5;
+    private static final long LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 phút
+    private Map<String, LoginAttempt> loginAttempts;
+
+    // Lớp nội bộ để lưu thông tin về các lần đăng nhập sai
+    private static class LoginAttempt {
+        int count = 0;
+        long lockoutTime = 0;
+    }
+
     @Override
     public void init() {
         authService = new AuthService();
+        // Sử dụng ServletContext để lưu trữ map, giúp nó tồn tại xuyên suốt ứng dụng
+        this.loginAttempts = new ConcurrentHashMap<>();
+        getServletContext().setAttribute("loginAttemptsMap", this.loginAttempts);
     }
-    // KẾT THÚC SỬA LỖI SỐ 2
 
-    /**
-     * Hàm này xử lý yêu cầu POST gửi từ form đăng nhập của người dùng.
-     * @param request  Đối tượng chứa thông tin yêu cầu từ client (chứa email, password).
-     * @param response Đối tượng để gửi phản hồi về cho client.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy email và password người dùng nhập từ form bên trang login.jsp
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Dùng try-catch để bắt các lỗi ngoại lệ có thể xảy ra, ví dụ mất kết nối mạng khi gọi API
+        // --- KIỂM TRA BRUTE-FORCE ---
+        LoginAttempt attempt = loginAttempts.computeIfAbsent(email, k -> new LoginAttempt());
+
+        if (System.currentTimeMillis() - attempt.lockoutTime < LOCKOUT_DURATION_MS) {
+            request.setAttribute("errorMessage", "Tài khoản đang bị tạm khóa. Vui lòng thử lại sau 15 phút.");
+            request.getRequestDispatcher("/view/login.jsp").forward(request, response);
+            return;
+        }
+
         try {
-            // Gọi đến AuthService để xác thực thông tin đăng nhập.
-            // Hàm này sẽ trả về thông tin user (dạng JsonNode) nếu thành công, ngược lại trả về null.
             JsonNode authResponse = authService.authenticateUser(email, password);
 
-            // Kiểm tra xem xác thực có thành công không
             if (authResponse != null) {
-                // Nếu đăng nhập thành công...
+                // Đăng nhập thành công, xóa lịch sử đăng nhập sai
+                loginAttempts.remove(email);
 
-                // Lấy hoặc tạo mới một session cho người dùng. Session để lưu trạng thái đăng nhập.
                 HttpSession session = request.getSession();
-
-                // LỖI SỐ 1: SỬA LẠI DÒNG NÀY
-                // Code cũ: String otp = authService.generateAndSendOtp(email);
-                // >> FIX LỖI: Phải truyền thêm 'request' vào để trong service có thể lấy được context path,
-                // cần thiết để tạo link trong email chẳng hạn.
                 String otp = authService.generateAndSendOtp(email, request);
-                // KẾT THÚC SỬA LỖI SỐ 1
-
-                // Lưu các thông tin cần thiết vào session để dùng ở trang OTP
-                session.setAttribute("otp_code", otp); // Lưu mã OTP đúng vào session để lát nữa so sánh.
-                session.setAttribute("user_email", email); // Lưu email để biết ai đang xác thực.
-                session.setAttribute("otp_timestamp", System.currentTimeMillis()); // Lưu thời gian tạo OTP để check hết hạn (ví dụ cho 5 phút).
-                session.setAttribute("otp_attempts", 0); // Khởi tạo số lần nhập sai OTP là 0.
-
-                // Đăng nhập thành công, chuyển hướng người dùng sang trang nhập OTP (otp.jsp).
-                // Dùng sendRedirect để URL trên trình duyệt thay đổi.
+                session.setAttribute("otp_code", otp);
+                session.setAttribute("user_email", email);
+                session.setAttribute("otp_timestamp", System.currentTimeMillis());
+                session.setAttribute("otp_attempts", 0);
                 response.sendRedirect(request.getContextPath() + "/view/otp.jsp");
             } else {
-                // Nếu đăng nhập thất bại (email hoặc mật khẩu không đúng)...
-
-                // Gắn một thông báo lỗi vào request attribute.
-                request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
-                // Dùng RequestDispatcher để "forward" (chuyển tiếp) request đến trang login.jsp.
-                // Forward sẽ giữ lại request và response hiện tại, nên trang login.jsp có thể đọc được cái "errorMessage".
+                // Đăng nhập thất bại, xử lý bộ đếm
+                attempt.count++;
+                if (attempt.count >= MAX_FAILED_ATTEMPTS) {
+                    attempt.lockoutTime = System.currentTimeMillis();
+                    request.setAttribute("errorMessage", "Bạn đã nhập sai quá nhiều lần. Tài khoản bị tạm khóa 15 phút.");
+                } else {
+                    request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
+                }
+                loginAttempts.put(email, attempt);
                 request.getRequestDispatcher("/view/login.jsp").forward(request, response);
             }
         } catch (IOException e) {
-            // Bắt các lỗi hệ thống, ví dụ như không gọi được API xác thực...
-            e.printStackTrace(); // In lỗi ra console để debug.
-            // Set một thông báo lỗi chung chung cho người dùng.
+            e.printStackTrace();
             request.setAttribute("errorMessage", "Đã xảy ra lỗi hệ thống. Vui lòng thử lại.");
-            // Chuyển về lại trang login để hiển thị lỗi.
             request.getRequestDispatcher("/view/login.jsp").forward(request, response);
         }
     }
