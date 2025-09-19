@@ -8,8 +8,6 @@ pageEncoding="UTF-8"%>
     </head>
     <body>
         <!-- <% response.sendRedirect("view/login.jsp"); %> -->
-        <a href="${pageContext.request.contextPath}/admin/page?view=dashboard"
-            >aa</a
-        >
+        <a href="">aa</a>
     </body>
 </html>

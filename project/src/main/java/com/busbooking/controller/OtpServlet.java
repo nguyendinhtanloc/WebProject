@@ -88,7 +88,7 @@ public class OtpServlet extends HttpServlet {
             session.removeAttribute("otp_attempts");
 
             // Chuyển hướng tới trang dashboard của người dùng.
-            response.sendRedirect(request.getContextPath() + "/view/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/view/home.jsp");
         } else {
             // --- TRƯỜNG HỢP SAI OTP ---
             attempts++; // Tăng bộ đếm số lần nhập sai lên 1.
