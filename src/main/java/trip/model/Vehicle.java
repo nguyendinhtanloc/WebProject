@@ -7,6 +7,7 @@ public class Vehicle {
     private String type;
     private String status;
     private String company_id;
+    private int lane;
 
     // Getters & Setters
     public String getVehicle_id() { return vehicle_id; }
@@ -26,4 +27,7 @@ public class Vehicle {
 
     public String getCompany_id() { return company_id; }
     public void setCompany_id(String company_id) { this.company_id = company_id; }
+
+    public int getLane() { return lane; }
+    public void setLane(int lane) { this.lane = lane; }
 }

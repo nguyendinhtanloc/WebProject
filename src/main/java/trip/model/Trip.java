@@ -8,7 +8,6 @@ public class Trip {
     private String departure_date;
     private String departure_time;
     private int price;
-    private String vehicle_type;
     private Vehicle vehicle;
 
     // getters and setters

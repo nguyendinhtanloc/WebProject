@@ -2,6 +2,9 @@
   <library name="servlet-api">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../apache-tomcat-9.0.89/lib/servlet-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jackson-annotations-2.19.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jackson-core-2.19.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jackson-databind-2.19.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

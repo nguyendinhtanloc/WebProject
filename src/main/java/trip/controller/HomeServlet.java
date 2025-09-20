@@ -3,7 +3,7 @@ package trip.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import trip.model.Trip;
-import util.SupabaseClient;
+import trip.util.SupabaseClient;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

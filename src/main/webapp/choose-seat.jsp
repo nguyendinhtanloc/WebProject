@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
+<%@ page import="trip.model.Seat" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -68,40 +70,56 @@
         <%
             int seatCount = (Integer) request.getAttribute("seatCount");
             boolean isSleeper = (Boolean) request.getAttribute("isSleeper");
+            List<Seat> seats = (List<Seat>) request.getAttribute("seats");
+            int veLane = (Integer) request.getAttribute("lane");
         %>
-        <%
-            if (isSleeper) {
-                int half = seatCount / 2;
-        %>
+        <c:if test="${not empty seats and isSleeper}">
             <div class="view-container">
                 <h1>Chọn Ghế</h1>
                 <div class="seat-container">
-                    <div class="view-seatDwn">
-                        <h3>Tầng dưới</h3>
-                        <%
-                            for (int i = 2; i <= half; i++) {
-                        %>
-                            <button class="seat"><img src="styles/seat.png" alt="Ghế <%= i %>"><%= i %></button>
-                        <%
-                             }
-                        %>
-                    </div>
-
-                    <div class="view-seatUp">
-                        <h3>Tầng Trên</h3>
-                        <%
-                            for (int i = 2; i <= half; i++) {
-                        %>
-                            <button class="seat"><img src="styles/seat.png" alt="Ghế <%= i %>"><%= i %></button>
-                        <%
-                             }
-                        %>
-                    </div>
+                    <%
+                        for (int floor = 1; floor <= 2; floor++) {
+                            int start = (floor - 1) * veLane * 5;
+                    %>
+                        <h3>Tầng <%= (floor == 1) ? "Dưới" : "Trên" %></h3>
+                        <table border="1" cellpadding="5" cellspacing="0">
+                            <%
+                                for (int row = 0; row < 5; row++) {
+                            %>
+                                <tr>
+                                    <%
+                                        for (int lane = 1; lane <= veLane; lane++) {
+                                            if (lane == 2 && (start == 1 || start == 16)) {
+                                    %>
+                                        <td></td>
+                                    <%
+                                            } else if (start < seats.size()) {
+                                                Seat seat = seats.get(start);
+                                                start += 1;
+                                    %>
+                                        <td>
+                                            <%= seat.getId_seat() %>
+                                            <button><img src="styles/seat.png"></button>
+                                        </td>
+                                    <%
+                                            } else {
+                                    %>
+                                        <td></td>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </tr>
+                            <%
+                                }
+                            %>
+                        </table>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
-        <%
-            }
-        %>
+        </c:if>
         <div class="ticket-inf">
             <img src="styles/logo.png" style="width: 400px">
         </div>

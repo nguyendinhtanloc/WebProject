@@ -141,6 +141,8 @@
                             <div class="action-buttons">
                                 <form action="book" method="post">
                                     <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
+                                    <input type="hidden" name="vehicle_id" value="${trip.vehicle.vehicle_id}">
+                                    <input type="hidden" name="vehicle_lane" value="${trip.vehicle.lane}">
                                     <button type="submit" class="btn-book">
                                         <i class="fas fa-ticket-alt"></i> Đặt vé
                                     </button>
