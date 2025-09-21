@@ -1,4 +1,4 @@
-/* src/main/webapp/styles/style.css */
+/* src/main/webapp/styles/trip.css */
 
 /* --- Biến màu và Cài đặt chung --- */
 :root {
@@ -228,4 +228,39 @@ a:hover {
     text-align: center;
     font-size: 0.9em;
     color: #27738e;
+}
+
+
+/* ========================================================== */
+/* BỔ SUNG CSS ĐỂ XỬ LÝ TEXT DÀI TRONG BẢNG */
+/* ========================================================== */
+
+.content-table {
+    /* Quan trọng: Ngăn bảng bị kéo dài vô tận */
+    table-layout: fixed;
+    width: 100%;
+}
+
+.content-table td {
+    /* Cho phép từ ngữ tự động ngắt dòng */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Áp dụng riêng cho các ô chứa code JSON để đẹp hơn */
+.content-table td pre {
+    /* Giới hạn chiều cao và thêm thanh cuộn khi cần */
+    max-height: 150px; /* Bạn có thể điều chỉnh chiều cao này */
+    overflow-y: auto;  /* Chỉ hiển thị thanh cuộn dọc */
+    
+    /* Giữ nguyên định dạng code và xuống dòng tự động */
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+    
+    /* Căn lề và giao diện cho đẹp */
+    margin: 0;
+    padding: 5px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    font-size: 0.85em;
 }

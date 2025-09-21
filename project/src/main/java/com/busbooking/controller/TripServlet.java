@@ -25,7 +25,6 @@ public class TripServlet extends HttpServlet {
     private CompanyDAO companyDAO;
     private VehicleDAO vehicleDAO;
     private DriverDAO driverDAO;
-    // Cấu hình số lượng chuyến đi hiển thị trên mỗi trang
     private static final int TRIPS_PER_PAGE = 10;
 
     @Override
@@ -54,7 +53,6 @@ public class TripServlet extends HttpServlet {
             switch (action) {
                 case "new":
                 case "edit":
-                    // Tải danh sách cho các dropdown dùng ở cả form Thêm và Sửa
                     req.setAttribute("companyList", companyDAO.getAllCompanies());
                     req.setAttribute("vehicleList", vehicleDAO.getAllVehicles());
                     req.setAttribute("driverList", driverDAO.getAllDrivers());
@@ -63,7 +61,7 @@ public class TripServlet extends HttpServlet {
                         session.removeAttribute("tripFormData");
                         req.setAttribute("trip", new Trips());
                         req.setAttribute("mode", "create");
-                    } else { // "edit"
+                    } else {
                         String id = req.getParameter("id");
                         TripDetail trip = tripDAO.getTripById(id);
                         if (trip == null) {
@@ -79,21 +77,19 @@ public class TripServlet extends HttpServlet {
                     break;
 
                 default: // "list"
-                    // =========== LOGIC PHÂN TRANG BẮT ĐẦU TẠI ĐÂY ===========
                     int currentPage = 1;
                     String pageParam = req.getParameter("page");
                     if (pageParam != null) {
                         try {
                             currentPage = Integer.parseInt(pageParam);
                         } catch (NumberFormatException e) {
-                            // Bỏ qua nếu tham số trang không phải là số, giữ nguyên trang 1
+                            // Bỏ qua nếu tham số trang không phải là số
                         }
                     }
 
                     int totalTrips = tripDAO.getTotalTripCount();
                     int totalPages = (int) Math.ceil((double) totalTrips / TRIPS_PER_PAGE);
 
-                    // Đảm bảo trang hiện tại không nằm ngoài khoảng hợp lệ
                     if (currentPage < 1) {
                         currentPage = 1;
                     }
@@ -103,7 +99,6 @@ public class TripServlet extends HttpServlet {
 
                     List<TripDetail> tripList = tripDAO.getTripsByPage(currentPage, TRIPS_PER_PAGE);
 
-                    // Gửi các thông tin phân trang tới JSP
                     req.setAttribute("tripList", tripList);
                     req.setAttribute("currentPage", currentPage);
                     req.setAttribute("totalPages", totalPages);
@@ -125,10 +120,9 @@ public class TripServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String action = req.getParameter("action");
 
-        // Lấy email từ session (set khi user login)
         String email = (String) session.getAttribute("userEmail");
         if (email == null) {
-            email = "system"; // fallback để tránh null
+            email = "system";
         }
 
         try {
@@ -146,15 +140,18 @@ public class TripServlet extends HttpServlet {
                 }
 
                 if ("create".equals(action)) {
-                    tripDAO.insertTrip(t);
+                    // ================== SỬA Ở ĐÂY ==================
+                    tripDAO.insertTrip(t, email);
                     session.removeAttribute("tripFormData");
                 } else {
-                    tripDAO.updateTrip(t);
+                    // ================== SỬA Ở ĐÂY ==================
+                    tripDAO.updateTrip(t, email);
                 }
 
             } else if ("delete".equals(action)) {
                 String id = req.getParameter("tripId");
-                tripDAO.deleteTrip(id);
+                // ================== SỬA Ở ĐÂY ==================
+                tripDAO.deleteTrip(id, email);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -202,7 +199,7 @@ public class TripServlet extends HttpServlet {
         try {
             String departureTimeStr = req.getParameter("departureTime");
             if (departureTimeStr != null && !departureTimeStr.isEmpty()) {
-                if (departureTimeStr.length() == 5) { // Chấp nhận định dạng HH:mm
+                if (departureTimeStr.length() == 5) {
                     departureTimeStr += ":00";
                 }
                 t.setDepartureTime(Time.valueOf(departureTimeStr));
