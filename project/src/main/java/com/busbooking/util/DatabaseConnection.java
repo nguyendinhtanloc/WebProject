@@ -1,7 +1,5 @@
-// Khai báo package
 package com.busbooking.util;
 
-// Import thư viện dotenv để đọc file .env trong resources
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;
@@ -9,58 +7,42 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Lớp DatabaseConnection quản lý việc kết nối đến cơ sở dữ liệu.
- * Áp dụng Singleton để đảm bảo chỉ tạo một kết nối duy nhất trong suốt vòng đời ứng dụng.
+ * Lớp DatabaseConnection cung cấp phương thức để tạo kết nối mới đến CSDL.
+ * Lớp này không còn áp dụng Singleton cho đối tượng Connection để tương thích
+ * với try-with-resources trong DAO.
  */
 public class DatabaseConnection {
-    // Biến static để lưu trữ đối tượng kết nối duy nhất
-    private static Connection connection = null;
+
+    // Không cần biến static để lưu trữ connection nữa.
 
     /**
-     * Phương thức static để lấy về đối tượng kết nối CSDL.
+     * Phương thức static để lấy về một đối tượng kết nối CSDL MỚI.
      *
-     * @return Đối tượng Connection để tương tác với CSDL
+     * @return Một đối tượng Connection mới để tương tác với CSDL.
+     * @throws SQLException nếu có lỗi khi kết nối.
      */
-    public static Connection getConnection() {
-        if (connection == null) {
-            try {
-                // Load file .env từ classpath (resources/)
-                Dotenv dotenv = Dotenv.load();
-
-                // Lấy thông tin kết nối từ biến môi trường
-                String url = dotenv.get("SUPABASE_DB_URL");
-                String user = dotenv.get("SUPABASE_DB_USER");
-                String pass = dotenv.get("SUPABASE_DB_PASS");
-
-                // Đảm bảo driver PostgreSQL được load
-                Class.forName("org.postgresql.Driver");
-
-                // Tạo kết nối
-                connection = DriverManager.getConnection(url, user, pass);
-                System.out.println("Kết nối thành công đến PostgreSQL!");
-
-            } catch (SQLException ex) {
-                System.out.println("Kết nối thất bại!");
-                ex.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                System.out.println("Không tìm thấy PostgreSQL Driver!");
-                e.printStackTrace();
-            }
-        }
-        return connection;
-    }
-
-    /**
-     * Phương thức static để đóng kết nối CSDL.
-     */
-    public static void closeConnection() {
+    public static Connection getConnection() throws SQLException {
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("Ngắt kết nối thành công!");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            // Load file .env từ classpath (resources/)
+            Dotenv dotenv = Dotenv.load();
+
+            // Lấy thông tin kết nối từ biến môi trường
+            String url = dotenv.get("SUPABASE_DB_URL");
+            String user = dotenv.get("SUPABASE_DB_USER");
+            String pass = dotenv.get("SUPABASE_DB_PASS");
+
+            // Đảm bảo driver PostgreSQL được load
+            Class.forName("org.postgresql.Driver");
+
+            // Tạo và trả về một kết nối MỚI mỗi lần được gọi
+            return DriverManager.getConnection(url, user, pass);
+
+        } catch (ClassNotFoundException e) {
+            // Ném ra một SQLException để lớp gọi có thể xử lý
+            throw new SQLException("Không tìm thấy PostgreSQL Driver!", e);
         }
     }
+
+    // Phương thức closeConnection() không còn cần thiết và nên được xóa đi,
+    // vì try-with-resources đã tự động quản lý việc đóng kết nối.
 }
