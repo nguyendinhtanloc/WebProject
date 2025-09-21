@@ -1,5 +1,3 @@
-// File: src/main/java/com/busbooking/dao/TripDAO.java
-
 package com.busbooking.dao;
 
 import com.busbooking.model.TripDetail;

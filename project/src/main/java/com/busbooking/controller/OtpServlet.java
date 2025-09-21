@@ -1,5 +1,6 @@
 package com.busbooking.controller;
 
+import com.busbooking.dao.LoginLogDAO;
 import com.busbooking.model.AuthService;
 import com.busbooking.model.User;
 
@@ -11,11 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Servlet này xử lý việc xác thực mã OTP mà người dùng nhập vào.
- * Nó là bước cuối cùng trước khi đăng nhập thành công, có check thời hạn, số lần nhập sai các kiểu.
- * Nói chung là logic chính nằm hết ở đây.
- */
 @WebServlet("/verify-otp")
 public class OtpServlet extends HttpServlet {
     private AuthService authService;
@@ -23,7 +19,9 @@ public class OtpServlet extends HttpServlet {
     private static final int MAX_ATTEMPTS = 3;
 
     @Override
-    public void init() { authService = new AuthService(); }
+    public void init() {
+        authService = new AuthService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -59,12 +57,23 @@ public class OtpServlet extends HttpServlet {
         Integer attempts = (Integer) session.getAttribute("otp_attempts");
 
         if (sessionOtp != null && sessionOtp.equals(enteredOtp)) {
-            String authenticatedEmail = userEmail;
-            session.invalidate();
-            HttpSession newSession = request.getSession(true);
-            newSession.setAttribute("user", new User(authenticatedEmail));
-            authService.notifyAdmins(authenticatedEmail);
-            response.sendRedirect(request.getContextPath() + "/home");
+            try {
+                String ip = request.getRemoteAddr();
+                String userAgent = request.getHeader("User-Agent");
+                long logId = new LoginLogDAO().createLog(userEmail, ip, userAgent);
+
+                session.invalidate();
+                HttpSession newSession = request.getSession(true);
+                newSession.setAttribute("user", new User(userEmail));
+                newSession.setAttribute("logId", logId);
+
+                authService.notifyAdmins(userEmail);
+                response.sendRedirect(request.getContextPath() + "/home");
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "Lỗi hệ thống khi ghi log đăng nhập.");
+                request.getRequestDispatcher("/WEB-INF/view/otp.jsp").forward(request, response);
+            }
         } else {
             attempts++;
             session.setAttribute("otp_attempts", attempts);
@@ -77,7 +86,8 @@ public class OtpServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Bạn đã nhập sai 3 lần. Một mã OTP mới đã được gửi để bảo mật.");
             } else {
                 int remainingAttempts = MAX_ATTEMPTS - attempts;
-                request.setAttribute("errorMessage", "Mã OTP không chính xác. Bạn còn " + remainingAttempts + " lần thử.");
+                request.setAttribute("errorMessage",
+                        "Mã OTP không chính xác. Bạn còn " + remainingAttempts + " lần thử.");
             }
             request.getRequestDispatcher("/WEB-INF/view/otp.jsp").forward(request, response);
         }

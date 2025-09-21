@@ -1,6 +1,5 @@
 package com.busbooking.controller;
 
-import com.busbooking.filter.CsrfTokenFilter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +11,28 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session != null) session.invalidate();
+        if (session != null) {
+            Object logIdObj = session.getAttribute("logId");
+            if (logIdObj != null) {
+                try {
+                    long logId = (long) logIdObj;
+                    new com.busbooking.dao.LoginLogDAO().updateLogout(logId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            session.invalidate();
+        }
         response.sendRedirect(request.getContextPath() + "/login");
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Không cho logout bằng GET để tránh CSRF
         response.sendRedirect(request.getContextPath() + "/login");
     }
 }

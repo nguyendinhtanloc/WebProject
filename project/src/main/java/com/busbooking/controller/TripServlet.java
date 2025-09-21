@@ -73,7 +73,7 @@ public class TripServlet extends HttpServlet {
                         req.setAttribute("trip", trip);
                         req.setAttribute("mode", "edit");
                     }
-                    
+
                     req.setAttribute("contentPage", "/WEB-INF/view/pages/trip-form-content.jsp");
                     req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
                     break;
@@ -102,12 +102,12 @@ public class TripServlet extends HttpServlet {
                     }
 
                     List<TripDetail> tripList = tripDAO.getTripsByPage(currentPage, TRIPS_PER_PAGE);
-                    
+
                     // Gửi các thông tin phân trang tới JSP
                     req.setAttribute("tripList", tripList);
                     req.setAttribute("currentPage", currentPage);
                     req.setAttribute("totalPages", totalPages);
-                    
+
                     req.setAttribute("contentPage", "/WEB-INF/view/pages/trips-content.jsp");
                     req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
                     break;
@@ -124,6 +124,12 @@ public class TripServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         String action = req.getParameter("action");
+
+        // Lấy email từ session (set khi user login)
+        String email = (String) session.getAttribute("userEmail");
+        if (email == null) {
+            email = "system"; // fallback để tránh null
+        }
 
         try {
             if ("create".equals(action) || "edit".equals(action)) {
@@ -154,13 +160,11 @@ public class TripServlet extends HttpServlet {
             e.printStackTrace();
             req.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
             try {
-                // Cải tiến: Tải lại danh sách để hiển thị lại form dropdown nếu có lỗi
                 req.setAttribute("companyList", companyDAO.getAllCompanies());
                 req.setAttribute("vehicleList", vehicleDAO.getAllVehicles());
                 req.setAttribute("driverList", driverDAO.getAllDrivers());
                 req.setAttribute("trip", buildTripFromRequest(req));
             } catch (Exception ex) {
-                // Nếu buildTripFromRequest cũng lỗi, tạo trip mới để tránh lỗi NullPointer
                 req.setAttribute("trip", new Trips());
             }
             req.setAttribute("mode", action);
@@ -224,4 +228,3 @@ public class TripServlet extends HttpServlet {
         return t;
     }
 }
-

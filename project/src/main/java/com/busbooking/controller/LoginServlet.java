@@ -2,6 +2,7 @@ package com.busbooking.controller;
 
 import com.busbooking.model.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletException;
@@ -31,7 +32,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Forward tới login.jsp trong WEB-INF
         request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
     }
 
@@ -67,7 +67,8 @@ public class LoginServlet extends HttpServlet {
                 attempt.count++;
                 if (attempt.count >= MAX_FAILED_ATTEMPTS) {
                     attempt.lockoutTime = System.currentTimeMillis();
-                    request.setAttribute("errorMessage", "Bạn đã nhập sai quá nhiều lần. Tài khoản bị tạm khóa 15 phút.");
+                    request.setAttribute("errorMessage",
+                            "Bạn đã nhập sai quá nhiều lần. Tài khoản bị tạm khóa 15 phút.");
                 } else {
                     request.setAttribute("errorMessage", "Email hoặc mật khẩu không đúng.");
                 }
