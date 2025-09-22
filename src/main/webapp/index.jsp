@@ -31,8 +31,6 @@
     <i class="fas fa-ferry floating-icon" style="bottom: 15%; right: 25%;"></i>
 </div>
 
-
-
 <!-- Header -->
 <header class="header">
     <div class="nav-container">
@@ -200,10 +198,42 @@
     .error-message i {
         color: #dc3545;
     }
+
+    /* Kiểm soát background hoàn toàn */
+    html {
+        background: #ffffff !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        /* Background chỉ áp dụng cho body, không cho html */
+        position: relative;
+        min-height: auto;
+    }
+
+    /* Footer phải có background riêng và đè lên mọi background khác */
+    .footer {
+        background: #ffffff !important;
+        margin: 0;
+        padding: 2rem 0 0 0;
+        border-top: 1px solid #e0e0e0;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+    }
+
+    /* Đảm bảo không có background nào tràn ra ngoài body */
+    html::after,
+    body::after {
+        content: none !important;
+    }
 </style>
 </body>
-</html>
-<!-- Footer -->
+
+<!-- Footer nằm ngoài body -->
 <footer class="footer">
     <div class="footer-main">
         <div class="footer-grid">
@@ -307,3 +337,4 @@
         </div>
     </div>
 </footer>
+</html>
