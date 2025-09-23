@@ -45,18 +45,30 @@
                 <li><a href="#"><i class="fas fa-phone"></i> Liên hệ</a></li>
             </ul>
         </nav>
+
         <div class="user-actions">
             <c:choose>
                 <c:when test="${not empty sessionScope.userEmail}">
-                    <div class="user-dropdown">
-                        <i class="fas fa-user-circle user-icon"></i>
-                        <div class="dropdown-content">
-                            <p class="user-name">${sessionScope.userEmail}</p>
-                            <a href="logout" class="logout-link">
-                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                            </a>
-                        </div>
+                <div class="user-dropdown">
+                    <img src="styles/avatar.png" alt="Avatar" class="user-avatar">
+                    <div class="dropdown-content">
+                        <p class="user-name">${sessionScope.userEmail}</p>
+
+                        <!-- mỗi link 1 thẻ xuống hàng -->
+                        <a href="profile.jsp" class="dropdown-link">
+                            <i class="fas fa-info-circle"></i> Thông tin
+                        </a>
+
+                        <a href="orders.jsp" class="dropdown-link">
+                            <i class="fas fa-ticket-alt"></i> Đơn hàng của bạn
+                        </a>
+
+                        <a href="logout" class="dropdown-link">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </a>
                     </div>
+                </div>
+        </div>
                 </c:when>
                 <c:otherwise>
                     <a href="login.jsp" class="btn btn-outline">
@@ -68,9 +80,9 @@
                 </c:otherwise>
             </c:choose>
         </div>
-
     </div>
 </header>
+
 
 <!-- Main Container -->
 <div class="container">

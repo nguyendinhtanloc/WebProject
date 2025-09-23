@@ -1,0 +1,85 @@
+/* Nền full screen */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../styles/bia.png') no-repeat center center fixed;
+    background-size: cover;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card ngoài – to hơn */
+#profile-card {
+    width: 100%;
+    max-width: 650px;      /* tăng max-width */
+    padding: 40px;         /* padding rộng hơn */
+    border-radius: 20px;   /* góc bo lớn hơn */
+
+    /* hiệu ứng kính */
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    /* viền và bóng */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+/* Tiêu đề */
+#profile-card h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 30px; /* chữ lớn hơn */
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Nhóm input */
+.form-group {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.85);
+    border-radius: 10px;
+    padding: 12px 15px;   /* padding rộng hơn */
+    margin-bottom: 20px;  /* khoảng cách lớn hơn */
+}
+
+.form-group i {
+    font-size: 18px;      /* icon to hơn */
+    color: #333;
+    margin-right: 12px;
+}
+
+.form-group input,
+.form-group select {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent;
+    font-size: 16px;       /* chữ input to hơn */
+    color: #333;
+}
+
+/* Nút submit */
+#profile-card button {
+    width: 100%;
+    padding: 15px 20px;     /* nút to hơn */
+    margin-top: 15px;
+    background: linear-gradient(135deg, #54a0ff, #2e86de);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 17px;        /* chữ nút to hơn */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#profile-card button:hover {
+    background: linear-gradient(135deg, #2e86de, #54a0ff);
+}
