@@ -32,7 +32,7 @@ public class HomeServlet extends HttpServlet {
             // Tạo query parameters cho Supabase
             // Sử dụng * thay vì % cho wildcard trong Supabase ILIKE
             String queryParams = String.format(
-                    "select=*,vehicle(*)&departure_place=ilike.*%s*&arrival_place=ilike.*%s*&departure_date=eq.%s",
+                    "select=*,vehicle:fk_trips_vehicle(*)&departure_place=ilike.*%s*&arrival_place=ilike.*%s*&departure_date=eq.%s",
                     urlEncode(from.trim()), urlEncode(to.trim()), urlEncode(date.trim())
             );
 

@@ -97,9 +97,17 @@
                                                 Seat seat = seats.get(start);
                                                 start += 1;
                                     %>
-                                        <td>
-                                            <%= seat.getId_seat() %>
-                                            <button><img src="styles/seat.png"></button>
+                                        <td style="text-align:center;">
+                                            <input type="checkbox"
+                                                   name="seat"
+                                                   value="<%= seat.getId_seat() %>"
+                                                   <%= seat.isStatus_book() ? "disabled" : "" %>
+                                            <label>
+                                                <img src="styles/seat.png"
+                                                     style="width:30px; height:30px;
+                                                            <%= seat.isStatus_book() ? "opacity:0.5;" : "" %>">
+                                            </label>
+                                            <div><%= seat.getId_seat() %></div>
                                         </td>
                                     <%
                                             } else {
