@@ -14,7 +14,7 @@
         <class>com.busbooking.entity.Driver</class>
         
         <properties>
-            <!-- Thay đổi thông tin kết nối với Supabase của bạn -->
+            <!-- Thay đổi thông tin kết nối với Supabase -->
             <property name="javax.persistence.jdbc.url" 
                      value="jdbc:postgresql://db.kognqhcifxbpihjrwocg.supabase.co:5432/postgres"/>
             <property name="javax.persistence.jdbc.user" 

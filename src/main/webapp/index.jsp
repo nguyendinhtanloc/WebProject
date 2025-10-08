@@ -84,8 +84,12 @@
                         <a href="#" class="nav-link">Liên hệ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Đăng nhập</a>
+                        <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
+                    </li>
+
                 </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
