@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    
+    <persistence-unit name="busbookingPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
+        <class>com.busbooking.entity.Trip</class>
+        <class>com.busbooking.entity.BusCompany</class>
+        <class>com.busbooking.entity.Vehicle</class>
+        <class>com.busbooking.entity.Driver</class>
+        
+        <properties>
+            <!-- Thay đổi thông tin kết nối với Supabase của bạn -->
+            <property name="javax.persistence.jdbc.url" 
+                     value="jdbc:postgresql://db.kognqhcifxbpihjrwocg.supabase.co:5432/postgres"/>
+            <property name="javax.persistence.jdbc.user" 
+                     value="postgres"/>
+            <property name="javax.persistence.jdbc.password" 
+                     value="iBJSRPbSPT4MHxay"/>
+            <property name="javax.persistence.jdbc.driver" 
+                     value="org.postgresql.Driver"/>
+            
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" 
+                     value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="none"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.connection.pool_size" value="10"/>
+            <property name="hibernate.jdbc.lob.non_contextual_creation" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
