@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+  <persistence-unit name="busBookingPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <!-- Khai báo các entity -->
+    <class>com.busbooking.model.AppUser</class>
+    <class>com.busbooking.model.AuthService</class>
+    <class>com.busbooking.model.DriverTransport</class>
+    <class>com.busbooking.model.LoginLog</class>
+    <class>com.busbooking.model.LoginStatusLog</class>
+    <class>com.busbooking.model.SeatTransport</class>
+    <class>com.busbooking.model.TransportCompany</class>
+    <class>com.busbooking.model.TripTransport</class>
+    <class>com.busbooking.model.TripTransportStatusLog</class>
+    <class>com.busbooking.model.UserActivityLog</class>
+    <class>com.busbooking.model.VehicleTransport</class>
+  </persistence-unit>
+</persistence>

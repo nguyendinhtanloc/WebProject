@@ -24,14 +24,29 @@
         <tbody>
             <c:forEach var="t" items="${tripList}">
                 <tr>
-                    <td>${t.companyName}</td>
-                    <td>${t.vehicleLicensePlate}</td>
-                    <td>${t.driverName}</td>
-                    <td>${t.departurePlace}</td>
-                    <td>${t.arrivalPlace}</td>
-                    <td>${t.departureDate}</td>
-                    <td>${t.departureTime}</td>
-                    <td>${t.price}</td>
+                    <td>${t.transportCompany.name}</td>
+                    <td>${t.vehicleTransport.licensePlate}</td>
+                    <td>${t.driverTransport.name}</td>
+                    <td>${t.departurePoint}</td>
+                    <td>${t.arrivalPoint}</td>
+                    <td>${t.departureDatetime != null ? t.departureDatetime.toLocalDate() : ''}</td>
+                    <td>${t.departureDatetime != null ? t.departureDatetime.toLocalTime() : ''}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty t.seats}">
+                                <c:set var="minPrice" value="${t.seats[0].price}" />
+                                <c:forEach var="s" items="${t.seats}">
+                                    <c:if test="${s.price < minPrice}">
+                                        <c:set var="minPrice" value="${s.price}" />
+                                    </c:if>
+                                </c:forEach>
+                                ${minPrice}
+                            </c:when>
+                            <c:otherwise>
+                                Chưa có
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td>${t.status}</td>
                     <td style="display: flex; gap: 5px; align-items: center;">
                         <a href="${pageContext.request.contextPath}/trips?action=edit&id=${t.tripId}" class="btn btn-edit">Sửa</a>
@@ -43,7 +58,7 @@
                     </td>
                 </tr>
             </c:forEach>
-             <c:if test="${empty tripList}">
+            <c:if test="${empty tripList}">
                 <tr>
                     <td colspan="10" style="text-align:center; padding: 20px;">Không có dữ liệu để hiển thị.</td>
                 </tr>
@@ -75,15 +90,11 @@
             <a href="?page=${currentPage + 1}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&rsaquo;</a>
             <a href="?page=${totalPages}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&raquo;</a>
 
-            <%-- ======================== PHẦN ĐƯỢC CHỈNH SỬA ======================== --%>
             <form class="pagination-goto" action="${pageContext.request.contextPath}/trips" method="get">
                 <input type="number" name="page" min="1" max="${totalPages}" 
                        placeholder="${currentPage}/${totalPages}" required
                        title="Nhập số trang rồi nhấn Enter để đi tới">
-                <%-- Nút "Đi" đã được xóa --%>
             </form>
-            <%-- ====================== KẾT THÚC PHẦN CHỈNH SỬA ====================== --%>
         </div>
     </c:if>
 </div>
-

@@ -12,27 +12,31 @@
                 <th>Hành động</th>
                 <th>Người thực hiện</th>
                 <th>Thời gian</th>
-                <th>Dữ liệu cũ</th>
-                <th>Dữ liệu mới</th>
+                <th>Trạng thái cũ</th>
+                <th>Trạng thái mới</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="log" items="${logList}">
                 <tr>
-                    <td>${log.id}</td>
+                    <td>${log.logId}</td>
                     <td>
-                        <span class="status ${log.action == 'INSERT' ? 'completed' : (log.action == 'UPDATE' ? 'pending' : 'cancelled')}">
-                            ${log.action}
-                        </span>
+                        <c:choose>
+                            <c:when test="${log.oldStatus == null}">INSERT</c:when>
+                            <c:otherwise>UPDATE</c:otherwise>
+                        </c:choose>
                     </td>
-                    <td>${log.email}</td>
-                    <td><fmt:parseDate value="${log.actionTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
-                        <fmt:formatDate value="${parsedDateTime}" pattern="HH:mm:ss dd/MM/yyyy" />
+                    <td>
+                        <c:out value="${log.changedBy != null ? log.changedBy.name : 'Unknown'}"/>
                     </td>
-                    <td><pre><code>${log.oldData}</code></pre></td>
-                    <td><pre><code>${log.newData}</code></pre></td>
+                    <td>
+                        <fmt:formatDate value="${log.changedAt}" pattern="HH:mm:ss dd/MM/yyyy"/>
+                    </td>
+                    <td>${log.oldStatus != null ? log.oldStatus : '-'}</td>
+                    <td>${log.newStatus != null ? log.newStatus : '-'}</td>
                 </tr>
             </c:forEach>
+
             <c:if test="${empty logList}">
                 <tr>
                     <td colspan="6" style="text-align:center; padding:20px;">Không có dữ liệu.</td>
@@ -43,11 +47,11 @@
 
     <c:if test="${totalPages > 1}">
         <div class="pagination-container">
-             <a href="?page=1" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&laquo;</a>
+            <a href="?page=1" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&laquo;</a>
             <a href="?page=${currentPage - 1}" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&lsaquo;</a>
 
             <c:forEach begin="1" end="${totalPages}" var="i">
-                 <a href="?page=${i}" class="pagination-btn ${currentPage == i ? 'active' : ''}">${i}</a>
+                <a href="?page=${i}" class="pagination-btn ${currentPage == i ? 'active' : ''}">${i}</a>
             </c:forEach>
 
             <a href="?page=${currentPage + 1}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&rsaquo;</a>

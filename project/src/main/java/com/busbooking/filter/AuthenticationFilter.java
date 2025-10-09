@@ -48,6 +48,8 @@ public class AuthenticationFilter implements Filter {
         boolean isPublicPage = uri.equals(contextPath + "/login")
                 || uri.equals(contextPath + "/verify-otp")
                 || uri.equals(contextPath + "/resend-otp");
+                // || uri.equals(contextPath + "/test-db")
+                // || uri.equals(contextPath + "/test-user");
 
         if (isLoggedIn) {
             if (isPublicPage) {

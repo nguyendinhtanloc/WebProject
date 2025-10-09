@@ -2,44 +2,56 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="content-container">
-    <h2>Lịch sử đăng nhập</h2>
+    <h2>Lịch sử thay đổi trạng thái đăng nhập</h2>
 
     <table class="content-table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Email</th>
-                <th>Thời gian đăng nhập</th>
-                <th>Thời gian đăng xuất</th>
-                <th>IP</th>
-                <th>User Agent</th>
+                <th>Người thay đổi</th>
+                <th>Trạng thái cũ</th>
+                <th>Trạng thái mới</th>
+                <th>Thời gian thay đổi</th>
+                <th>Ghi chú</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="log" items="${logs}">
                 <tr>
                     <td>${log.id}</td>
-                    <td>${log.email}</td>
-                    <td>${log.loginTimeFormatted}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${log.logoutTimeFormatted eq 'Chưa đăng xuất'}">
-                                <span style="color: red; font-weight: bold;">${log.logoutTimeFormatted}</span>
+                            <c:when test="${not empty log.changedBy}">
+                                ${log.changedBy.name} (${log.changedBy.email})
                             </c:when>
                             <c:otherwise>
-                                ${log.logoutTimeFormatted}
+                                <i>Hệ thống</i>
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td>${log.ipAddress}</td>
-                    <td style="max-width: 250px; word-wrap: break-word;">${log.userAgent}</td>
+                    <td>${log.oldStatus}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${log.newStatus eq 'success'}">
+                                <span style="color: green; font-weight: bold;">${log.newStatus}</span>
+                            </c:when>
+                            <c:when test="${log.newStatus eq 'failed'}">
+                                <span style="color: red; font-weight: bold;">${log.newStatus}</span>
+                            </c:when>
+                            <c:otherwise>
+                                ${log.newStatus}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>${log.changedAt}</td>
+                    <td style="max-width: 250px; word-wrap: break-word;">${log.note}</td>
                 </tr>
             </c:forEach>
 
             <c:if test="${empty logs}">
                 <tr>
                     <td colspan="6" style="text-align:center; padding:20px;">
-                        Không có dữ liệu đăng nhập.
+                        Không có bản ghi thay đổi trạng thái nào.
                     </td>
                 </tr>
             </c:if>

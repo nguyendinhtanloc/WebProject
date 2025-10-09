@@ -1,33 +1,21 @@
 package com.busbooking.model;
 
-public class TripDetail extends Trips {
+import javax.persistence.Transient;
 
-    private String companyName;
-    private String vehicleLicensePlate;
-    private String driverName;
+public class TripDetail extends TripTransport {
 
-    // Getters and Setters for the new fields
+    @Transient
     public String getCompanyName() {
-        return companyName;
+        return getTransportCompany() != null ? getTransportCompany().getName() : null;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
+    @Transient
     public String getVehicleLicensePlate() {
-        return vehicleLicensePlate;
+        return getVehicleTransport() != null ? getVehicleTransport().getLicensePlate() : null;
     }
 
-    public void setVehicleLicensePlate(String vehicleLicensePlate) {
-        this.vehicleLicensePlate = vehicleLicensePlate;
-    }
-
+    @Transient
     public String getDriverName() {
-        return driverName;
-    }
-
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+        return getDriverTransport() != null ? getDriverTransport().getName() : null;
     }
 }

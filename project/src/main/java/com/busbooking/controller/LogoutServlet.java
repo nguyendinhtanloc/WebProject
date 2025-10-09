@@ -1,5 +1,8 @@
 package com.busbooking.controller;
 
+import com.busbooking.dao.LoginLogDAO;
+import com.busbooking.model.LoginLog;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -16,10 +20,16 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Object logIdObj = session.getAttribute("logId");
-            if (logIdObj != null) {
+            if (logIdObj != null && logIdObj instanceof Number) {
                 try {
-                    long logId = (long) logIdObj;
-                    new com.busbooking.dao.LoginLogDAO().updateLogout(logId);
+                    // Chuyển sang int vì DAO findById nhận Integer
+                    int logId = ((Number) logIdObj).intValue();
+                    LoginLogDAO dao = new LoginLogDAO();
+                    LoginLog log = dao.findById(logId);
+                    if (log != null) {
+                        log.setLogoutTime(LocalDateTime.now()); // ghi logoutTime
+                        dao.save(log); // hoặc merge nếu cần
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

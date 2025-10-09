@@ -1,38 +1,38 @@
 package com.busbooking.controller;
 
-import com.busbooking.dao.CompanyDAO;
-import com.busbooking.dao.DriverDAO;
-import com.busbooking.dao.TripDAO;
-import com.busbooking.dao.VehicleDAO;
-import com.busbooking.model.TripDetail;
-import com.busbooking.model.Trips;
+import com.busbooking.dao.TransportCompanyDAO;
+import com.busbooking.dao.DriverTransportDAO;
+import com.busbooking.dao.TripTransportDAO;
+import com.busbooking.dao.VehicleTransportDAO;
+import com.busbooking.model.TransportCompany;
+import com.busbooking.model.DriverTransport;
+import com.busbooking.model.TripTransport;
+import com.busbooking.model.VehicleTransport;
+import com.busbooking.model.enums.TripStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @WebServlet("/trips")
 public class TripServlet extends HttpServlet {
-    private TripDAO tripDAO;
-    private CompanyDAO companyDAO;
-    private VehicleDAO vehicleDAO;
-    private DriverDAO driverDAO;
+    private TripTransportDAO tripTransportDAO;
+    private TransportCompanyDAO transportCompanyDAO;
+    private VehicleTransportDAO vehicleTransportDAO;
+    private DriverTransportDAO driverTransportDAO;
     private static final int TRIPS_PER_PAGE = 10;
 
     @Override
     public void init() {
-        tripDAO = new TripDAO();
-        companyDAO = new CompanyDAO();
-        vehicleDAO = new VehicleDAO();
-        driverDAO = new DriverDAO();
+        tripTransportDAO = new TripTransportDAO();
+        transportCompanyDAO = new TransportCompanyDAO();
+        vehicleTransportDAO = new VehicleTransportDAO();
+        driverTransportDAO = new DriverTransportDAO();
     }
 
     @Override
@@ -45,25 +45,24 @@ public class TripServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         String action = req.getParameter("action");
-        if (action == null) {
-            action = "list";
-        }
+        if (action == null) action = "list";
 
         try {
             switch (action) {
                 case "new":
                 case "edit":
-                    req.setAttribute("companyList", companyDAO.getAllCompanies());
-                    req.setAttribute("vehicleList", vehicleDAO.getAllVehicles());
-                    req.setAttribute("driverList", driverDAO.getAllDrivers());
+                    req.setAttribute("companyList", transportCompanyDAO.getAllCompanies());
+                    req.setAttribute("vehicleList", vehicleTransportDAO.getAllVehicles());
+                    req.setAttribute("driverList", driverTransportDAO.getAllDrivers());
 
                     if ("new".equals(action)) {
                         session.removeAttribute("tripFormData");
-                        req.setAttribute("trip", new Trips());
+                        req.setAttribute("trip", new TripTransport());
                         req.setAttribute("mode", "create");
                     } else {
-                        String id = req.getParameter("id");
-                        TripDetail trip = tripDAO.getTripById(id);
+                        String idStr = req.getParameter("id");
+                        Integer tripId = Integer.parseInt(idStr); // parse trực tiếp sang Integer
+                        TripTransport trip = tripTransportDAO.getTripById(tripId);
                         if (trip == null) {
                             resp.sendRedirect(req.getContextPath() + "/trips");
                             return;
@@ -76,39 +75,30 @@ public class TripServlet extends HttpServlet {
                     req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
                     break;
 
-                default: // "list"
+                default:
                     int currentPage = 1;
                     String pageParam = req.getParameter("page");
                     if (pageParam != null) {
-                        try {
-                            currentPage = Integer.parseInt(pageParam);
-                        } catch (NumberFormatException e) {
-                            // Bỏ qua nếu tham số trang không phải là số
-                        }
+                        try { currentPage = Integer.parseInt(pageParam); } catch (NumberFormatException ignored) {}
                     }
 
-                    int totalTrips = tripDAO.getTotalTripCount();
+                    int totalTrips = tripTransportDAO.getTotalTripCount();
                     int totalPages = (int) Math.ceil((double) totalTrips / TRIPS_PER_PAGE);
 
-                    if (currentPage < 1) {
-                        currentPage = 1;
-                    }
-                    if (currentPage > totalPages && totalPages > 0) {
-                        currentPage = totalPages;
-                    }
+                    if (currentPage < 1) currentPage = 1;
+                    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
 
-                    List<TripDetail> tripList = tripDAO.getTripsByPage(currentPage, TRIPS_PER_PAGE);
+                    List<TripTransport> tripList = tripTransportDAO.getTripsByPage(currentPage, TRIPS_PER_PAGE);
 
                     req.setAttribute("tripList", tripList);
                     req.setAttribute("currentPage", currentPage);
                     req.setAttribute("totalPages", totalPages);
-
                     req.setAttribute("contentPage", "/WEB-INF/view/pages/trips-content.jsp");
                     req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
                     break;
             }
-        } catch (SQLException e) {
-            throw new ServletException("Database error in doGet", e);
+        } catch (Exception e) {
+            throw new ServletException("Lỗi khi xử lý dữ liệu chuyến xe", e);
         }
     }
 
@@ -121,48 +111,44 @@ public class TripServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         String email = (String) session.getAttribute("userEmail");
-        if (email == null) {
-            email = "system";
-        }
+        if (email == null) email = "system";
 
         try {
             if ("create".equals(action) || "edit".equals(action)) {
-                Trips t = buildTripFromRequest(req);
+                TripTransport trip = buildTripFromRequest(req);
 
-                if (!companyDAO.companyExists(t.getCompanyId())) {
+                if (!transportCompanyDAO.companyExists(trip.getTransportCompany().getCompanyId())) {
                     throw new Exception("Lỗi: ID Công ty không tồn tại!");
                 }
-                if (!vehicleDAO.vehicleExists(t.getVehicleId())) {
+                if (!vehicleTransportDAO.vehicleExists(trip.getVehicleTransport().getVehicleId())) {
                     throw new Exception("Lỗi: ID Xe không tồn tại!");
                 }
-                if (!driverDAO.driverExists(t.getDriverId())) {
+                if (!driverTransportDAO.driverExists(trip.getDriverTransport().getDriverId())) {
                     throw new Exception("Lỗi: ID Tài xế không tồn tại!");
                 }
 
                 if ("create".equals(action)) {
-                    // ================== SỬA Ở ĐÂY ==================
-                    tripDAO.insertTrip(t, email);
+                    tripTransportDAO.insertTrip(trip, email);
                     session.removeAttribute("tripFormData");
                 } else {
-                    // ================== SỬA Ở ĐÂY ==================
-                    tripDAO.updateTrip(t, email);
+                    tripTransportDAO.updateTrip(trip, email);
                 }
 
             } else if ("delete".equals(action)) {
-                String id = req.getParameter("tripId");
-                // ================== SỬA Ở ĐÂY ==================
-                tripDAO.deleteTrip(id, email);
+                String idStr = req.getParameter("tripId");
+                Integer tripId = Integer.parseInt(idStr); // parse trực tiếp sang Integer
+                tripTransportDAO.deleteTrip(tripId, email);
             }
         } catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
             try {
-                req.setAttribute("companyList", companyDAO.getAllCompanies());
-                req.setAttribute("vehicleList", vehicleDAO.getAllVehicles());
-                req.setAttribute("driverList", driverDAO.getAllDrivers());
+                req.setAttribute("companyList", transportCompanyDAO.getAllCompanies());
+                req.setAttribute("vehicleList", vehicleTransportDAO.getAllVehicles());
+                req.setAttribute("driverList", driverTransportDAO.getAllDrivers());
                 req.setAttribute("trip", buildTripFromRequest(req));
             } catch (Exception ex) {
-                req.setAttribute("trip", new Trips());
+                req.setAttribute("trip", new TripTransport());
             }
             req.setAttribute("mode", action);
             req.setAttribute("contentPage", "/WEB-INF/view/pages/trip-form-content.jsp");
@@ -173,55 +159,55 @@ public class TripServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/trips");
     }
 
-    private Trips buildTripFromRequest(HttpServletRequest req) throws Exception {
-        Trips t = new Trips();
+    private TripTransport buildTripFromRequest(HttpServletRequest req) throws Exception {
+        TripTransport trip = new TripTransport();
 
-        String tripId = req.getParameter("tripId");
-        if (tripId != null && !tripId.isEmpty()) {
-            t.setTripId(tripId);
+        // Trip ID
+        String tripIdStr = req.getParameter("tripId");
+        if (tripIdStr != null && !tripIdStr.isEmpty()) {
+            trip.setTripId(Integer.parseInt(tripIdStr));
         }
 
-        t.setCompanyId(req.getParameter("companyId"));
-        t.setVehicleId(req.getParameter("vehicleId"));
-        t.setDriverId(req.getParameter("driverId"));
-        t.setDeparturePlace(req.getParameter("departurePlace"));
-        t.setArrivalPlace(req.getParameter("arrivalPlace"));
+        // Company, Vehicle, Driver IDs
+        Integer companyId = Integer.parseInt(req.getParameter("companyId"));
+        Integer vehicleId = Integer.parseInt(req.getParameter("vehicleId"));
+        Integer driverId = Integer.parseInt(req.getParameter("driverId"));
+
+        TransportCompany transportCompany = new TransportCompany();
+        transportCompany.setCompanyId(companyId);
+        trip.setTransportCompany(transportCompany);
+
+        VehicleTransport vehicle = new VehicleTransport();
+        vehicle.setVehicleId(vehicleId);
+        trip.setVehicleTransport(vehicle);
+
+        DriverTransport driver = new DriverTransport();
+        driver.setDriverId(driverId);
+        trip.setDriverTransport(driver);
+
+        // Departure & Arrival
+        trip.setDeparturePoint(req.getParameter("departurePlace"));
+        trip.setArrivalPoint(req.getParameter("arrivalPlace"));
 
         try {
             String departureDateStr = req.getParameter("departureDate");
-            if (departureDateStr != null && !departureDateStr.isEmpty()) {
-                t.setDepartureDate(Date.valueOf(departureDateStr));
-            }
-        } catch (IllegalArgumentException e) {
-            throw new Exception("Ngày đi không hợp lệ");
-        }
-
-        try {
             String departureTimeStr = req.getParameter("departureTime");
-            if (departureTimeStr != null && !departureTimeStr.isEmpty()) {
-                if (departureTimeStr.length() == 5) {
-                    departureTimeStr += ":00";
-                }
-                t.setDepartureTime(Time.valueOf(departureTimeStr));
+            if (departureDateStr != null && departureTimeStr != null) {
+                LocalDate date = LocalDate.parse(departureDateStr);
+                if (departureTimeStr.length() == 5) departureTimeStr += ":00";
+                LocalTime time = LocalTime.parse(departureTimeStr);
+                trip.setDepartureDatetime(LocalDateTime.of(date, time));
             }
-        } catch (IllegalArgumentException e) {
-            throw new Exception("Giờ đi không hợp lệ");
+        } catch (Exception e) {
+            throw new Exception("Ngày hoặc giờ đi không hợp lệ");
         }
 
-        try {
-            String priceStr = req.getParameter("price");
-            if (priceStr != null && !priceStr.isEmpty()) {
-                float price = Float.parseFloat(priceStr);
-                if (price < 0) {
-                    throw new Exception("Giá vé phải là một số không âm");
-                }
-                t.setPrice(price);
-            }
-        } catch (NumberFormatException e) {
-            throw new Exception("Giá vé không hợp lệ");
+        // Trip Status
+        String statusStr = req.getParameter("status");
+        if (statusStr != null && !statusStr.isEmpty()) {
+            trip.setStatus(TripStatus.valueOf(statusStr));
         }
 
-        t.setStatus(req.getParameter("status"));
-        return t;
+        return trip;
     }
 }
