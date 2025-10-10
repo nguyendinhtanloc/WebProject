@@ -1,0 +1,345 @@
+/* payment.css */
+
+/* Reset & base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* ===== Header ===== */
+.site-header {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Banner trên */
+.top-banner {
+    background: linear-gradient(90deg, #0093E9 0%, #80D0C7 100%);
+    padding: 60px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.top-banner .brand-name {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.top-banner .slogan {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* Icon nền mờ */
+.top-banner::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: url('/images/banner-icons.png') repeat;
+    opacity: 0.15;
+    top: -50%;
+    left: -50%;
+    transform: rotate(15deg);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%);
+    padding: 14px 40px;
+}
+
+.navbar .logo img {
+    height: 55px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    text-decoration: underline;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.btn-login,
+.btn-register {
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.btn-login {
+    border: 1.5px solid white;
+    color: white;
+    background: transparent;
+}
+
+.btn-login:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-register {
+    background: #00b894;
+    color: white;
+}
+
+.btn-register:hover {
+    opacity: 0.85;
+}
+
+/* Avatar + user info */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+.btn-logout {
+    margin-left: 10px;
+    padding: 6px 14px;
+    background: #e74c3c;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background: #c0392b;
+}
+
+/* ===== Main background ===== */
+main.payment-bg {
+    background: url('../images/bg.png') no-repeat center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 20px;
+}
+
+
+/* ===== Container (payment & result) ===== */
+.payment-container,
+.result-container {
+    background: #ffffffee; /* trắng mờ nhẹ */
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    max-width: 500px;
+    width: 100%;
+    padding: 35px;
+    z-index: 1;
+}
+
+/* Title */
+h1 {
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+/* Voucher */
+.voucher-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.voucher-section input {
+    flex: 1;
+}
+
+.btn-apply,
+.btn-pay {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #0093E9 0%, #80D0C7 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.btn-apply {
+    background: #00B894;
+    color: white;
+}
+
+/* Amount display */
+.amount-display {
+    background: #f8f9fa;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.amount-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.amount-row.total {
+    font-weight: bold;
+    font-size: 18px;
+    color: #0093E9;
+    border-top: 1.5px solid #e0e0e0;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+/* Result icons */
+.icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.icon.success { background: #e8f5e9; color: #4CAF50; }
+.icon.failed { background: #ffebee; color: #f44336; }
+.icon.error   { background: #fff3e0; color: #ff9800; }
+
+/* Messages */
+.message {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Details */
+.details {
+    background: #f8f9fa;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.detail-label { color: #666; }
+.detail-value { font-weight: 500; color: #333; }
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn-group .btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #00b894;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
