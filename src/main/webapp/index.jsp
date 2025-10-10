@@ -73,24 +73,43 @@
                     <i class="fas fa-bus"></i>
                     <span>BusBooking</span>
                 </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Tra cứu vé</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Liên hệ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
-                    </li>
 
-                </ul>
+                <ul class="nav-menu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">Trang chủ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">Tra cứu vé</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">Liên hệ</a>
+                                    </li>
+
+                                    <!-- Kiểm tra session user -->
+                                    <c:choose>
+                                        <c:when test="${not empty sessionScope.user}">
+                                            <!-- Đã đăng nhập - hiển thị thông tin user -->
+                                            <li class="nav-item">
+                                                <span class="nav-link" style="color: #10b981;">
+                                                    <i class="fas fa-user"></i> ${sessionScope.email}
+                                                </span>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="${pageContext.request.contextPath}/logout" class="nav-link">Đăng xuất</a>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!-- Chưa đăng nhập - hiển thị nút đăng nhập/đăng ký -->
+                                            <li class="nav-item">
+                                                <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </ul>
                 <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -185,6 +204,7 @@
                         </div>
                         
                         <div class="form-group">
+                            <input type="hidden" name="sessionName" value="${sessionScope.email}">
                             <button type="submit" class="btn btn-primary btn-search">
                                 <i class="fas fa-search"></i>
                             </button>

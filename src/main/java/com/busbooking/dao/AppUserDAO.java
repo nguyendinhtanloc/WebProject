@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import com.busbooking.entity.AppUser;
 
 public class AppUserDAO {
-    private final EntityManagerFactory emf;
+    private EntityManagerFactory emf;
 
     public AppUserDAO() {
         emf = Persistence.createEntityManagerFactory("busbookingPU");
@@ -53,12 +53,12 @@ public class AppUserDAO {
             em.close();
         }
     }
-    
+
     public void delete(AppUser user) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            AppUser managedUser = em.find(AppUser.class, user.getUser_uuid());
+            AppUser managedUser = em.find(AppUser.class, user.getUserUuid());
             if (managedUser != null) {
                 em.remove(managedUser);
             }

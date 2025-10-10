@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.busbooking.entity.Seat, java.util.List" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -15,7 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
@@ -30,29 +30,49 @@
                         <a href="${pageContext.request.contextPath}/" class="nav-link">Trang chủ</a>
                     </li>
                     <li class="nav-item">
+                        <a href="#" class="nav-link">Lịch trình</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">Tra cứu vé</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">Liên hệ</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Đăng nhập</a>
-                    </li>
                 </ul>
+                <div class="nav-auth">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <div class="user-menu">
+                                <span class="user-name">
+                                    <i class="fas fa-user"></i>
+                                    ${sessionScope.user.email}
+                                </span>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Đăng nhập
+                            </a>
+                            <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary">
+                                <i class="fas fa-user-plus"></i>
+                                Đăng ký
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </nav>
     </header>
 
-    <!-- Choose Seat -->
     <section class="search-results">
         <div class="container">
-            <%-- Bắt đầu phần chọn ghế --%>
+            <%-- Scriptlet để chuẩn bị dữ liệu ghế --%>
             <%
                 List<Seat> seats = (List<Seat>) request.getAttribute("seats");
 
-                float price = 0; // 1. Khởi tạo giá trị mặc định
+                float price = 0;
                 if (seats != null && !seats.isEmpty()) {
-                    // 2. Chỉ lấy giá nếu danh sách 'seats' tồn tại và không rỗng
                     price = seats.get(0).getPrice();
                 }
                 request.setAttribute("ticketPrice", price);
@@ -70,7 +90,6 @@
                 <div class="seat-selection-wrapper">
                     <h2 class="section-title">Sơ đồ ghế</h2>
 
-                    <%-- Chú thích trạng thái ghế --%>
                     <div class="seat-legend">
                         <div class="legend-item"><img src="css/seat.png" class="legend-icon"><span>Còn trống</span></div>
                         <div class="legend-item"><img src="css/seat.png" class="legend-icon selected"><span>Đang chọn</span></div>
@@ -81,10 +100,9 @@
                         <%-- ===== HIỂN THỊ CHO XE GIƯỜNG NẰM (Limousine) ===== --%>
                         <c:if test="${type == 'Limousine'}">
                             <div class="seat-container sleeper">
-                                <%-- Container chung để dàn hàng ngang 2 tầng --%>
                                 <div class="sleeper-floors-container">
 
-                                    <%-- Bắt đầu khối TẦNG DƯỚI --%>
+                                    <%-- Tầng Dưới --%>
                                     <div class="floor-wrapper">
                                         <h3>Tầng Dưới</h3>
                                         <table class="seat-table">
@@ -93,46 +111,31 @@
                                                 int startFloor1 = 0;
                                                 for (int row = 0; row < 5 && startFloor1 < seatsPerFloor; row++) {
                                             %>
-                                                <tr>
-                                                    <%
-                                                        for (int lane = 1; lane <= veLane; lane++) {
-                                                            if (lane == 2 && (startFloor1 == 1 || startFloor1 == 16)) {
-                                                    %>
-                                                        <td class="aisle"></td>
-                                                    <%
-                                                            } else if (startFloor1 < seatsPerFloor) {
-                                                                Seat seat = seats.get(startFloor1);
-                                                                startFloor1++;
-                                                    %>
-                                                        <td class="seat-cell">
-                                                            <input type="checkbox"
-                                                                   id="seat-<%= seat.getNumSeat() %>"
-                                                                   name="seat"
-                                                                   value="<%= seat.getNumSeat() %>"
-                                                                   <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
-                                                            <label for="seat-<%= seat.getNumSeat() %>">
-                                                                <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
-                                                                <span><%= seat.getNumSeat() %></span>
-                                                            </label>
-                                                        </td>
-                                                    <%
-                                                            } else {
-                                                    %>
-                                                        <td></td>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-                                                </tr>
-                                            <%
-                                                }
-                                            %>
+                                            <tr>
+                                                <% for (int lane = 1; lane <= veLane; lane++) {
+                                                    if (lane == 2 && (startFloor1 == 1 || startFloor1 == 16)) { %>
+                                                <td class="aisle"></td>
+                                                <% } else if (startFloor1 < seatsPerFloor) {
+                                                    Seat seat = seats.get(startFloor1);
+                                                    startFloor1++;
+                                                %>
+                                                <td class="seat-cell">
+                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                                    <label for="seat-<%= seat.getNumSeat() %>">
+                                                        <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
+                                                        <span><%= seat.getNumSeat() %></span>
+                                                    </label>
+                                                </td>
+                                                <% } else { %>
+                                                <td></td>
+                                                <% }
+                                                } %>
+                                            </tr>
+                                            <% } %>
                                         </table>
                                     </div>
-                                    <%-- Kết thúc khối TẦNG DƯỚI --%>
 
-
-                                    <%-- Bắt đầu khối TẦNG TRÊN --%>
+                                    <%-- Tầng Trên --%>
                                     <div class="floor-wrapper">
                                         <h3>Tầng Trên</h3>
                                         <table class="seat-table">
@@ -140,44 +143,29 @@
                                                 int startFloor2 = seatsPerFloor;
                                                 for (int row = 0; row < 5 && startFloor2 < seats.size(); row++) {
                                             %>
-                                                <tr>
-                                                    <%
-                                                        for (int lane = 1; lane <= veLane; lane++) {
-                                                            if (lane == 2 && (startFloor2 == 1 || startFloor2 == 16)) {
-                                                    %>
-                                                        <td class="aisle"></td>
-                                                    <%
-                                                            } else if (startFloor2 < seats.size()) {
-                                                                Seat seat = seats.get(startFloor2);
-                                                                startFloor2++;
-                                                    %>
-                                                        <td class="seat-cell">
-                                                            <input type="checkbox"
-                                                                   id="seat-<%= seat.getNumSeat() %>"
-                                                                   name="seat"
-                                                                   value="<%= seat.getNumSeat() %>"
-                                                                   <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
-                                                            <label for="seat-<%= seat.getNumSeat() %>">
-                                                                <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
-                                                                <span><%= seat.getNumSeat() %></span>
-                                                            </label>
-                                                        </td>
-                                                    <%
-                                                            } else {
-                                                    %>
-                                                        <td></td>
-                                                    <%
-                                                            }
-                                                        }
-                                                    %>
-                                                </tr>
-                                            <%
-                                                }
-                                            %>
+                                            <tr>
+                                                <% for (int lane = 1; lane <= veLane; lane++) {
+                                                    if (lane == 2 && (startFloor2 == 1 || startFloor2 == 16)) { %>
+                                                <td class="aisle"></td>
+                                                <% } else if (startFloor2 < seats.size()) {
+                                                    Seat seat = seats.get(startFloor2);
+                                                    startFloor2++;
+                                                %>
+                                                <td class="seat-cell">
+                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                                    <label for="seat-<%= seat.getNumSeat() %>">
+                                                        <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
+                                                        <span><%= seat.getNumSeat() %></span>
+                                                    </label>
+                                                </td>
+                                                <% } else { %>
+                                                <td></td>
+                                                <% }
+                                                } %>
+                                            </tr>
+                                            <% } %>
                                         </table>
                                     </div>
-                                    <%-- Kết thúc khối TẦNG TRÊN --%>
-
                                 </div>
                             </div>
                         </c:if>
@@ -190,45 +178,31 @@
                                         int seatIndex = 0;
                                         int totalColumns = veLane + 1;
                                         int aisleColumn = 3;
-
                                         while (seatIndex < seats.size()) {
                                     %>
-                                        <tr>
-                                            <%
-                                                for (int col = 1; col <= totalColumns; col++) {
-                                                    if (col == aisleColumn) {
-                                            %>
-                                                <td class="aisle"></td>
-                                            <%
-                                                    } else {
-                                                        if (seatIndex < seats.size()) {
-                                                            Seat seat = seats.get(seatIndex);
-                                                            seatIndex++;
-                                            %>
-                                                <td class="seat-cell">
-                                                    <input type="checkbox"
-                                                           id="seat-<%= seat.getNumSeat() %>"
-                                                           name="seat"
-                                                           value="<%= seat.getNumSeat() %>"
-                                                           <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
-                                                    <label for="seat-<%= seat.getNumSeat() %>">
-                                                        <img src="css/seat.png" class="seat-icon">
-                                                        <span><%= seat.getNumSeat() %></span>
-                                                    </label>
-                                                </td>
-                                            <%
-                                                        } else {
-                                            %>
-                                                <td></td>
-                                            <%
-                                                        }
-                                                    }
-                                                }
-                                            %>
-                                        </tr>
-                                    <%
+                                    <tr>
+                                        <% for (int col = 1; col <= totalColumns; col++) {
+                                            if (col == aisleColumn) { %>
+                                        <td class="aisle"></td>
+                                        <% } else {
+                                            if (seatIndex < seats.size()) {
+                                                Seat seat = seats.get(seatIndex);
+                                                seatIndex++;
+                                        %>
+                                        <td class="seat-cell">
+                                            <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                            <label for="seat-<%= seat.getNumSeat() %>">
+                                                <img src="css/seat.png" class="seat-icon">
+                                                <span><%= seat.getNumSeat() %></span>
+                                            </label>
+                                        </td>
+                                        <% } else { %>
+                                        <td></td>
+                                        <% }
                                         }
-                                    %>
+                                        } %>
+                                    </tr>
+                                    <% } %>
                                 </table>
                             </div>
                         </c:if>
@@ -253,16 +227,16 @@
                     <hr>
                     <div id="selected-seats-info">
                         <div class="info-line">
-                           <span>Ghế đã chọn:</span>
-                           <strong id="seat-numbers">Chưa chọn</strong>
+                            <span>Ghế đã chọn:</span>
+                            <strong id="seat-numbers">Chưa chọn</strong>
                         </div>
                         <div class="info-line">
-                           <span>Số lượng:</span>
-                           <strong id="seat-count">0</strong>
+                            <span>Số lượng:</span>
+                            <strong id="seat-count">0</strong>
                         </div>
                         <div class="info-line total">
-                           <span>Tổng tiền:</span>
-                           <strong id="total-price">0 VND</strong>
+                            <span>Tổng tiền:</span>
+                            <strong id="total-price">0 VND</strong>
                         </div>
                     </div>
 
@@ -288,7 +262,7 @@
                                 </select>
                                 <p class="location-note">
                                     Quý khách vui lòng có mặt tại Bến xe/Văn phòng <strong>${trip.departurePoint}</strong>
-                                    trước <strong>${trip.departureTime} ${trip.departureDate}</strong></strong>
+                                    trước <strong>${trip.departureTime} ${trip.departureDate}</strong>
                                     để được trung chuyển hoặc kiểm tra thông tin trước khi lên xe.
                                 </p>
                             </div>
@@ -316,50 +290,55 @@
             </div>
 
             <div class="customer-details-section">
-                <div class="details-content-wrapper">
+                <form action="saveInf" method="post">
+                    <div class="details-content-wrapper">
+                        <div class="customer-info-form">
+                            <h3 class="customer-info-title">Thông tin khách hàng</h3>
+                            <div class="form-group-vertical">
+                                <label for="customerName">Họ và tên *</label>
+                                <input type="text" id="customerName" name="customerName" placeholder="Nhập họ và tên" required>
+                            </div>
+                            <div class="form-group-vertical">
+                                <label for="customerPhone">Số điện thoại *</label>
+                                <input type="tel" id="customerPhone" name="customerPhone" placeholder="Nhập số điện thoại" required>
+                            </div>
+                            <div class="form-group-vertical">
+                                <label for="customerEmail">Email *</label>
+                                <input type="email" id="customerEmail" name="customerEmail" placeholder="Nhập email để nhận vé" required>
+                            </div>
+                        </div>
 
-                    <div class="customer-info-form">
-                        <h3 class="customer-info-title">Thông tin khách hàng</h3>
-                        <div class="form-group-vertical">
-                            <label for="customerName">Họ và tên *</label>
-                            <input type="text" id="customerName" name="customerName" placeholder="Nhập họ và tên" required>
-                        </div>
-                        <div class="form-group-vertical">
-                            <label for="customerPhone">Số điện thoại *</label>
-                            <input type="tel" id="customerPhone" name="customerPhone" placeholder="Nhập số điện thoại" required>
-                        </div>
-                        <div class="form-group-vertical">
-                            <label for="customerEmail">Email *</label>
-                            <input type="email" id="customerEmail" name="customerEmail" placeholder="Nhập email để nhận vé" required>
+                        <div class="terms-and-notes-section">
+                            <h3 class="terms-title">ĐIỀU KHOẢN & LƯU Ý</h3>
+                            <ul class="terms-list">
+                                <li>Quý khách vui lòng <strong class="text-danger">Đăng ký/Đăng nhập tài khoản</strong> để nhận chương trình khuyến mãi.</li>
+                                <li>(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống BUSBOOKING. Vui lòng liên hệ Trung tâm tổng đài <strong class="text-danger">1900 6067</strong> để được hỗ trợ.</li>
+                                <li>(*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển <strong class="text-danger">1900 6918</strong> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="terms-and-notes-section">
-                        <h3 class="terms-title">ĐIỀU KHOẢN & LƯU Ý</h3>
-                        <ul class="terms-list">
-                            <li>Quý khách vui lòng <strong class="text-danger">Đăng ký/Đăng nhập tài khoản</strong> để nhận chương trình khuyến mãi.</li>
-                            <li>(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ hệ thống BUSBOOKING. Vui lòng liên hệ Trung tâm tổng đài <strong class="text-danger">1900 6067</strong> để được hỗ trợ.</li>
-                            <li>(*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển <strong class="text-danger">1900 6918</strong> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.</li>
-                        </ul>
-                    </div>
+                    <div class="payment-bar">
+                        <div class="payment-total">
+                            <span class="payment-label">Tổng cộng</span>
+                            <span class="payment-total-price" id="final-total-price">0đ</span>
+                        </div>
 
-                </div>
+                        <input type="hidden" name="selected_seats" id="hidden_selected_seats">
 
-                <div class="payment-bar">
-                    <div class="payment-total">
-                        <span class="payment-label">Tổng cộng</span>
-                        <span class="payment-total-price" id="final-total-price">0đ</span>
-                    </div>
-                    <form action="payment" method="post">
+                        <input type="hidden" name="selected_pickup_option" id="hidden_pickup_option">
+                        <input type="hidden" name="selected_pickup_location" id="hidden_pickup_location">
+                        <input type="hidden" name="selected_dropoff_option" id="hidden_dropoff_option">
+                        <input type="hidden" name="selected_dropoff_location" id="hidden_dropoff_location">
+
                         <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
                         <button type="submit" class="btn-submit">Tiếp tục</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -400,9 +379,10 @@
     </footer>
 
     <script>
-            const ticketPrice = ${ticketPrice};
+        const ticketPrice = ${ticketPrice};
     </script>
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/js/getInfSeat.js"></script>
+
 </body>
 </html>

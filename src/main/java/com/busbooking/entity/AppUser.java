@@ -10,73 +10,156 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "app_user")
-public class AppUser {
+@Table(name = "appuser")
+public class AppUser implements Serializable {
 
-    @Id
-    @Column(name = "user_uuid")
-    private UUID user_uuid;
-
+    private String userUuid;
     private String name;
-
-    @Column(unique = true)
     private String email;
-
     private String phone;
-    private String password;
     private String role;
-    private String status; // active/inactive
-    private java.sql.Date birth_date;
+    private String status;
+    private LocalDate birthDate;
     private String address;
     private String gender;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDate birthDateOld;
+    private LocalDateTime createdAtOld;
+    private String password;
 
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    public AppUser() {
+        this.userUuid = UUID.randomUUID().toString();
+    }
 
+    // ===== Lifecycle hooks =====
     @PrePersist
     public void onCreate() {
-        if (user_uuid == null) user_uuid = UUID.randomUUID();
-        created_at = LocalDateTime.now();
-        updated_at = LocalDateTime.now();
+        if (userUuid == null) {
+            userUuid = UUID.randomUUID().toString();
+        }
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updated_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
-    // Getters và Setters
-    public UUID getUser_uuid() { return user_uuid; }
-    public void setUser_uuid(UUID user_uuid) { this.user_uuid = user_uuid; }
+    // ===== Getters & Setters =====
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @Id
+    @Column(name = "useruuid")
+    public String getUserUuid() {
+        return userUuid;
+    }
+    public void setUserUuid(String userUuid) {
+        this.userUuid = userUuid;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    @Column(nullable = false)
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    @Column(unique = true, nullable = false)
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    @Column(name = "status")
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-    public java.sql.Date getBirth_date() { return birth_date; }
-    public void setBirth_date(java.sql.Date birth_date) { this.birth_date = birth_date; }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    @Column(name = "birthdate")
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public LocalDateTime getCreated_at() { return created_at; }
-    public LocalDateTime getUpdated_at() { return updated_at; }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Column(name = "createdat")
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Column(name = "updatedat")
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Mapping cho birth_date column trong Supabase
+    @Column(name = "birth_date")
+    public LocalDate getBirthDateOld() {
+        return birthDateOld;
+    }
+    public void setBirthDateOld(LocalDate birthDateOld) {
+        this.birthDateOld = birthDateOld;
+    }
+
+    // Mapping cho created_at column trong Supabase
+    @Column(name = "created_at")
+    public LocalDateTime getCreatedAtOld() {
+        return createdAtOld;
+    }
+    public void setCreatedAtOld(LocalDateTime createdAtOld) {
+        this.createdAtOld = createdAtOld;
+    }
 }

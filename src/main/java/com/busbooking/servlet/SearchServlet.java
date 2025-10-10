@@ -36,6 +36,7 @@ public class SearchServlet extends HttpServlet {
         String departure = request.getParameter("departure");
         String arrival = request.getParameter("arrival");
         String dateStr = request.getParameter("date");
+        String sessionEmail = request.getParameter("sessionName");
         
         if (departure != null && arrival != null && dateStr != null) {
             try {
@@ -46,6 +47,7 @@ public class SearchServlet extends HttpServlet {
                 request.setAttribute("departureCity", departure);
                 request.setAttribute("arrivalCity", arrival);
                 request.setAttribute("departureDate", dateStr);
+                request.setAttribute("sessionName", sessionEmail);
                 
                 request.getRequestDispatcher("/search-results.jsp").forward(request, response);
             } catch (Exception e) {

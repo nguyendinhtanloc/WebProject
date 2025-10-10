@@ -43,7 +43,7 @@
                             <div class="user-menu">
                                 <span class="user-name">
                                     <i class="fas fa-user"></i>
-                                    ${sessionScope.user.fullName}
+                                    ${sessionScope.user.email}
                                 </span>
                             </div>
                         </c:when>
