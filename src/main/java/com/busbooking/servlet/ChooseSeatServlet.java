@@ -20,14 +20,14 @@ public class ChooseSeatServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            String type = request.getParameter("vehicle_type");
-            String ve_id = request.getParameter("vehicle_id");
-            String tripId = request.getParameter("tripSelected");
+            String type = request.getParameter("vehicleType");
+            Integer veId = Integer.valueOf(request.getParameter("vehicleId"));
+            Integer tripId = Integer.valueOf(request.getParameter("tripSelected"));
 
             SeatDAO dao = new SeatDAO();
             Trip trip = dao.getTripSelected(tripId);
 
-            List<Seat> seats = dao.getSeatsByVehicle(ve_id);
+            List<Seat> seats = dao.getSeatsByVehicle(veId);
 
             request.setAttribute("type", type);
             request.setAttribute("seats", seats);

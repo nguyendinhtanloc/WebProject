@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -345,8 +346,10 @@
                                                 <i class="fas fa-info-circle"></i>
                                                 Chi tiết
                                             </button>
-                                            <form action="${pageContext.request.contextPath}/chooseSeat.jsp" method="get" style="display: inline;">
-                                                <input type="hidden" name="tripId" value="${trip.tripId}">
+                                            <form action="book" method="post">
+                                                <input type="hidden" name="tripSelected" value="${trip.tripId}">
+                                                <input type="hidden" name="vehicleType" value="${trip.vehicle.type}">
+                                                <input type="hidden" name="vehicleId" value="${trip.vehicle.vehicleId}">
                                                 <button type="submit" class="btn btn-primary btn-book">
                                                     <i class="fas fa-ticket-alt"></i>
                                                     Đặt vé ngay

@@ -1,6 +1,7 @@
 package com.busbooking.entity;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,13 +13,15 @@ public class Seat {
 
     @Column(name = "\"idSeat\"")
     @Id
-    private String idSeat;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idSeat;
 
-    @Column(name = "id_vehicle")
-    private UUID idVehicle;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicleid")
+    private Vehicle idVehicle;
 
-    @Column(name = "status_book")
-    private boolean statusBook = false;
+    @Column(name = "status")
+    private String statusBook;
 
     @Column(name = "\"numSeat\"")
     private String numSeat;
@@ -29,7 +32,7 @@ public class Seat {
     // Constructors
     public Seat() {}
 
-    public Seat(String idSeat, UUID idVehicle, boolean statusBook, String numSeat, float price) {
+    public Seat(Integer idSeat, Vehicle idVehicle, String statusBook, String numSeat, float price) {
         this.idSeat = idSeat;
         this.idVehicle = idVehicle;
         this.statusBook = statusBook;
@@ -39,27 +42,15 @@ public class Seat {
 
     // Getters and Setters
 
-    public String getIdSeat() {
+    public Integer getIdSeat() {
         return idSeat;
     }
 
-    public void setIdSeat(String idSeat) {
-        this.idSeat = idSeat;
-    }
+    public void setIdSeat(Integer idSeat) { this.idSeat = idSeat; }
 
-    public UUID getIdVehicle() {
-        return idVehicle;
-    }
+    public String getStatusBook() { return statusBook; }
 
-    public void setIdVehicle(UUID idVehicle) {
-        this.idVehicle = idVehicle;
-    }
-
-    public boolean isStatusBook() {
-        return statusBook;
-    }
-
-    public void setStatusBook(boolean statusBook) {
+    public void setStatusBook(String statusBook) {
         this.statusBook = statusBook;
     }
 
@@ -77,5 +68,13 @@ public class Seat {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Vehicle getIdVehicle() {
+        return idVehicle;
+    }
+
+    public void setIdVehicle(Vehicle idVehicle) {
+        this.idVehicle = idVehicle;
     }
 }

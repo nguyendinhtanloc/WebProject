@@ -109,7 +109,7 @@
                                                                    id="seat-<%= seat.getNumSeat() %>"
                                                                    name="seat"
                                                                    value="<%= seat.getNumSeat() %>"
-                                                                   <%= seat.isStatusBook() ? "disabled" : "" %>>
+                                                                   <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                             <label for="seat-<%= seat.getNumSeat() %>">
                                                                 <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
                                                                 <span><%= seat.getNumSeat() %></span>
@@ -156,7 +156,7 @@
                                                                    id="seat-<%= seat.getNumSeat() %>"
                                                                    name="seat"
                                                                    value="<%= seat.getNumSeat() %>"
-                                                                   <%= seat.isStatusBook() ? "disabled" : "" %>>
+                                                                   <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                             <label for="seat-<%= seat.getNumSeat() %>">
                                                                 <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
                                                                 <span><%= seat.getNumSeat() %></span>
@@ -210,7 +210,7 @@
                                                            id="seat-<%= seat.getNumSeat() %>"
                                                            name="seat"
                                                            value="<%= seat.getNumSeat() %>"
-                                                           <%= seat.isStatusBook() ? "disabled" : "" %>>
+                                                           <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                     <label for="seat-<%= seat.getNumSeat() %>">
                                                         <img src="css/seat.png" class="seat-icon">
                                                         <span><%= seat.getNumSeat() %></span>
@@ -240,7 +240,7 @@
                     <h2 class="section-title">Thông tin vé</h2>
                     <div class="info-line">
                         <span>Tuyến xe:</span>
-                        <strong>${trip.departurePlace} → ${trip.arrivalPlace}</strong>
+                        <strong>${trip.departureCity} → ${trip.arrivalCity}</strong>
                     </div>
                     <div class="info-line">
                         <span>Ngày đi:</span>
@@ -283,11 +283,11 @@
                                     </div>
                                 </div>
                                 <select name="pickup_location" id="pickup-location" class="location-select">
-                                    <option value="${trip.departurePlace}" selected>${trip.departurePlace}</option>
+                                    <option value="${trip.departurePoint}" selected>${trip.departurePoint}</option>
                                     <option value="another_place_1">Một điểm đón khác 1</option>
                                 </select>
                                 <p class="location-note">
-                                    Quý khách vui lòng có mặt tại Bến xe/Văn phòng <strong>${trip.departurePlace}</strong>
+                                    Quý khách vui lòng có mặt tại Bến xe/Văn phòng <strong>${trip.departurePoint}</strong>
                                     trước <strong>${trip.departureTime} ${trip.departureDate}</strong></strong>
                                     để được trung chuyển hoặc kiểm tra thông tin trước khi lên xe.
                                 </p>
@@ -306,7 +306,7 @@
                                     </div>
                                 </div>
                                 <select name="dropoff_location" id="dropoff-location" class="location-select">
-                                    <option value="${trip.arrivalPlace}" selected>${trip.arrivalPlace}</option>
+                                    <option value="${trip.arrivalPoint}" selected>${trip.arrivalPoint}</option>
                                     <option value="another_place_2">Một điểm trả khác 2</option>
                                 </select>
                             </div>
@@ -352,7 +352,7 @@
                     </div>
                     <form action="payment" method="post">
                         <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
-                        <button type="submit" class="btn-submit">Thanh toán</button>
+                        <button type="submit" class="btn-submit">Tiếp tục</button>
                     </form>
                 </div>
             </div>

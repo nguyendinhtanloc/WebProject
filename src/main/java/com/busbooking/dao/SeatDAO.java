@@ -10,21 +10,16 @@ import java.util.UUID;
 
 public class SeatDAO {
 
-    public Trip getTripSelected(String tripId) {
-        if (tripId == null || tripId.trim().isEmpty()) {
-            return null;
-        }
+    public Trip getTripSelected(Integer tripId) {
 
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            UUID uuid = UUID.fromString(tripId);
 
             // Dùng JPQL với JOIN FETCH để tải Trip và Vehicle trong cùng 1 câu lệnh SQL
             String jpql = "SELECT t FROM Trip t JOIN FETCH t.vehicle WHERE t.tripId = :tripId";
             TypedQuery<Trip> query = em.createQuery(jpql, Trip.class);
-            query.setParameter("tripId", uuid);
+            query.setParameter("tripId", tripId);
 
-            // getSingleResult() sẽ ném Exception nếu không tìm thấy, nên ta dùng getResultList()
             return query.getResultList().stream().findFirst().orElse(null);
 
         } catch (IllegalArgumentException e) {
@@ -37,7 +32,7 @@ public class SeatDAO {
         }
     }
 
-    public List<Seat> getSeatsByVehicle(String vehicle_id) {
+    public List<Seat> getSeatsByVehicle(Integer vehicleId) {
         // Lấy EntityManager từ factory
         EntityManager em = JPAUtil.getEntityManager();
         List<Seat> seats = null;
@@ -45,11 +40,11 @@ public class SeatDAO {
         try {
             em.getTransaction().begin();
 
-            String jpql = "SELECT s FROM Seat s WHERE s.idVehicle = :vehicleId";
+            String jpql = "SELECT s FROM Seat s WHERE s.idVehicle.vehicleId = :vehicleId";
 
             // Tạo query
             TypedQuery<Seat> query = em.createQuery(jpql, Seat.class);
-            query.setParameter("vehicleId", UUID.fromString(vehicle_id));
+            query.setParameter("vehicleId", vehicleId);
 
             // Thực thi query và lấy kết quả
             seats = query.getResultList();
