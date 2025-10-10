@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import com.busbooking.entity.AppUser;
 
 public class AppUserDAO {
-    private final EntityManagerFactory emf;
+    private EntityManagerFactory emf;
 
     public AppUserDAO() {
         emf = Persistence.createEntityManagerFactory("busbookingPU");
@@ -30,7 +30,7 @@ public class AppUserDAO {
     public AppUser findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<AppUser> query = em.createQuery("SELECT u FROM AppUser u WHERE u.email = :email", AppUser.class);
+            TypedQuery<AppUser> query = em.createQuery("SELECT u FROM appuser u WHERE u.email = :email", AppUser.class);
             query.setParameter("email", email);
             List<AppUser> list = query.getResultList();
             return list.isEmpty() ? null : list.get(0);
@@ -43,7 +43,7 @@ public class AppUserDAO {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<AppUser> query = em.createQuery(
-                    "SELECT u FROM AppUser u WHERE u.email = :email AND u.password = :password AND u.status = 'active'",
+                    "SELECT u FROM appuser u WHERE u.email = :email AND u.password = :password AND u.status = 'active'",
                     AppUser.class);
             query.setParameter("email", email);
             query.setParameter("password", password);
@@ -53,7 +53,7 @@ public class AppUserDAO {
             em.close();
         }
     }
-    
+
     public void delete(AppUser user) {
         EntityManager em = emf.createEntityManager();
         try {

@@ -83,12 +83,30 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Liên hệ</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
-                    </li>
+
+                    <!-- Kiểm tra session user -->
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <!-- Đã đăng nhập - hiển thị thông tin user -->
+                            <li class="nav-item">
+                                <span class="nav-link" style="color: #10b981;">
+                                    <i class="fas fa-user"></i> ${sessionScope.email}
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a href="${pageContext.request.contextPath}/logout" class="nav-link">Đăng xuất</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Chưa đăng nhập - hiển thị nút đăng nhập/đăng ký -->
+                            <li class="nav-item">
+                                <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
 
                 </ul>
                 <div class="hamburger">
