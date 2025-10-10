@@ -31,7 +31,7 @@ public class VNPayService {
 
     // Create VNPay payment URL
     public String createPaymentUrl(Payment payment, HttpServletRequest request) throws Exception {
-        String vnp_TxnRef = String.valueOf(payment.getPaymentId());
+        String vnp_TxnRef = payment.getPaymentId() + "_" + System.currentTimeMillis();
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
         long amount = payment.getFinalAmount().multiply(new BigDecimal("100")).longValue();
 

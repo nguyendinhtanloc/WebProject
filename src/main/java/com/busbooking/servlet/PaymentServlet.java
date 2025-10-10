@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 
 @WebServlet("/payment/create")
 public class PaymentServlet extends HttpServlet {
@@ -77,6 +76,6 @@ public class PaymentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // Forward to payment page
-        req.getRequestDispatcher("/WEB-INF/views/payment.jsp").forward(req, resp);
+        req.getRequestDispatcher("/payment.jsp").forward(req, resp);
     }
 }

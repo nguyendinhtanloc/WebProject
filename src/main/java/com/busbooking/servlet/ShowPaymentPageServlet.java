@@ -29,18 +29,18 @@ public class ShowPaymentPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html; charset=UTF--8");
+        resp.setContentType("text/html; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
         // Lấy session hiện tại
-        HttpSession session = req.getSession(false);
+//        HttpSession session = req.getSession(false);
 
-        if (session == null || session.getAttribute("currentUser") == null) {
-            resp.getWriter().write("Bạn chưa đăng nhập. Vui lòng truy cập /login để đăng nhập.");
-            return;
-        }
+//        if (session == null || session.getAttribute("currentUser") == null) {
+//            resp.getWriter().write("Bạn chưa đăng nhập. Vui lòng truy cập /login để đăng nhập.");
+//            return;
+//        }
 
-        Map<String, Object> user = (Map<String, Object>) session.getAttribute("currentUser");
+//        Map<String, Object> user = (Map<String, Object>) session.getAttribute("currentUser");
 
         try {
             // Lấy orderId từ URL, ví dụ: /payment?orderId=1
@@ -75,7 +75,7 @@ public class ShowPaymentPageServlet extends HttpServlet {
             }
 
             // Gửi tất cả dữ liệu sang JSP
-            req.setAttribute("user", user);
+//            req.setAttribute("user", user);
             req.setAttribute("order", order);
             req.setAttribute("discountAmount", discountAmount);
             req.setAttribute("finalAmount", finalAmount);

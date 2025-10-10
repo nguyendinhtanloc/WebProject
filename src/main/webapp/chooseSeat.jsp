@@ -25,9 +25,13 @@
                         <span>BusBooking</span>
                     </a>
                 </div>
+                <%-- DÁN ĐOẠN CODE NÀY VÀO THAY THẾ --%>
                 <ul class="nav-menu">
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/" class="nav-link">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Lịch trình</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">Tra cứu vé</a>
@@ -35,10 +39,29 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Liên hệ</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Đăng nhập</a>
-                    </li>
                 </ul>
+                <div class="nav-auth">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <div class="user-menu">
+                                <span class="user-name">
+                                    <i class="fas fa-user"></i>
+                                    ${sessionScope.user.email}
+                                </span>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Đăng nhập
+                            </a>
+                            <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary">
+                                <i class="fas fa-user-plus"></i>
+                                Đăng ký
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </nav>
     </header>

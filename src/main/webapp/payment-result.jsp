@@ -22,7 +22,7 @@
                 <li><a href="contact.jsp">Liên hệ</a></li>
             </ul>
             <div class="auth-buttons">
-                 <span class="welcome">Xin chào, <c:out value="${user.fullName}" default="Guest"/>!</span>
+                 <span class="welcome">Xin chào, <c:out value="${sessionScope.user.email}" default="Guest"/>!</span>
                  <a href="#" class="btn-logout">Đăng xuất</a>
             </div>
         </nav>

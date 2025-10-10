@@ -20,9 +20,30 @@
                 <li><a href="schedule.jsp">Lịch trình</a></li>
                 <li><a href="contact.jsp">Liên hệ</a></li>
             </ul>
-            <div class="auth-buttons">
-                <span class="welcome">Xin chào, <c:out value="${user.fullName}"/>!</span>
-                <a href="login.jsp" class="btn-logout">Đăng xuất</a>
+            <%-- DÁN ĐOẠN CODE NÀY VÀO THAY THẾ --%>
+            <div class="nav-auth">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <div class="user-menu">
+                            <span class="user-name">
+                                <i class="fas fa-user"></i>
+                                ${sessionScope.user.email}
+                            </span>
+                            <%-- Thêm nút đăng xuất ở đây nếu cần --%>
+                            <a href="${pageContext.request.contextPath}/logout" class="btn-logout">Đăng xuất</a>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng nhập
+                        </a>
+                        <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Đăng ký
+                        </a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </nav>
     </header>
@@ -33,7 +54,7 @@
             <h1>🎫 Thanh toán vé xe</h1>
 
             <!-- Thông tin người dùng -->
-            <p class="user-info">Người thanh toán: <strong><c:out value="${user.fullName}"/></strong></p>
+            <p class="user-info">Người thanh toán: <strong><c:out value="${sessionScope.user.name}"/></strong></p>
 
             <form action="${pageContext.request.contextPath}/payment" method="GET">
 

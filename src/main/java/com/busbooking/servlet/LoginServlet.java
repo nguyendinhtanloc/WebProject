@@ -28,6 +28,9 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String name = request.getParameter("name");
+
+         // Basic validation
 
         try {
             // Authenticate với Supabase (không cần local database)
@@ -44,6 +47,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 session.setAttribute("email", email);
+                session.setAttribute("name", name);
 
                 response.sendRedirect("index.jsp");
             } else {
