@@ -35,11 +35,8 @@ public class VoucherServlet extends HttpServlet {
 
         Order currentOrder = null;
         try {
-            // SỬA 1: Chuyển đổi chuỗi ID sang kiểu long
             long orderId = Long.parseLong(orderIdStr);
 
-            // SỬA 2: Gọi phương thức findById với tham số là long
-            // (Bạn cần đảm bảo OrderRepository.findById() chấp nhận kiểu long)
             currentOrder = orderRepository.findById(orderId);
 
         } catch (NumberFormatException e) {
