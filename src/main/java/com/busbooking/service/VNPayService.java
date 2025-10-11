@@ -31,7 +31,7 @@ public class VNPayService {
 
     // Create VNPay payment URL
     public String createPaymentUrl(Payment payment, HttpServletRequest request) throws Exception {
-        String vnp_TxnRef = String.valueOf(payment.getPaymentId());
+        String vnp_TxnRef = payment.getPaymentId() + "_" + System.currentTimeMillis();
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
         long amount = payment.getFinalAmount().multiply(new BigDecimal("100")).longValue();
 
@@ -42,7 +42,7 @@ public class VNPayService {
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + payment.getOrder().getId());
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + payment.getOrder().getOrderId());
         vnp_Params.put("vnp_OrderType", "other");
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
@@ -67,11 +67,11 @@ public class VNPayService {
                 hashData.append(fieldName);
                 hashData.append('=');
                 // QUAN TRỌNG: Mã hóa giá trị fieldValue theo chuẩn UTF-8
-                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8.toString()));
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8));
                 // Build query
-                query.append(URLEncoder.encode(fieldName, StandardCharsets.UTF_8.toString()));
+                query.append(URLEncoder.encode(fieldName, StandardCharsets.UTF_8));
                 query.append('=');
-                query.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8.toString()));
+                query.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8));
                 if (itr.hasNext()) {
                     query.append('&');
                     hashData.append('&');

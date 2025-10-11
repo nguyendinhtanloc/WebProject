@@ -5,6 +5,7 @@ import com.busbooking.entity.Trip;
 import com.busbooking.util.JPAUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,19 @@ public class SeatDAO {
             if (em != null) {
                 em.close();
             }
+        }
+    }
+    public List<Seat> findSeatsByIds(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT s FROM Seat s WHERE s.id IN :ids", Seat.class)
+                    .setParameter("ids", ids)
+                    .getResultList();
+        } finally {
+            em.close();
         }
     }
 

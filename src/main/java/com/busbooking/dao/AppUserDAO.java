@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import com.busbooking.entity.AppUser;
 
 public class AppUserDAO {
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public AppUserDAO() {
         emf = Persistence.createEntityManagerFactory("busbookingPU");

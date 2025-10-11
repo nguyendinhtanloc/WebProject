@@ -9,9 +9,9 @@ import java.util.*;
 
 public class VNPayConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "https://yon-uncombustible-briella.ngrok-free.dev/payment/vnpay-callback";
-    public static String vnp_TmnCode = "30DEJH30";
-    public static String secretKey = "VKWUWVFKTPK7OF78ECYZU0E106UJY62F";
+    public static String vnp_ReturnUrl = "https://scenographical-unsagely-awilda.ngrok-free.dev/payment/vnpay-callback";
+    public static String vnp_TmnCode = "FIG0WMO6";
+    public static String secretKey = "DEKC6NZL6WYKBFR1RUEIY14KNK2IJJYP";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
@@ -75,7 +75,7 @@ public class VNPayConfig {
                 hashData.append('=');
                 // QUAN TRỌNG: Mã hóa giá trị fieldValue theo chuẩn UTF-8
                 try {
-                    hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8.toString()));
+                    hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

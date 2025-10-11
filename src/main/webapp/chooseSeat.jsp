@@ -71,12 +71,6 @@
             <%
                 List<Seat> seats = (List<Seat>) request.getAttribute("seats");
 
-                float price = 0;
-                if (seats != null && !seats.isEmpty()) {
-                    price = seats.get(0).getPrice();
-                }
-                request.setAttribute("ticketPrice", price);
-
                 String type = (String) request.getAttribute("type");
 
                 int veLane = 3;
@@ -120,7 +114,9 @@
                                                     startFloor1++;
                                                 %>
                                                 <td class="seat-cell">
-                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat"
+                                                        value="<%= seat.getIdSeat() %>" data-seat-number="<%= seat.getNumSeat() %>"
+                                                        <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                     <label for="seat-<%= seat.getNumSeat() %>">
                                                         <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
                                                         <span><%= seat.getNumSeat() %></span>
@@ -152,7 +148,9 @@
                                                     startFloor2++;
                                                 %>
                                                 <td class="seat-cell">
-                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat"
+                                                        value="<%= seat.getIdSeat() %>" data-seat-number="<%= seat.getNumSeat() %>"
+                                                        <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                     <label for="seat-<%= seat.getNumSeat() %>">
                                                         <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
                                                         <span><%= seat.getNumSeat() %></span>
@@ -190,14 +188,16 @@
                                                 seatIndex++;
                                         %>
                                         <td class="seat-cell">
-                                            <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat" value="<%= seat.getNumSeat() %>" <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
+                                            <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat"
+                                                value="<%= seat.getIdSeat() %>" data-seat-number="<%= seat.getNumSeat() %>"
+                                                <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                             <label for="seat-<%= seat.getNumSeat() %>">
                                                 <img src="css/seat.png" class="seat-icon">
                                                 <span><%= seat.getNumSeat() %></span>
                                             </label>
                                         </td>
                                         <% } else { %>
-                                        <td></td>
+                                            <td></td>
                                         <% }
                                         }
                                         } %>
@@ -290,7 +290,7 @@
             </div>
 
             <div class="customer-details-section">
-                <form action="saveInf" method="post">
+                <form action="${pageContext.request.contextPath}/saveInf" method="post">
                     <div class="details-content-wrapper">
                         <div class="customer-info-form">
                             <h3 class="customer-info-title">Thông tin khách hàng</h3>
@@ -330,6 +330,7 @@
                         <input type="hidden" name="selected_pickup_location" id="hidden_pickup_location">
                         <input type="hidden" name="selected_dropoff_option" id="hidden_dropoff_option">
                         <input type="hidden" name="selected_dropoff_location" id="hidden_dropoff_location">
+                        <input type="hidden" name="totalPrice" id="hidden-total-price-value" value="0">
 
                         <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
                         <button type="submit" class="btn-submit">Tiếp tục</button>
@@ -379,7 +380,7 @@
     </footer>
 
     <script>
-        const ticketPrice = ${ticketPrice};
+        const ticketPrice = ${trip.price};
     </script>
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
     <script src="${pageContext.request.contextPath}/js/getInfSeat.js"></script>

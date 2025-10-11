@@ -41,8 +41,7 @@ public class Voucher {
         }
         LocalDate today = LocalDate.now();
         if (validFrom != null && today.isBefore(validFrom)) return false;
-        if (validTo != null && today.isAfter(validTo)) return false;
-        return true;
+        return validTo == null || !today.isAfter(validTo);
     }
 
     // Calculate discount amount

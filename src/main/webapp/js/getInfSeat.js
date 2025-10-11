@@ -5,29 +5,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const seatNumbersSpan = document.getElementById('seat-numbers');
     const seatCountSpan = document.getElementById('seat-count');
     const totalPriceSpan = document.getElementById('total-price');
-    // Dòng mới: Lấy tham chiếu đến input ẩn cho ghế đã chọn
+    const finalTotalPriceSpan = document.getElementById('final-total-price');
+
+    // SỬA LỖI 1: Khai báo các biến tham chiếu đến input ẩn
     const hiddenSelectedSeats = document.getElementById('hidden_selected_seats');
+    const hiddenTotalPrice = document.getElementById('hidden-total-price-value');
 
     function updateSelection() {
-        const selectedSeats = Array.from(seatCheckboxes)
+        // Lấy ra các element checkbox đang được chọn
+        const selectedCheckboxes = Array.from(seatCheckboxes)
                                        .filter(checkbox => checkbox.checked);
 
-        const selectedSeatIds = selectedSeats.map(checkbox => checkbox.value);
+        // SỬA LỖI 2: Tạo ra 2 danh sách riêng biệt
+        // 1. Danh sách SỐ GHẾ (A1, B5) để hiển thị cho người dùng
+        const selectedSeatNumbers = selectedCheckboxes.map(checkbox => checkbox.dataset.seatNumber);
 
-        if (selectedSeatIds.length > 0) {
-           seatNumbersSpan.textContent = selectedSeatIds.join(', ');
-        } else {
-           seatNumbersSpan.textContent = 'Chưa chọn';
-        }
+        // 2. Danh sách ID GHẾ (101, 102) để gửi lên server
+        const selectedSeatIds = selectedCheckboxes.map(checkbox => checkbox.value);
 
-        seatCountSpan.textContent = selectedSeatIds.length;
+        // --- Cập nhật giao diện ---
+        seatNumbersSpan.textContent = selectedSeatNumbers.length > 0 ? selectedSeatNumbers.join(', ') : 'Chưa chọn';
+        seatCountSpan.textContent = selectedCheckboxes.length; // SỬA LỖI 3: Dùng độ dài của mảng đúng
 
-        const totalPrice = selectedSeatIds.length * ticketPrice;
-        totalPriceSpan.textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-        document.getElementById('final-total-price').textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        const totalPrice = selectedCheckboxes.length * ticketPrice; // SỬA LỖI 3: Dùng độ dài của mảng đúng
+        const formattedPrice = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
-        // Dòng mới: Cập nhật giá trị cho input ẩn bằng chuỗi các ghế đã chọn (ví dụ: "A1,B5,C2")
-        hiddenSelectedSeats.value = selectedSeatIds.join(',');
+        totalPriceSpan.textContent = formattedPrice;
+        finalTotalPriceSpan.textContent = formattedPrice;
+
+        // --- Cập nhật giá trị cho các input ẩn để gửi đi ---
+        hiddenSelectedSeats.value = selectedSeatIds.join(','); // Gửi chuỗi các ID
+        hiddenTotalPrice.value = totalPrice; // Gửi giá trị số
     }
 
     seatCheckboxes.forEach(checkbox => {

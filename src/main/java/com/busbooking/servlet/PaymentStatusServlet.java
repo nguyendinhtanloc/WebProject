@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PaymentStatusServlet extends HttpServlet {
     private PaymentService paymentService;
     private VNPayService vnPayService;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void init() throws ServletException {

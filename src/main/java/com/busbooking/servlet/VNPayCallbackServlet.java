@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class VNPayCallbackServlet extends HttpServlet {
     private PaymentService paymentService;
     private VNPayService vnPayService;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private static final Logger logger = Logger.getLogger(VNPayCallbackServlet.class.getName());
 
     @Override
@@ -72,7 +72,7 @@ public class VNPayCallbackServlet extends HttpServlet {
                 req.setAttribute("status", "error");
                 log.setResponsePayload("Invalid signature");
                 paymentService.saveTransactionLog(log);
-                req.getRequestDispatcher("/WEB-INF/views/payment-result.jsp").forward(req, resp);
+                req.getRequestDispatcher("/payment-result.jsp").forward(req, resp);
                 return;
             }
 
@@ -95,7 +95,7 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setStatus("success");
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
-                updateOrderStatus(payment.getOrder().getId(), "paid");
+                updateOrderStatus(payment.getOrder().getOrderId(), "paid");
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {

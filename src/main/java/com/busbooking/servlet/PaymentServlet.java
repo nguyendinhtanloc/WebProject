@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 public class PaymentServlet extends HttpServlet {
     private PaymentService paymentService;
     private VNPayService vnPayService;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void init() throws ServletException {

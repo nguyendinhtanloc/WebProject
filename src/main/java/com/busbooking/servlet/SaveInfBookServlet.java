@@ -1,14 +1,21 @@
 package com.busbooking.servlet;
 
-import javax.servlet.RequestDispatcher;
+import com.busbooking.dao.OrderRepository;
+import com.busbooking.dao.SeatDAO;
+import com.busbooking.entity.Order;
+import com.busbooking.entity.Seat; // Import Seat entity
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet("/saveInf")
 public class SaveInfBookServlet extends HttpServlet {
@@ -18,33 +25,36 @@ public class SaveInfBookServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
+        // Lấy thông tin khách hàng và tổng tiền
         String customerName = request.getParameter("customerName");
         String customerPhone = request.getParameter("customerPhone");
         String customerEmail = request.getParameter("customerEmail");
+        String totalPriceStr = request.getParameter("totalPrice");
+        BigDecimal total = new BigDecimal(totalPriceStr);
 
-        String pickupOption = request.getParameter("selected_pickup_option");
-        String pickupLocation = request.getParameter("selected_pickup_location");
-        String dropoffOption = request.getParameter("selected_dropoff_option");
-        String dropoffLocation = request.getParameter("selected_dropoff_location");
-
-        String selectedSeatsStr = request.getParameter("selected_seats");
-
-        List<String> selectedSeatsList = null;
-        if (selectedSeatsStr != null && !selectedSeatsStr.isEmpty()) {
-            selectedSeatsList = Arrays.asList(selectedSeatsStr.split(","));
+        String selectedSeatIdsStr = request.getParameter("selected_seats");
+        List<Integer> selectedSeatIds = Collections.emptyList();
+        if (selectedSeatIdsStr != null && !selectedSeatIdsStr.isEmpty()) {
+            selectedSeatIds = Arrays.stream(selectedSeatIdsStr.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
         }
 
-        request.setAttribute("customerName", customerName);
-        request.setAttribute("customerPhone", customerPhone);
-        request.setAttribute("customerEmail", customerEmail);
 
-        request.setAttribute("pickupOption", pickupOption);
-        request.setAttribute("pickupLocation", pickupLocation);
-        request.setAttribute("dropoffOption", dropoffOption);
-        request.setAttribute("dropoffLocation", dropoffLocation);
+        SeatDAO seatRepo = new SeatDAO();
+        List<Seat> selectedSeatsList = seatRepo.findSeatsByIds(selectedSeatIds);
 
-        request.setAttribute("selectedSeatsList", selectedSeatsList);
+        OrderRepository orderRepo = new OrderRepository();
+        Order newOrder = new Order();
+        newOrder.setCustomerName(customerName);
+        newOrder.setCustomerPhone(customerPhone);
+        newOrder.setCustomerEmail(customerEmail);
+        newOrder.setOrderStatus("Đang Chờ Thanh Toán");
+        newOrder.setAmount(total);
+        newOrder.setSeatBooked(selectedSeatsList);
 
+        Order currentOrder = orderRepo.addOrder(newOrder);
+        request.setAttribute("currentOrder", currentOrder);
         request.getRequestDispatcher("/payment.jsp").forward(request, response);
     }
 }

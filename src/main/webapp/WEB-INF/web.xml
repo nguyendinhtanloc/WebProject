@@ -17,7 +17,7 @@
     
     <welcome-file>test.html</welcome-file>
   </welcome-file-list>
-  
+
   <!-- Default Servlet for Static Resources -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>

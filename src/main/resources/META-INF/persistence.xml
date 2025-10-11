@@ -13,7 +13,6 @@
         <class>com.busbooking.entity.Vehicle</class>
         <class>com.busbooking.entity.AppUser</class>
         <class>com.busbooking.entity.Seat</class>
-        <class>com.busbooking.entity.Ticket</class>
         <class>com.busbooking.entity.Payment</class>
         <class>com.busbooking.entity.PaymentMethod</class>
         <class>com.busbooking.entity.Voucher</class>

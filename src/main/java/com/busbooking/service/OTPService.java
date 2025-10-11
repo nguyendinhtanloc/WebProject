@@ -40,12 +40,12 @@ public class OTPService {
             return false; // Khong tim thay OTP
         }
         
-        if (LocalDateTime.now().isAfter(otpData.getExpiryTime())) {
+        if (LocalDateTime.now().isAfter(otpData.expiryTime())) {
             otpStorage.remove(email); // Xoa OTP het han
             return false;
         }
         
-        if (otpData.getOtp().equals(inputOTP)) {
+        if (otpData.otp().equals(inputOTP)) {
             otpStorage.remove(email); // Xoa OTP sau khi su dung thanh cong
             return true;
         }
@@ -57,23 +57,8 @@ public class OTPService {
     public static void removeOTP(String email) {
         otpStorage.remove(email);
     }
-    
+
     // Inner class de luu tru OTP data
-    private static class OTPData {
-        private final String otp;
-        private final LocalDateTime expiryTime;
-        
-        public OTPData(String otp, LocalDateTime expiryTime) {
-            this.otp = otp;
-            this.expiryTime = expiryTime;
-        }
-        
-        public String getOtp() {
-            return otp;
-        }
-        
-        public LocalDateTime getExpiryTime() {
-            return expiryTime;
-        }
+        private record OTPData(String otp, LocalDateTime expiryTime) {
     }
 }
