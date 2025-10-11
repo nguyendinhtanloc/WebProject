@@ -37,7 +37,7 @@
             <!-- Thông tin người dùng -->
             <p class="user-info">Người thanh toán: <strong><c:out value="${userName}"/></strong></p>
 
-            <form action="${pageContext.request.contextPath}/payment" method="GET">
+            <form action="${pageContext.request.contextPath}/voucher" method="post">
 
                 <%-- Luôn gửi kèm orderId, nhưng ẩn đi để người dùng không thấy --%>
                 <input type="hidden" name="orderId" value="<c:out value='${currentOrder.orderId}'/>">
@@ -53,10 +53,8 @@
                 </div>
 
                 <div class="voucher-section">
-                    <%-- Giữ lại giá trị voucher sau khi tải lại trang --%>
                     <input type="text" name="voucher_code" value="<c:out value='${param.voucher_code}'/>" placeholder="Nhập mã giảm giá (nếu có)">
 
-                    <%-- Nút này sẽ submit form bằng GET về chính trang này (/payment) --%>
                     <button type="submit" class="btn-apply">Áp dụng</button>
                 </div>
 

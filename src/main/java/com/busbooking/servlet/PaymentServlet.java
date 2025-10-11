@@ -44,7 +44,7 @@ public class PaymentServlet extends HttpServlet {
             }
 
             // Parse parameters
-            long orderId = Long.parseLong(orderIdStr);
+            Long orderId = Long.parseLong(orderIdStr);
 
             // Create payment record
             Payment payment = paymentService.createPayment(orderId, voucherCode);
