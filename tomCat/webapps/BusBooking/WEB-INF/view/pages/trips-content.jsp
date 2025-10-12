@@ -1,20 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="trip">
-    <h1 class="trip-title title">Danh sách chuyến xe</h1>
+<div class="content-container">
+    <h2>Danh sách chuyến xe</h2>
 
     <c:if test="${not empty errorMessage}">
         <div class="alert alert-danger">${errorMessage}</div>
     </c:if>
 
-    <div class="trip-top top">
-        <a href="trips?action=new" class="trip-top__addbutton addbutton">Thêm chuyến xe mới</a>
-    </div>
+    <a href="trips?action=new" class="btn btn-primary mb-3">Thêm chuyến xe mới</a>
 
-    <table class="trip-table table">
-        <thead class="trip-table__head table-head">
-            <tr class="trip-table__row table-row">
+    <table class="content-table">
+        <thead>
+            <tr>
                 <th>Công ty</th>
                 <th>Xe</th>
                 <th>Tài xế</th>
@@ -28,7 +26,7 @@
                 <th>Hành động</th>
             </tr>
         </thead>
-        <tbody class="trip-table__body table-body">
+        <tbody>
             <c:forEach var="t" items="${tripList}">
                 <tr>
                     <td>${t.transportCompany.name}</td>
@@ -62,16 +60,16 @@
                             ${t.price}
                         </c:if>
                     </td>
-                    <td> 
+                    <td>
+                        <a href="trips?action=edit&id=${t.tripId}" class="btn btn-edit">Sửa</a>
                         <form action="trips" method="post" style="display:inline;">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="tripId" value="${t.tripId}">
-                            <button type="submit" class="trip-table__deletebutton deletebutton"
+                            <button type="submit" class="btn btn-delete"
                                     onclick="return confirm('Bạn có chắc muốn xóa?');">
                                 Xóa
                             </button>
                         </form>
-                        <a href="trips?action=edit&id=${t.tripId}" class="trip-table__editbutton editbutton">Sửa</a>
                     </td>
                 </tr>
             </c:forEach>

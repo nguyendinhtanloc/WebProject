@@ -9,15 +9,18 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import com.busbooking.dao.*;
+import com.busbooking.util.AuthUtils;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+
+        // Kiểm tra session + role admin
+        if (!AuthUtils.isAdmin(request, response)) {
+            // Nếu không phải admin, AuthUtils đã redirect / message
             return;
         }
         
@@ -54,4 +57,3 @@ public class HomeServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
     }
 }
-

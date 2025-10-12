@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%-- Import hằng số từ CsrfTokenFilter để code sạch hơn
---%> <%@ page import="com.busbooking.filter.CsrfTokenFilter" %>
+pageEncoding="UTF-8"%>
+<%-- Import hằng số từ CsrfTokenFilter để code sạch hơn --%>
+<%@ page import="com.busbooking.filter.CsrfTokenFilter" %>
 
 <header class="header">
     <div class="header-left">
-        <img
-            src="${pageContext.request.contextPath}/images/logo(1).png"
-            alt="logo"
-            class="header-left__logo"
-        />
+        <img src="${pageContext.request.contextPath}/images/logo(1).png" alt="logo" class="header-left__logo" />
 
         <svg
             class="menu-header__icon"
@@ -24,11 +21,7 @@ pageEncoding="UTF-8"%> <%-- Import hằng số từ CsrfTokenFilter để code s
     <div class="header-right">
         <div class="main-content">
             <div class="header-account">
-                <img
-                    src="${pageContext.request.contextPath}/images/IMG_4612.jpg"
-                    alt="avatar"
-                    class="header-account__avatar"
-                />
+                <img src="${pageContext.request.contextPath}/images/IMG_4612.jpg" alt="avatar" class="header-account__avatar" />
 
                 <label for="dropdown">
                     <svg
@@ -51,30 +44,20 @@ pageEncoding="UTF-8"%> <%-- Import hằng số từ CsrfTokenFilter để code s
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">Profile</li>
                         <li class="dropdown-item">Settings</li>
-
+                        
                         <!-- === NÂNG CẤP BẢO MẬT: Chuyển link logout thành form với confirm === -->
                         <li class="dropdown-item">
-                            <form
-                                action="${pageContext.request.contextPath}/logout"
-                                method="post"
-                                style="display: inline"
-                            >
+                            <form action="${pageContext.request.contextPath}/logout" method="post" style="display: inline;">
                                 <!-- Thêm token bí mật vào form -->
-                                <input
-                                    type="hidden"
-                                    name="<%= CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR %>"
-                                    value="${sessionScope.csrfToken}"
-                                />
-                                <button
-                                    type="submit"
-                                    class="logout-button"
-                                    onclick="return confirm('Bạn có chắc chắn muốn đăng xuất không?');"
-                                >
+                                <input type="hidden" name="<%= CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR %>" value="${sessionScope.csrfToken}">
+                                <button type="submit" class="logout-button"
+                                        onclick="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
                                     Logout
                                 </button>
                             </form>
                         </li>
                         <!-- === KẾT THÚC NÂNG CẤP === -->
+
                     </ul>
                 </div>
                 <p class="header-account__name">Tien Dat</p>

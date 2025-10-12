@@ -147,7 +147,26 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             </main>
         </div>
 
+        <!-- Nút logout POST (kèm CSRF) -->
+        <form
+            id="logoutForm"
+            method="post"
+            action="${pageContext.request.contextPath}/logout"
+            style="display: none"
+        >
+            <input
+                type="hidden"
+                name="<%= com.busbooking.filter.CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR %>"
+                value="${sessionScope.csrfToken}"
+            />
+        </form>
+
         <script>
+            function doLogout() {
+                if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+                    document.getElementById("logoutForm").submit();
+                }
+            }
             // Khởi tạo tất cả biểu đồ khi DOM sẵn sàng
             document.addEventListener("DOMContentLoaded", function () {
                 // Thêm timeout nhỏ để đảm bảo Chart.js đã load xong

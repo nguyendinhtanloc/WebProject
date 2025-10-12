@@ -1,13 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="account">
-    <h1 class="driver-title title">Lịch sử đăng nhập hệ thống</h1>
-    <div class="account-top top"></div>
+<div class="content-container">
+    <h2>Lịch sử đăng nhập hệ thống</h2>
 
-    <table class="account-table table">
-        <thead class="account-table__head table-head">
-            <tr class="account-table__row table-row">
+    <table class="content-table">
+        <thead>
+            <tr>
                 <th>ID</th>
                 <th>Người dùng</th>
                 <th>Thời gian đăng nhập</th>
@@ -18,7 +17,7 @@
                 <th>Ghi chú</th>
             </tr>
         </thead>
-        <tbody class="account-table__body table-body">
+        <tbody>
             <c:forEach var="log" items="${logs}">
                 <tr>
                     <td>${log.logId}</td>

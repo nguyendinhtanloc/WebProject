@@ -13,10 +13,10 @@
 }
 
 /* --- Reset & Font --- */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
@@ -25,9 +25,9 @@ body {
 
 /* --- Container chung --- */
 .content-container {
-    /* max-width: 1200px; */
-    /* margin: 20px auto;
-    padding: 25px; */
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 25px;
     background-color: var(--surface-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -58,8 +58,7 @@ h2 {
     font-weight: 500;
 }
 
-.content-table th,
-.content-table td {
+.content-table th, .content-table td {
     padding: 12px 15px;
     border-bottom: 1px solid var(--border-color);
 }
@@ -87,7 +86,7 @@ h2 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -156,8 +155,8 @@ a:hover {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;
     transition: border-color 0.2s;
     background-color: var(--surface-color);
     cursor: pointer;
@@ -193,24 +192,24 @@ a:hover {
     height: 36px;
     line-height: 36px;
     text-align: center;
-    background-color: #e5e6e6; /* nền xám nhạt */
-    border: 1px solid #27738e; /* viền xanh đậm */
+    background-color: #e5e6e6;   /* nền xám nhạt */
+    border: 1px solid #27738e;   /* viền xanh đậm */
     border-radius: 8px;
     font-size: 0.9em;
-    color: #27738e; /* chữ xanh đậm */
+    color: #27738e;              /* chữ xanh đậm */
     text-decoration: none;
     font-weight: 500;
     transition: all 0.2s ease;
 }
 
 .pagination-btn:hover {
-    background-color: #64c5c0; /* xanh ngọc khi hover */
+    background-color: #64c5c0;   /* xanh ngọc khi hover */
     color: white;
     transform: translateY(-2px);
 }
 
 .pagination-btn.active {
-    background-color: #27738e; /* xanh đậm */
+    background-color: #27738e;   /* xanh đậm */
     color: white;
     border-color: #27738e;
     pointer-events: none;
@@ -247,12 +246,12 @@ a:hover {
 .content-table td pre {
     /* Giới hạn chiều cao và thêm thanh cuộn khi cần */
     max-height: 150px; /* Bạn có thể điều chỉnh chiều cao này */
-    overflow-y: auto; /* Chỉ hiển thị thanh cuộn dọc */
-
+    overflow-y: auto;  /* Chỉ hiển thị thanh cuộn dọc */
+    
     /* Giữ nguyên định dạng code và xuống dòng tự động */
-    white-space: pre-wrap;
+    white-space: pre-wrap; 
     word-wrap: break-word;
-
+    
     /* Căn lề và giao diện cho đẹp */
     margin: 0;
     padding: 5px;
@@ -260,3 +259,4 @@ a:hover {
     border-radius: 4px;
     font-size: 0.85em;
 }
+

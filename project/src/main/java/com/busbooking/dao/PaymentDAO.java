@@ -1,15 +1,12 @@
 package com.busbooking.dao;
 
-import com.busbooking.model.Payment;
 import com.busbooking.util.JPAUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
 
 public class PaymentDAO {
     

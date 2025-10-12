@@ -113,12 +113,8 @@ pageEncoding="UTF-8"%>
         <!-- Tài khoản -->
         <li class="sidebar-item <%= "accounts".equals(activePage) ? "active" : "" %>" data-page="accounts">
             <a href="${pageContext.request.contextPath}/accounts?action=list">
-                <svg
-                    class="sidebar-item__icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 640"
-                >
-                    <path d="M576 112C576..." />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="sidebar-item__icon">
+                    <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z"/>
                 </svg>
                 <span class="text">Tài khoản</span>
             </a>
@@ -127,12 +123,8 @@ pageEncoding="UTF-8"%>
         <!-- Dữ liệu -->
         <li class="sidebar-item <%= "datas".equals(activePage) ? "active" : "" %>" data-page="datas">
             <a href="${pageContext.request.contextPath}/datas?action=list">
-                <svg
-                    class="sidebar-item__icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 640"
-                >
-                    <path d="M576 112C576..." />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="sidebar-item__icon">
+                    <path d="M544 269.8C529.2 279.6 512.2 287.5 494.5 293.8C447.5 310.6 385.8 320 320 320C254.2 320 192.4 310.5 145.5 293.8C127.9 287.5 110.8 279.6 96 269.8L96 352C96 396.2 196.3 432 320 432C443.7 432 544 396.2 544 352L544 269.8zM544 192L544 144C544 99.8 443.7 64 320 64C196.3 64 96 99.8 96 144L96 192C96 236.2 196.3 272 320 272C443.7 272 544 236.2 544 192zM494.5 453.8C447.6 470.5 385.9 480 320 480C254.1 480 192.4 470.5 145.5 453.8C127.9 447.5 110.8 439.6 96 429.8L96 496C96 540.2 196.3 576 320 576C443.7 576 544 540.2 544 496L544 429.8C529.2 439.6 512.2 447.5 494.5 453.8z"/>
                 </svg>
                 <span class="text">Dữ liệu</span>
             </a>

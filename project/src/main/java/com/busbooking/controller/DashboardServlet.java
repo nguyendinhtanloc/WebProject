@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import javax.servlet.annotation.WebServlet;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import com.busbooking.dao.*;
+import com.busbooking.util.AuthUtils;
+
+import javax.servlet.ServletException;
 
 @WebServlet(urlPatterns = "/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -25,5 +27,8 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("contentPage", "/WEB-INF/view/pages/dashboards.jsp");
 
         request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
+        if (!AuthUtils.isAdmin(request, response)) return;
+
+        request.getRequestDispatcher("/WEB-INF/view/pages/dashboards.jsp").forward(request, response);
     }
 }

@@ -750,7 +750,17 @@ header {
     margin: 10px 0;
 }
 
-/* buses */
+/* vehicles */
+.vehicle-table__head th:last-child,
+.vehicle-table__body td:last-child {
+    min-width: 120px;
+}
+
+/* trips */
+.trip-table__head th:last-child,
+.trip-table__body td:last-child {
+    min-width: 120px;
+}
 
 /* --- Phân trang --- */
 .pagination-container {
