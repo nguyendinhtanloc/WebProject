@@ -2,13 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<div class="content-container">
-    <h2>Danh sách chuyến xe</h2>
-    <a href="${pageContext.request.contextPath}/trips?action=new" class="btn btn-primary">Thêm chuyến</a>
-    
-    <table class="content-table">
-        <thead>
-            <tr>
+<div class="trip">
+    <h1 class="trip-title title">Danh sách chuyến xe</h1>
+    <div class="trip-top top">
+        <a href="${pageContext.request.contextPath}/trips?action=new" class="trip-top__addbutton addbutton">Thêm chuyến</a>
+    </div>
+
+    <table class="trip-table table">
+        <thead class="trip-table__head table-head">
+            <tr class="trip-table__row table-row">
                 <th>Công ty</th>
                 <th>Biển số xe</th>
                 <th>Tài xế</th>
@@ -21,7 +23,7 @@
                 <th>Hành động</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="trip-table__body table-body">
             <c:forEach var="t" items="${tripList}">
                 <tr>
                     <td>${t.transportCompany.name}</td>
@@ -49,12 +51,12 @@
                     </td>
                     <td>${t.status}</td>
                     <td style="display: flex; gap: 5px; align-items: center;">
-                        <a href="${pageContext.request.contextPath}/trips?action=edit&id=${t.tripId}" class="btn btn-edit">Sửa</a>
                         <form action="${pageContext.request.contextPath}/trips" method="post" style="display:inline;">
                             <input type="hidden" name="action" value="delete"/>
                             <input type="hidden" name="tripId" value="${t.tripId}"/>
-                            <button type="submit" class="btn btn-delete" onclick="return confirm('Xóa chuyến này?')">Xóa</button>
+                            <button type="submit" class="trip-table__deletebutton deletebutton" onclick="return confirm('Xóa chuyến này?')">Xóa</button>
                         </form>
+                        <a href="${pageContext.request.contextPath}/trips?action=edit&id=${t.tripId}" class="trip-table__editbutton editbutton">Sửa</a>
                     </td>
                 </tr>
             </c:forEach>

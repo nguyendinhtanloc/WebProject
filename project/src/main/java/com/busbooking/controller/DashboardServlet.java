@@ -1,18 +1,29 @@
 package com.busbooking.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/dashboard")
+import javax.servlet.*;
+import javax.servlet.http.*;
+import com.busbooking.dao.*;
+
+@WebServlet(urlPatterns = "/dashboard")
 public class DashboardServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/view/dashboards.jsp").forward(request, response);
+
+        long totalDrivers = DriverTransportDAO.countAllDrivers();
+        long totalVehicles = VehicleTransportDAO.countAllVehicles();
+        long totalUsers = AppUserDAO.countUsersByRole();
+
+        request.setAttribute("totalDrivers", totalDrivers);
+        request.setAttribute("totalVehicles", totalVehicles);
+        request.setAttribute("totalUsers", totalUsers);
+        request.setAttribute("contentPage", "/WEB-INF/view/pages/dashboards.jsp");
+
+        request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
     }
 }

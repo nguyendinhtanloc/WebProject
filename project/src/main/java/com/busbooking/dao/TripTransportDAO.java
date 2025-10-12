@@ -106,4 +106,88 @@ public class TripTransportDAO {
             em.close();
         }
     }
+    
+    /**
+     * Lấy thống kê top 4 tuyến đường phổ biến nhất (theo số lượng chuyến)
+     * Trả về chuỗi JSON để sử dụng trong biểu đồ tròn
+     */
+    public static String getRouteStatistics() {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            // Lấy top 4 tuyến đường có nhiều chuyến nhất
+            String jpql = "SELECT CONCAT(t.departureCity, ' - ', t.arrivalCity) as route, COUNT(t) as tripCount " +
+                         "FROM TripTransport t " +
+                         "WHERE t.departureCity IS NOT NULL AND t.arrivalCity IS NOT NULL " +
+                         "GROUP BY t.departureCity, t.arrivalCity " +
+                         "ORDER BY COUNT(t) DESC";
+            
+            @SuppressWarnings("unchecked")
+            List<Object[]> results = em.createQuery(jpql)
+                                      .setMaxResults(4)
+                                      .getResultList();
+            
+            if (results.isEmpty()) {
+                return "{\"labels\":[\"Chưa có dữ liệu\"],\"data\":[1]}";
+            }
+            
+            // Tính tổng số chuyến của top 4
+            long top4Total = 0;
+            for (Object[] result : results) {
+                top4Total += ((Number) result[1]).longValue();
+            }
+            
+            // Lấy tổng số chuyến của tất cả tuyến đường
+            String totalJpql = "SELECT COUNT(t) FROM TripTransport t " +
+                              "WHERE t.departureCity IS NOT NULL AND t.arrivalCity IS NOT NULL";
+            Long totalTrips = em.createQuery(totalJpql, Long.class).getSingleResult();
+            
+            // Tính số chuyến của các tuyến còn lại
+            long othersCount = totalTrips - top4Total;
+            
+            // Xây dựng JSON
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.append("{\"labels\":[");
+            
+            StringBuilder labels = new StringBuilder();
+            StringBuilder data = new StringBuilder();
+            
+            // Thêm top 4 tuyến đường
+            for (int i = 0; i < results.size(); i++) {
+                Object[] result = results.get(i);
+                String route = (String) result[0];
+                Long count = ((Number) result[1]).longValue();
+                
+                if (i > 0) {
+                    labels.append(",");
+                    data.append(",");
+                }
+                
+                labels.append("\"").append(route).append("\"");
+                data.append(count);
+            }
+            
+            // Thêm "Khác" nếu có tuyến đường khác
+            if (othersCount > 0) {
+                if (results.size() > 0) {
+                    labels.append(",");
+                    data.append(",");
+                }
+                labels.append("\"Khác\"");
+                data.append(othersCount);
+            }
+            
+            jsonBuilder.append(labels.toString());
+            jsonBuilder.append("],\"data\":[");
+            jsonBuilder.append(data.toString());
+            jsonBuilder.append("]}");
+            
+            return jsonBuilder.toString();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"labels\":[\"Lỗi dữ liệu\"],\"data\":[1]}";
+        } finally {
+            em.close();
+        }
+    }
 }

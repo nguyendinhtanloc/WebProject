@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.busbooking.model.TransportCompany" %>
+<%
+    List<TransportCompany> companyList = (List<TransportCompany>) request.getAttribute("companyList");
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,18 +13,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="stylesheet"
-            href="../styles/reset.css"
+            href="${pageContext.request.contextPath}/styles/reset.css"
         />
         <link
             rel="stylesheet"
-            href="../styles/style.css"
+            href="${pageContext.request.contextPath}/styles/style.css"
         />
         <title>admin</title>
     </head>
     <body>
-        <jsp:include page="/components/header.jsp" />
+        <jsp:include page="/WEB-INF/view/components/header.jsp" />
         <div class="container">
-            <jsp:include page="/components/sidebar.jsp" />
+            <jsp:include page="/WEB-INF/view/components/sidebar.jsp" />
             <main class="main">
                 <div class="main-content" id="mainContent">
                     <div class="driver">
@@ -29,74 +34,88 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                                 for="addform-checkbox"
                                 class="driver-top__addbutton addbutton"
                             >
-                                ThÃªm
+                                Them
                             </label>
                             <input
                                 type="checkbox"
                                 name="addform"
                                 id="addform-checkbox"
-                                class="addform-checkbox"
+                                class="addform-checkbox form-checkbox"
                             />
-                            <div class="addform">
+                            <div class="addform-block form-block">
                                 <div class="main-content">
-                                    <h2 class="addform__title">Thêm tài xế</h2>
+                                    <h2 class="addform__title form__title">Thêm Tài xế</h2>
                                     <form
-                                        class="addform__form"
+                                        class="addform__form form"
                                         action="${pageContext.request.contextPath}/drivers?action=insert"
                                         method="POST"
                                     >
-                                        <!-- Äáº£m báº£o method="POST" -->
-                                        <label>company_id (UUID format)</label>
-                                        <input
-                                            type="text"
-                                            name="company_id"
-                                            required
-                                            pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
-                                            placeholder="vÃ­ dá»¥: 123e4567-e89b-12d3-a456-426614174000"
-                                        />
-                                        <br />
+                                        <div class="form-group">
+                                            <label for="company_id">Công ty:</label>
+											<select name="company_id" id="company_id" class="form-select" required>
+											    <option value="">-- Chọn công ty --</option>
+											    <c:forEach var="c" items="${companyList}">
+											        <option value="${c.companyId}">${c.name}</option>
+											    </c:forEach>
+											</select>
+                                        </div>
 
-                                        <label>name</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            required
-                                        />
-                                        <br />
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="driver_name">Tên tài xế</label>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    id="driver_name"
+                                                    class="form-input"
+                                                    required
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="driver_phone">Số điện thoại</label>
+                                                <input
+                                                    type="text"
+                                                    name="phone"
+                                                    id="driver_phone"
+                                                    class="form-input"
+                                                />
+                                            </div>
+                                        </div>
 
-                                        <label>phone</label>
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            required
-                                        />
-                                        <br />
+                                        <div class="form-group">
+                                            <label for="license_no">Số bằng lái</label>
+                                            <input
+                                                type="text"
+                                                name="license_no"
+                                                id="license_no"
+                                                class="form-input"
+                                            />
+                                        </div>
 
-                                        <label>license_no</label>
-                                        <input
-                                            type="text"
-                                            name="license_no"
-                                            required
-                                        />
-                                        <br />
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="hire_date">Ngày thuê</label>
+                                                <input type="date" name="hire_date" id="hire_date" class="form-input" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="end_date">Ngày kết thúc</label>
+                                                <input type="date" name="end_date" id="end_date" class="form-input" />
+                                            </div>
+                                        </div>
 
-                                        <label>experience_years</label>
-                                        <input
-                                            type="number"
-                                            name="experience_years"
-                                            required
-                                        />
-                                        <br />
+                                        <div class="form-group">
+                                            <label for="driver_status">Trạng thái</label>
+                                            <select name="status" id="driver_status" class="form-select" required>
+                                            	<option value="">-- Chọn trạng thái --</option>
+                                            	<option value="active">Hoạt động</option>
+                                            	<option value="inactive">Không hoạt động</option>
+                                            	<option value="suspended">Tạm ngưng</option>
+                                            </select>
+                                        </div>
 
-                                        <label>status</label>
-                                        <input
-                                            type="text"
-                                            name="status"
-                                            required
-                                        />
-                                        <br />
-
-                                        <input type="submit" value="submit" />
+                                        <div class="form-actions">
+                                            <input type="submit" value="Thêm mới" class="form-btn" />
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -111,53 +130,198 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                             <thead class="driver-table__head table-head">
                                 <tr class="driver-table__row table-row">
                                     <th>ID</th>
-                                    <th>ID Công ty</th>
-                                    <th>Tên</th>
+                                    <th>Công ty</th>
+                                    <th>Tên tài xế</th>
                                     <th>Số điện thoại</th>
-                                    <th>Căn cước</th>
-                                    <th>Kinh nghiệm (năm)</th>
+                                    <th>Số bằng lái</th>
+                                    <th>Ngày thuê</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody class="driver-table__body table-body">
-                                <c:forEach var="driver" items="${driverList}">
+                                <c:forEach var="d" items="${driverList}">
                                     <tr>
-                                        <td>${driver.driver_id}</td>
-                                        <td>${driver.company_id}</td>
-                                        <td>${driver.name}</td>
-                                        <td>${driver.phone}</td>
-                                        <td>${driver.license_no}</td>
-                                        <td>${driver.experience_years}</td>
-                                        <td>${driver.status}</td>
+                                        <td>${d.driverId}</td>
+                                        <td>${d.transportCompany.name}</td>
+                                        <td>${d.name}</td>
+                                        <td>${d.phone}</td>
+                                        <td>${d.licenseNo}</td>
+                                        <td>${d.hireDate}</td>
+                                        <td>${d.status}</td>
                                         <td>
                                             <a
-                                                href="${pageContext.request.contextPath}/drivers?action=update&driver_id=${driver.driver_id}"
-                                            >
-                                                <button
-                                                    class="driver-table__editbutton editbutton"
-                                                >
-                                                    Sá»­a
-                                                </button>
-                                            </a>
-                                            <a
-                                                onclick="return confirm ('XÃ¡c nháº­n xÃ³a')"
-                                                href="${pageContext.request.contextPath}/drivers?action=delete&driver_id=${driver.driver_id}"
+                                                onclick="return confirm('Xác nhận xóa tài xế này?')"
+                                                href="${pageContext.request.contextPath}/drivers?action=delete&driver_id=${d.driverId}"
                                             >
                                                 <button
                                                     class="driver-table__deletebutton deletebutton"
                                                 >
-                                                    XÃ³a
+                                                    Xóa
                                                 </button>
                                             </a>
+                                            <button type="button"
+											        class="driver-table__editbutton editbutton"
+											        onclick="openEditForm('${d.driverId}')">
+											    Sửa
+											</button>
+				                            <input
+				                                type="checkbox"
+				                                name="editform"
+				                                id="editform-checkbox-${d.driverId}"
+				                                class="editform-checkbox form-checkbox"
+				                                style="display: none;"
+				                            />
+				                            <div class="editform-block form-block" id="editform-block-${d.driverId}">
+												<div class="main-content">
+											    <h2 class="editform__title form__title">Sửa tài xế</h2>
+												    <form id="editForm-${d.driverId}"
+												          class="editform__form form"
+												          action="${pageContext.request.contextPath}/drivers?action=update"
+												          method="POST">
+												        <input type="hidden" name="driver_id" id="driver_id-${d.driverId}">
+														
+														<div class="form-group">
+															<label for="company_id-${d.driverId}">Công ty:</label>
+													    	<select name="company_id" id="company_id-${d.driverId}" class="form-select" required>
+															    <option value="">-- Chọn công ty --</option>
+															    <c:forEach var="c" items="${companyList}">
+															        <option value="${c.companyId}"
+															        	<c:if test="${d.transportCompany.companyId == c.companyId}">selected</c:if>>
+	            														${c.name} 
+															        </option>
+															    </c:forEach>
+															</select>
+														</div>
+
+														<div class="form-row">
+															<div class="form-group">
+												        		<label for="name-${d.driverId}">Tên tài xế</label>
+												        		<input type="text" name="name" id="name-${d.driverId}" class="form-input" required>
+															</div>
+															<div class="form-group">
+												        		<label for="phone-${d.driverId}">Số điện thoại</label>
+												        		<input type="text" name="phone" id="phone-${d.driverId}" class="form-input">
+															</div>
+														</div>
+
+														<div class="form-group">
+												        	<label for="license_no-${d.driverId}">Số bằng lái</label>
+												        	<input type="text" name="license_no" id="license_no-${d.driverId}" class="form-input">
+														</div>
+
+														<div class="form-row">
+															<div class="form-group">
+												        		<label for="hire_date-${d.driverId}">Ngày thuê</label>
+												        		<input type="date" name="hire_date" id="hire_date-${d.driverId}" class="form-input">
+															</div>
+															<div class="form-group">
+												        		<label for="end_date-${d.driverId}">Ngày kết thúc</label>
+												        		<input type="date" name="end_date" id="end_date-${d.driverId}" class="form-input">
+															</div>
+														</div>
+
+														<div class="form-group">
+												        	<label for="status-${d.driverId}">Trạng thái</label>
+												        	<select name="status" id="status-${d.driverId}" class="form-select" required>
+												        		<option value="active">Hoạt động</option>
+												        		<option value="inactive">Không hoạt động</option>
+												        		<option value="suspended">Tạm ngưng</option>
+												        	</select>
+														</div>
+
+														<div class="form-actions">
+												        	<input type="submit" value="Cập nhật" class="form-btn">
+												        	<button type="button" onclick="closeEditForm('${d.driverId}')" class="form-btn cancel">Hủy</button>
+														</div>
+												    </form>
+												</div>
+											</div>
+				                            <!-- overlay -->
+				                            <label
+				                                for="editform-checkbox-${d.driverId}"
+				                                class="editform-overlay overlay"
+				                                id="editform-overlay-${d.driverId}"
+				                            ></label>
                                         </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
+
+                        <!-- Phân trang -->
+                        <c:if test="${totalPages > 1}">
+                            <div class="pagination-container">
+                                <a href="?action=list&page=1" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&laquo;</a>
+                                <a href="?action=list&page=${currentPage - 1}" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&lsaquo;</a>
+
+                                <c:set var="startPage" value="${currentPage - 2}" />
+                                <c:set var="endPage" value="${currentPage + 2}" />
+                                <c:if test="${startPage < 1}">
+                                    <c:set var="endPage" value="${endPage + (1 - startPage)}" />
+                                    <c:set var="startPage" value="1" />
+                                </c:if>
+                                <c:if test="${endPage > totalPages}">
+                                    <c:set var="startPage" value="${startPage - (endPage - totalPages)}" />
+                                    <c:set var="endPage" value="${totalPages}" />
+                                </c:if>
+                                <c:if test="${startPage < 1}"><c:set var="startPage" value="1" /></c:if>
+
+                                <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                                    <a href="?action=list&page=${i}" class="pagination-btn ${currentPage == i ? 'active' : ''}">${i}</a>
+                                </c:forEach>
+
+                                <a href="?action=list&page=${currentPage + 1}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&rsaquo;</a>
+                                <a href="?action=list&page=${totalPages}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&raquo;</a>
+
+                                <form class="pagination-goto" action="${pageContext.request.contextPath}/drivers" method="get">
+                                    <input type="hidden" name="action" value="list">
+                                    <input type="number" name="page" min="1" max="${totalPages}" 
+                                           placeholder="${currentPage}/${totalPages}" required
+                                           title="Nhập số trang rồi nhấn Enter để đi tới">
+                                </form>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </main>
         </div>
     </body>
+    <script>
+	function openEditForm(driverId) {
+	    // bật checkbox để hiện form
+	    const checkbox = document.getElementById('editform-checkbox-' + driverId);
+	    if (!checkbox) {
+	        alert('Không tìm thấy checkbox');
+	        return;
+	    }
+	    checkbox.checked = true;
+	
+	    // gọi API lấy dữ liệu
+	    const apiUrl = '${pageContext.request.contextPath}/drivers?action=getDriver&driver_id=' + driverId;
+	    fetch(apiUrl, {headers:{'Accept':'application/json'}})
+	      .then(res => res.json())
+	      .then(driver => {
+	          // đổ dữ liệu vào các input
+	          document.getElementById('driver_id-' + driverId).value = driver.driverId || '';
+	          document.getElementById('company_id-' + driverId).value = driver.transportCompany?.companyId || '';
+	          document.getElementById('name-' + driverId).value = driver.name || '';
+	          document.getElementById('phone-' + driverId).value = driver.phone || '';
+	          document.getElementById('license_no-' + driverId).value = driver.licenseNo || '';
+	          document.getElementById('hire_date-' + driverId).value = driver.hireDate || '';
+	          document.getElementById('end_date-' + driverId).value = driver.endDate || '';
+	          document.getElementById('status-' + driverId).value = driver.status || '';
+	      })
+	      .catch(err => {
+	          alert('Lỗi lấy dữ liệu: ' + err.message);
+	      });
+	}
+
+	function closeEditForm(driverId) {
+	    // ẩn form = uncheck checkbox
+	    const checkbox = document.getElementById('editform-checkbox-' + driverId);
+	    if (checkbox) checkbox.checked = false;
+	}
+	</script>
+
 </html>

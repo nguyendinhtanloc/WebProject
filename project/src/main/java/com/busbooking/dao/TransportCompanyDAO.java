@@ -53,4 +53,13 @@ public class TransportCompanyDAO {
             em.close();
         }
     }
+
+    public TransportCompany getById(Integer companyId) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.find(TransportCompany.class, companyId);
+        } finally {
+            em.close();
+        }
+    }
 }

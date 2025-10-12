@@ -1,7 +1,7 @@
 :root {
     --main-color: #f1f4f6;
-    --add-button-color: #2563eb;
-    --delete-button-color: #d92550;
+    --add-button-color: #27738e;
+    --delete-button-color: #c05485;
 }
 * {
     box-sizing: border-box;
@@ -51,7 +51,7 @@ a {
 }
 
 .table-head {
-    background: #f1f5f9;
+    background: var(--add-button-color);
     text-align: left;
 }
 
@@ -59,12 +59,19 @@ a {
     padding: 12px 16px;
     font-size: 14px;
     font-weight: 600;
-    color: #374151;
+    color: #fff;
     border-bottom: 1px solid #e5e7eb;
     text-align: center;
 }
 
-/* Body */
+.table-body tr:nth-of-type(even) {
+    background: #f9fafb;
+}
+
+.table-body tr:last-of-type {
+    border-bottom: 2px solid var(--add-button-color);
+}
+
 .table-body td {
     padding: 12px 16px;
     font-size: 14px;
@@ -79,12 +86,12 @@ a {
 }
 
 .table-row:hover {
-    background: #f9fafb;
+    background: #21617a;
 }
 
 .addbutton {
-    background: var(--main-color);
-    color: var(--add-button-color);
+    background: var(--add-button-color);
+    color: #fff;
     border: 1px var(--add-button-color) solid;
     border-radius: 999px;
     padding: 8px 16px;
@@ -99,32 +106,36 @@ a {
     color: #fff;
 }
 
-.addform {
+.form-block {
     background: #fff;
     width: 90%;
-    height: 90%;
-    border-radius: 10px;
-    top: 5%;
-    left: 5%;
-    position: absolute;
+    max-width: 600px;
+    max-height: 85vh;
+    border-radius: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
     display: none;
     z-index: 2;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
 }
 
-.addform-checkbox {
+.form-checkbox {
     display: none;
 }
 
-.addform-checkbox:checked ~ .addform {
+.addform-checkbox:checked ~ .addform-block {
     display: block;
 }
 
-.addform-checkbox:checked ~ .overlay {
+.addform-checkbox:checked ~ .addform-overlay {
     visibility: visible;
     opacity: 1;
 }
 
-.addform__title {
+.form__title {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 0;
@@ -132,54 +143,184 @@ a {
     color: #333;
 }
 
-.addform__form {
+.form {
     display: flex;
     flex-direction: column;
-    /* gap: 16px; khoảng cách giữa các trường */
+    gap: 16px; /* khoảng cách giữa các trường */
+    padding: 20px;
 }
 
-.addform__form label {
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form label {
     font-weight: 600;
-    margin-bottom: 6px;
     color: #555;
+    font-size: 14px;
+    margin-bottom: 0;
 }
 
-.addform__form input[type="text"],
-.addform__form input[type="number"] {
-    padding: 8px 14px;
-    border: 1px solid #ccc;
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="date"],
+.form select,
+.form textarea {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
     transition: border 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
-.addform__form input[type="text"]:focus,
-.addform__form input[type="number"]:focus {
+.form select {
+    cursor: pointer;
+}
+
+.form textarea {
+    resize: vertical;
+    min-height: 80px;
+    max-height: 120px;
+}
+
+.form input[type="text"]:focus,
+.form input[type="number"]:focus,
+.form input[type="date"]:focus,
+.form select:focus,
+.form textarea:focus {
     border-color: #4a90e2;
     box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
     outline: none;
 }
 
-.addform__form input[type="submit"] {
-    padding: 12px;
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+.form input[type="submit"],
+.form-btn {
+    padding: 12px 24px;
     background: #4a90e2;
     border: none;
     border-radius: 8px;
     color: #fff;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s;
+    min-width: 100px;
 }
 
-.addform__form input[type="submit"]:hover {
+.form-btn.cancel {
+    background: #6c757d;
+}
+
+.form-btn.cancel:hover {
+    background: #5a6268;
+}
+
+/* Responsive form styles */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-block {
+        width: 95%;
+        max-width: none;
+        margin: 20px auto;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-btn {
+        width: 100%;
+    }
+}
+
+/* Form input and select specific styles */
+.form-input,
+.form-select,
+.form-textarea {
+    font-family: inherit;
+    background-color: #fff;
+}
+
+.form-select option {
+    padding: 8px;
+}
+
+.form-textarea {
+    resize: vertical;
+    line-height: 1.4;
+}
+
+/* Improved form spacing */
+.form .main-content {
+    padding: 0;
+}
+
+.form__title {
+    margin: 0 0 24px 0;
+    padding: 20px 20px 0 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+}
+
+/* Vehicle form specific styles */
+.vehicle .form-block {
+    max-width: 700px; /* Wider for vehicle form due to textarea fields */
+}
+
+/* Input placeholder styling */
+.form input::placeholder,
+.form textarea::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Number input styling */
+.form input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.form input[type="number"]::-webkit-outer-spin-button,
+.form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form input[type="submit"]:hover {
     background: #357ab7;
 }
 
 .editbutton {
-    background: #f9fafb;
-    color: var(--add-button-color);
-    border: 1px var(--add-button-color) solid;
+    /* background: #f9fafb; */
+    background-color: #64c5c0;
+    color: #fff;
+    border: 1px #64c5c0 solid;
     border-radius: 3px;
     font-size: 14px;
     font-weight: 500;
@@ -188,13 +329,22 @@ a {
 }
 
 .editbutton:hover {
-    background: #1e40af;
+    background: #55b1aa;
     color: #fff;
 }
 
+.editform-checkbox:checked ~ .editform-block {
+    display: block;
+}
+
+.editform-checkbox:checked ~ .editform-overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
 .deletebutton {
-    background: #f9fafb;
-    color: var(--delete-button-color);
+    background: var(--delete-button-color);
+    color: #fff;
     border: 1px var(--delete-button-color) solid;
     border-radius: 3px;
     font-size: 14px;
@@ -204,7 +354,7 @@ a {
 }
 
 .deletebutton:hover {
-    background: #b91c1c;
+    background: #a84773;
     color: #fff;
 }
 
@@ -361,6 +511,17 @@ header {
 .sidebar-item.active a {
     background: #1f35ac;
     color: #fff;
+    box-shadow: 0 2px 4px rgba(31, 53, 172, 0.3);
+}
+
+.sidebar-item.active a svg {
+    fill: #fff;
+}
+
+/* Hover effect khi không active */
+.sidebar-item:not(.active) a:hover {
+    background: #f0f4ff;
+    color: #1f35ac;
 }
 
 .sidebar-item__icon {
@@ -389,12 +550,96 @@ header {
 
 .infor-card {
     margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     grid-column: span 3;
     background: #fff;
     padding: 20px;
     border-radius: 5px;
     height: 90px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.infor-card::before {
+    content: "";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    opacity: 0.1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.infor-card__title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+}
+
+.infor-card:nth-child(1) .infor-card__title {
+    color: #5f76c8; /* tím xanh đậm, rõ nét */
+}
+
+.infor-card:nth-child(2) .infor-card__title {
+    color: #e57285; /* hồng đỏ đậm, rõ nét */
+}
+
+.infor-card:nth-child(3) .infor-card__title {
+    color: #28b8d9; /* xanh dương đậm, rõ nét */
+}
+
+.infor-card:nth-child(4) .infor-card__title {
+    color: #d9983e; /* cam vàng đậm, rõ nét */
+}
+
+.infor-card__value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    position: relative;
+    z-index: 1;
+    max-width: calc(100% - 70px);
+    display: inline;
+}
+
+.infor-card__icon {
+    width: 24px;
+    height: 24px;
+    fill: #222;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+}
+
+/* Hover effects for info cards */
+.infor-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.infor-card:hover .infor-card__icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.infor-card:hover .infor-card__title {
+    opacity: 0.9;
+}
+
+.infor-card:hover .infor-card__value {
+    color: #222;
 }
 
 .big-chart {
@@ -405,6 +650,20 @@ header {
     border-radius: 5px;
     height: 350px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.big-chart canvas {
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
 }
 
 .premium-chart {
@@ -417,6 +676,131 @@ header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.premium-chart .chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.premium-chart canvas {
+    width: 100% !important;
+    height: calc(100% - 50px) !important;
+    border: 1px solid #ddd; /* Debug border */
+    background-color: #fafafa; /* Debug background */
+}
+
+.big-chart canvas {
+    width: 100% !important;
+    height: calc(100% - 50px) !important;
+    border: 1px solid #ddd; /* Debug border */
+    background-color: #fafafa; /* Debug background */
+}
+
 /* driver */
+.driver-table__head th:nth-child(2),
+.driver-table__body td:nth-child(2),
+.driver-table__head th:first-child,
+.driver-table__body td:first-child {
+    max-width: 180px;
+    width: 180px;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.driver-table__head th:last-child,
+.driver-table__body td:last-child {
+    min-width: 120px;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Style cho nút thử lại */
+.submit-button {
+    padding: 10px 15px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.cancel-button {
+    padding: 10px 15px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+/* Style cho thông báo lỗi */
+.error-details {
+    color: red;
+    font-size: 12px;
+    margin: 10px 0;
+}
 
 /* buses */
+
+/* --- Phân trang --- */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    display: inline-block;
+    min-width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background-color: #e5e6e6; /* nền xám nhạt */
+    border: 1px solid #27738e; /* viền xanh đậm */
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #27738e; /* chữ xanh đậm */
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover {
+    background-color: #64c5c0; /* xanh ngọc khi hover */
+    color: white;
+    transform: translateY(-2px);
+}
+
+.pagination-btn.active {
+    background-color: #27738e; /* xanh đậm */
+    color: white;
+    border-color: #27738e;
+    pointer-events: none;
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.pagination-goto input {
+    width: 60px;
+    height: 36px;
+    border: 1px solid #27738e;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9em;
+}
