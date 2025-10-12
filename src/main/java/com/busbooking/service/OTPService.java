@@ -1,8 +1,6 @@
 package com.busbooking.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class OTPService {
@@ -11,7 +9,8 @@ public class OTPService {
     private static final int OTP_EXPIRY_MINUTES = 5;
     
     // In-memory storage for OTP (trong production nen dung Redis hoac database)
-    private static final Map<String, OTPData> otpStorage = new HashMap<>();
+    // Use a thread-safe map and normalize email keys (trim + lowercase) to avoid mismatches
+    private static final java.util.concurrent.ConcurrentMap<String, OTPData> otpStorage = new java.util.concurrent.ConcurrentHashMap<>();
     
     // Tao OTP ngau nhien
     public static String generateOTP() {
@@ -28,9 +27,14 @@ public class OTPService {
     
     // Luu OTP voi thoi han
     public static void storeOTP(String email, String otp) {
+        if (email == null) {
+            System.out.println("❌ OTPService.storeOTP - email is null, cannot store OTP");
+            return;
+        }
+        String key = normalizeEmail(email);
         LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(OTP_EXPIRY_MINUTES);
-        otpStorage.put(email, new OTPData(otp, expiryTime));
-        System.out.println("💾 OTPService.storeOTP - Stored OTP for email: " + email + ", OTP: '" + otp + "', Expiry: " + expiryTime);
+        otpStorage.put(key, new OTPData(otp, expiryTime));
+        System.out.println("💾 OTPService.storeOTP - Stored OTP for email(key): " + key + ", Original email: '" + email + "', OTP: '" + otp + "', Expiry: " + expiryTime);
         System.out.println("📋 OTPService.storeOTP - Total stored OTPs: " + otpStorage.size());
     }
     
@@ -38,10 +42,16 @@ public class OTPService {
     public static boolean verifyOTP(String email, String inputOTP) {
         System.out.println("🔍 OTPService.verifyOTP - Email: " + email + ", Input: '" + inputOTP + "'");
         
-        OTPData otpData = otpStorage.get(email);
+        if (email == null) {
+            System.out.println("❌ OTPService.verifyOTP - email is null");
+            System.out.println("📋 OTPService.verifyOTP - Current storage keys: " + otpStorage.keySet());
+            return false;
+        }
+        String key = normalizeEmail(email);
+        OTPData otpData = otpStorage.get(key);
         
         if (otpData == null) {
-            System.out.println("❌ OTPService.verifyOTP - No OTP found for email: " + email);
+            System.out.println("❌ OTPService.verifyOTP - No OTP found for email: " + email + " (key=" + key + ")");
             System.out.println("📋 OTPService.verifyOTP - Current storage keys: " + otpStorage.keySet());
             return false; // Khong tim thay OTP
         }
@@ -75,7 +85,14 @@ public class OTPService {
     
     // Xoa OTP (neu can)
     public static void removeOTP(String email) {
-        otpStorage.remove(email);
+        if (email != null) {
+            otpStorage.remove(normalizeEmail(email));
+        }
+    }
+
+    // Normalize email used as key (trim + lowercase) to avoid mismatches from user input
+    private static String normalizeEmail(String email) {
+        return email.trim().toLowerCase();
     }
     
     // Inner class de luu tru OTP data

@@ -26,51 +26,46 @@ public class SupabaseService {
      * @return true nếu tạo thành công, false nếu thất bại
      */
     public static boolean createUserInSupabase(String email, String password, String name, String phone) {
-        System.out.println("🚀 DEBUG: Starting Supabase user creation for email: " + email);
-        
+        System.out.println("🚀 Creating Supabase user (auto-confirm): " + email);
         try {
             HttpClient httpClient = HttpClients.createDefault();
-            // Sử dụng signup endpoint thay vì admin endpoint
-            HttpPost request = new HttpPost(SUPABASE_URL + "/auth/v1/signup");
-            
-            // Set headers - chỉ cần apikey cho signup
+            HttpPost request = new HttpPost(SUPABASE_URL + "/auth/v1/admin/users");
+            request.addHeader("Authorization", "Bearer " + SUPABASE_SERVICE_ROLE_KEY);
+            request.addHeader("apikey", SUPABASE_SERVICE_ROLE_KEY);
             request.addHeader("Content-Type", "application/json");
-            request.addHeader("apikey", SUPABASE_ANON_KEY);
-            
-            // Tạo JSON payload đơn giản hơn
             JSONObject payload = new JSONObject();
             payload.put("email", email);
             payload.put("password", password);
+            payload.put("email_confirm", true);
             
-            // Thêm metadata vào data thay vì user_metadata
-            JSONObject data = new JSONObject();
-            data.put("name", name);
-            data.put("phone", phone);
-            payload.put("data", data);
+            // Sử dụng user_metadata - Supabase sẽ tự động copy vào raw_user_meta_data
+            JSONObject metadata = new JSONObject();
+            metadata.put("name", name);
+            metadata.put("phone", phone);
+            payload.put("user_metadata", metadata);
             
-            System.out.println("📤 DEBUG: Supabase request payload: " + payload.toString());
+            // Debug: In ra payload để kiểm tra
+            System.out.println("📤 DEBUG: Supabase payload: " + payload.toString());
+            System.out.println("📤 DEBUG: Name = '" + name + "', Phone = '" + phone + "'");
             
-            // Set entity
-            StringEntity entity = new StringEntity(payload.toString(), "UTF-8");
-            request.setEntity(entity);
-            
-            // Thực hiện request
+            request.setEntity(new StringEntity(payload.toString(), "UTF-8"));
             HttpResponse response = httpClient.execute(request);
-            int statusCode = response.getStatusLine().getStatusCode();
-            String responseBody = EntityUtils.toString(response.getEntity());
+            int code = response.getStatusLine().getStatusCode();
+            String body = EntityUtils.toString(response.getEntity());
+            System.out.println("📩 Supabase response (" + code + "): " + body);
             
-            System.out.println("📥 DEBUG: Supabase response code: " + statusCode);
-            System.out.println("📥 DEBUG: Supabase response body: " + responseBody);
-            
-            if (statusCode == 200 || statusCode == 201) {
-                System.out.println("✅ DEBUG: Supabase user creation successful");
+            // Xử lý các trường hợp thành công
+            if (code == 200 || code == 201) {
                 return true;
-            } else {
-                System.err.println("❌ ERROR: Supabase user creation failed with code: " + statusCode);
-                System.err.println("❌ ERROR: Response body: " + responseBody);
-                return false;
             }
             
+            // Xử lý trường hợp email đã tồn tại
+            if (code == 422 && body.contains("email_exists")) {
+                System.out.println("⚠️ WARNING: Email already exists in Supabase, but treating as success for registration flow");
+                return true; // Coi như thành công vì user đã tồn tại
+            }
+            
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;

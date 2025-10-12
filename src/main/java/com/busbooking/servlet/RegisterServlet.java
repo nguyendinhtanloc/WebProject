@@ -142,6 +142,8 @@ public class RegisterServlet extends HttpServlet {
        
         // Tạo và gửi OTP
         String otp = OTPService.generateOTP();
+        
+        // Lưu OTP vào cả static storage và session để đảm bảo
         OTPService.storeOTP(email, otp);
         
         boolean emailSent = EmailService.sendOTPEmail(email, otp);
@@ -154,6 +156,12 @@ public class RegisterServlet extends HttpServlet {
             session.setAttribute("registerEmail", email);
             session.setAttribute("registerPassword", password);
             session.setAttribute("registerPhone", phone);
+            
+            // Lưu OTP vào session với thời gian hết hạn
+            session.setAttribute("sessionOTP", otp);
+            session.setAttribute("sessionOTPEmail", email);
+            session.setAttribute("sessionOTPExpiry", System.currentTimeMillis() + (5 * 60 * 1000)); // 5 phút
+            System.out.println("💾 DEBUG: Stored OTP in session - OTP: '" + otp + "', Email: '" + email + "'");
             
             // Chuyển hướng đến trang verify-otp.jsp
             request.setAttribute("message", "Mã OTP đã được gửi thành công đến email của bạn!");
@@ -207,11 +215,45 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
         
-        // Xác thực OTP
+        // Xác thực OTP - kiểm tra session trước, sau đó mới kiểm tra static storage
         System.out.println("🔍 DEBUG: Verifying OTP for email: " + email);
         System.out.println("🔍 DEBUG: Input OTP to verify: '" + inputOTP + "'");
-        boolean otpValid = OTPService.verifyOTP(email, inputOTP);
-        System.out.println("🔍 DEBUG: OTP verification result: " + otpValid);
+        
+        boolean otpValid = false;
+        
+        // Kiểm tra OTP từ session trước
+        String sessionOTP = (String) session.getAttribute("sessionOTP");
+        String sessionOTPEmail = (String) session.getAttribute("sessionOTPEmail");
+        Long sessionOTPExpiry = (Long) session.getAttribute("sessionOTPExpiry");
+        
+        System.out.println("🔍 DEBUG: Session OTP: '" + sessionOTP + "', Session Email: '" + sessionOTPEmail + "'");
+        System.out.println("🔍 DEBUG: Session OTP Expiry: " + sessionOTPExpiry + ", Current time: " + System.currentTimeMillis());
+        
+        if (sessionOTP != null && sessionOTPEmail != null && sessionOTPExpiry != null) {
+            if (System.currentTimeMillis() <= sessionOTPExpiry) {
+                if (sessionOTPEmail.equalsIgnoreCase(email) && sessionOTP.equals(inputOTP)) {
+                    System.out.println("✅ DEBUG: OTP verified from session successfully");
+                    otpValid = true;
+                    // KHÔNG xóa OTP ở đây - chỉ xóa khi tạo user thành công
+                } else {
+                    System.out.println("❌ DEBUG: Session OTP mismatch - Expected: '" + sessionOTP + "', Got: '" + inputOTP + "'");
+                }
+            } else {
+                System.out.println("❌ DEBUG: Session OTP expired");
+                // Xóa OTP hết hạn khỏi session
+                session.removeAttribute("sessionOTP");
+                session.removeAttribute("sessionOTPEmail");
+                session.removeAttribute("sessionOTPExpiry");
+            }
+        }
+        
+        // Nếu session không có hoặc không hợp lệ, thử kiểm tra static storage
+        if (!otpValid) {
+            System.out.println("🔍 DEBUG: Session OTP failed, trying static storage...");
+            otpValid = OTPService.verifyOTP(email, inputOTP);
+        }
+        
+        System.out.println("🔍 DEBUG: Final OTP verification result: " + otpValid);
         
         if (otpValid) {
             // OTP đúng, tạo tài khoản
@@ -245,11 +287,17 @@ public class RegisterServlet extends HttpServlet {
                 }
                 
                 if (supabaseSuccess) {
-                    // Xóa thông tin khỏi session
+                    // Xóa thông tin khỏi session bao gồm cả OTP
                     session.removeAttribute("registerName");
                     session.removeAttribute("registerEmail");
                     session.removeAttribute("registerPassword");
                     session.removeAttribute("registerPhone");
+                    
+                    // Xóa OTP khỏi session chỉ khi registration thành công
+                    session.removeAttribute("sessionOTP");
+                    session.removeAttribute("sessionOTPEmail");
+                    session.removeAttribute("sessionOTPExpiry");
+                    System.out.println("🧹 DEBUG: Cleared OTP from session after successful registration");
                     
                     System.out.println("✅ DEBUG: Registration successful, redirecting to login");
                     
@@ -260,15 +308,14 @@ public class RegisterServlet extends HttpServlet {
                     request.setAttribute("redirectScript", 
                         "<script>" +
                         "setTimeout(function() {" +
-                        "    window.location.href = 'login.jsp?success=" + 
-                        java.net.URLEncoder.encode("Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.", "UTF-8") + "';" +
-                        "}, 2000);" +
+                        "    window.location.href = 'login.jsp?success=" + java.net.URLEncoder.encode("Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.", "UTF-8") + "';" +
                         "</script>");
                     
                     request.getRequestDispatcher("verify-otp.jsp").forward(request, response);
                 } else {
                     System.out.println("❌ DEBUG: Supabase creation failed");
-                    request.setAttribute("error", "Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại!");
+                    // Kiểm tra xem có phải email đã tồn tại không
+                    request.setAttribute("error", "Email này đã được đăng ký trước đó. Vui lòng đăng nhập hoặc sử dụng email khác!");
                     request.getRequestDispatcher("verify-otp.jsp").forward(request, response);
                 }
                 
@@ -307,6 +354,12 @@ public class RegisterServlet extends HttpServlet {
         boolean emailSent = EmailService.sendOTPEmail(email, otp);
         
         if (emailSent) {
+            // Lưu OTP mới vào session
+            session.setAttribute("sessionOTP", otp);
+            session.setAttribute("sessionOTPEmail", email);
+            session.setAttribute("sessionOTPExpiry", System.currentTimeMillis() + (5 * 60 * 1000)); // 5 phút
+            System.out.println("💾 DEBUG: Stored new OTP in session - OTP: '" + otp + "', Email: '" + email + "'");
+            
             request.setAttribute("message", "Mã OTP mới đã được gửi đến email của bạn!");
             request.getRequestDispatcher("verify-otp.jsp").forward(request, response);
         } else {
