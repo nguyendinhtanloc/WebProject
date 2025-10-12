@@ -33,7 +33,7 @@
         <div class="payment-container">
             <h1>🎫 Thanh toán vé xe</h1>
 
-            <p class="user-info">Người thanh toán: <strong><c:out value="${user.name}"/></strong></p>
+            <p class="user-info">Người thanh toán: <strong><c:out value="${user.getName()}"/></strong></p>
 
             <form action="${pageContext.request.contextPath}/voucher" method="POST">
 
