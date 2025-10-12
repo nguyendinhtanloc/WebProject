@@ -32,7 +32,31 @@ public class ChooseSeatServlet extends HttpServlet {
             request.setAttribute("type", type);
             request.setAttribute("seats", seats);
             request.setAttribute("trip", trip);
+            request.getRequestDispatcher("/chooseSeat.jsp").forward(request, response);
 
+        } catch (Exception e) {
+            throw new ServletException("Error fetching seats", e);
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+
+            String type = request.getParameter("vehicleType");
+            Integer veId = Integer.valueOf(request.getParameter("veId"));
+            Integer tripId = Integer.valueOf(request.getParameter("tripId"));
+
+            SeatDAO dao = new SeatDAO();
+            Trip trip = dao.getTripSelected(tripId);
+
+            List<Seat> seats = dao.getSeatsByVehicle(veId);
+
+            request.setAttribute("type", type);
+            request.setAttribute("seats", seats);
+            request.setAttribute("trip", trip);
+            request.setAttribute("veId", veId);
             request.getRequestDispatcher("/chooseSeat.jsp").forward(request, response);
 
         } catch (Exception e) {

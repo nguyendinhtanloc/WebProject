@@ -90,7 +90,9 @@
                 <%-- Các trường cần gửi đi cho /payment/create nhưng ẩn đi --%>
                 <input type="hidden" name="order_id" value="<c:out value='${currentOrder.orderId}'/>">
                 <input type="hidden" name="amount" value="<c:out value='${currentOrder.amount}'/>">
-
+                <input type="hidden" name="tripId" value="<c:out value='${tripId}'/>">
+                <input type="hidden" name="vehicleType" value="<c:out value='${vehicleType}'/>">
+                <input type="hidden" name="veId" value="<c:out value='${veId}'/>">
             </form>
         </div>
     </main>

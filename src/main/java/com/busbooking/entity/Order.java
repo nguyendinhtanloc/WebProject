@@ -2,6 +2,8 @@ package com.busbooking.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +18,7 @@ public class Order {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderid") // khóa ngoại trong bảng Seat
     private List<Seat> seatBooked;
 
@@ -35,6 +37,24 @@ public class Order {
     @Column(name = "orderstatus")
     private String orderStatus;
 
+    @Column(name = "expiresAt")
+    private LocalDateTime expiresAt;
+
+    @OneToMany(
+            mappedBy = "order", // "order" là tên thuộc tính trong class Payment
+            cascade = CascadeType.ALL, // Quan trọng: Xóa Order sẽ xóa tất cả Payment liên quan
+            orphanRemoval = true // Tự động xóa Payment nếu nó bị gỡ khỏi danh sách này
+    )
+    private List<Payment> payments = new ArrayList<>();
+
+    // Thêm Getter và Setter cho payments
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
     // Constructors
     public Order() {}
 
@@ -102,5 +122,13 @@ public class Order {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public LocalDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(LocalDateTime expiresAt) {
+        this.expiresAt = expiresAt;
     }
 }

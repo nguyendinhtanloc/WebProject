@@ -95,7 +95,6 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setStatus("success");
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
-                updateOrderStatus(payment.getOrder().getOrderId(), "paid");
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {

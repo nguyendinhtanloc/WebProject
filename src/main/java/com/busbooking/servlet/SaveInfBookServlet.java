@@ -30,6 +30,9 @@ public class SaveInfBookServlet extends HttpServlet {
         String customerPhone = request.getParameter("customerPhone");
         String customerEmail = request.getParameter("customerEmail");
         String totalPriceStr = request.getParameter("totalPrice");
+        Integer tripId = Integer.valueOf(request.getParameter("tripId"));
+        String vehicleType = request.getParameter("vehicle_type");
+        Integer veId = Integer.valueOf(request.getParameter("veId"));
         BigDecimal total = new BigDecimal(totalPriceStr);
 
         String selectedSeatIdsStr = request.getParameter("selected_seats");
@@ -55,6 +58,9 @@ public class SaveInfBookServlet extends HttpServlet {
 
         Order currentOrder = orderRepo.addOrder(newOrder);
         request.setAttribute("currentOrder", currentOrder);
+        request.setAttribute("tripId", tripId);
+        request.setAttribute("veId", veId);
+        request.setAttribute("vehicleType", vehicleType);
         request.getRequestDispatcher("/payment.jsp").forward(request, response);
     }
 }

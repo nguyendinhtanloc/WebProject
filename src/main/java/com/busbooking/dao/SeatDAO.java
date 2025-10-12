@@ -1,10 +1,15 @@
 package com.busbooking.dao;
 
+import com.busbooking.entity.Payment;
 import com.busbooking.entity.Seat;
 import com.busbooking.entity.Trip;
+import com.busbooking.exception.SeatUnavailableException;
 import com.busbooking.util.JPAUtil;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -91,5 +96,28 @@ public class SeatDAO {
         }
 
         return seats;
+    }
+
+    public void holdSeats(List<Integer> seatIds, EntityManager em) throws SeatUnavailableException {
+        List<Seat> seatsToHold = em.createQuery("SELECT s FROM Seat s WHERE s.idSeat IN :ids", Seat.class)
+                .setParameter("ids", seatIds)
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+                .getResultList();
+
+        if (seatsToHold.size() != seatIds.size()) {
+            throw new SeatUnavailableException("Một hoặc nhiều ghế bạn chọn không hợp lệ.");
+        }
+
+        for (Seat seat : seatsToHold) {
+            // SỬA LỖI 1: Sửa lỗi chính tả và logic trạng thái
+            if (!"available".equalsIgnoreCase(seat.getStatusBook())) {
+                throw new SeatUnavailableException("Rất tiếc, ghế " + seat.getNumSeat() + " đã có người khác đặt.");
+            }
+        }
+
+        for (Seat seat : seatsToHold) {
+            seat.setStatusBook("booked");
+            em.merge(seat);
+        }
     }
 }

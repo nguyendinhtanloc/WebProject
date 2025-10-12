@@ -331,8 +331,10 @@
                         <input type="hidden" name="selected_dropoff_option" id="hidden_dropoff_option">
                         <input type="hidden" name="selected_dropoff_location" id="hidden_dropoff_location">
                         <input type="hidden" name="totalPrice" id="hidden-total-price-value" value="0">
+                        <input type="hidden" name="tripId" value="<c:out value='${trip.tripId}'/>">
 
                         <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
+                        <input type="hidden" name="veId" value="${trip.vehicle.vehicleId}">
                         <button type="submit" class="btn-submit">Tiếp tục</button>
                     </div>
                 </form>

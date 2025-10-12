@@ -12,16 +12,12 @@ import javax.persistence.TypedQuery;
 
 public class PaymentRepository {
 
-    /**
-     * Phương thức chung để lưu một entity mới vào CSDL.
-     * @param entity Đối tượng cần lưu (Payment, Voucher, etc.)
-     */
     public void save(Object entity) {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            em.persist(entity); // Lệnh persist để lưu mới
+            em.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
@@ -33,11 +29,6 @@ public class PaymentRepository {
         }
     }
 
-    /**
-     * Phương thức chung để cập nhật một entity đã tồn tại.
-     * @param entity Đối tượng cần cập nhật
-     * @return Entity đã được cập nhật
-     */
     public <T> T update(T entity) {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -55,8 +46,6 @@ public class PaymentRepository {
             em.close();
         }
     }
-
-    // === Các phương thức truy vấn cụ thể ===
 
     public Payment findPaymentById(Long paymentId) {
         EntityManager em = JPAUtil.getEntityManager();
