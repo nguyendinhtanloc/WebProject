@@ -2,6 +2,7 @@ package com.busbooking.servlet;
 
 import com.busbooking.dao.TripDAO;
 import com.busbooking.entity.Trip;
+import com.busbooking.util.VietnamProvinces;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,10 +34,28 @@ public class SearchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+        // Hỗ trợ cả 2 loại parameter để tương thích với form khác nhau
         String departure = request.getParameter("departure");
+        if (departure == null) {
+            departure = request.getParameter("departureCity");
+        }
+        
         String arrival = request.getParameter("arrival");
+        if (arrival == null) {
+            arrival = request.getParameter("arrivalCity");
+        }
+        
         String dateStr = request.getParameter("date");
+        if (dateStr == null) {
+            dateStr = request.getParameter("departureDate");
+        }
+        
         String sessionEmail = request.getParameter("sessionName");
+        
+        // Luôn truyền danh sách tỉnh thành để hiển thị trong form tìm kiếm
+        List<String> provinces = VietnamProvinces.getAllProvinces();
+        request.setAttribute("departureCities", provinces);
+        request.setAttribute("arrivalCities", provinces);
         
         if (departure != null && arrival != null && dateStr != null) {
             try {

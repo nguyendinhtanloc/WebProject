@@ -1,6 +1,6 @@
 package com.busbooking.servlet;
 
-import com.busbooking.dao.TripDAO;
+import com.busbooking.util.VietnamProvinces;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +13,23 @@ import java.util.List;
 @WebServlet("/")
 public class HomeServlet extends HttpServlet {
     
-    private TripDAO tripDAO;
-    
-    @Override
-    public void init() throws ServletException {
-        tripDAO = new TripDAO();
-    }
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         try {
-            // Lấy danh sách thành phố đi và thành phố đến để hiển thị trong dropdown
-            List<String> departureCities = tripDAO.getAllDepartureCities();
-            List<String> arrivalCities = tripDAO.getAllArrivalCities();
+            // Sử dụng danh sách 63 tỉnh thành Việt Nam cố định
+            List<String> provinces = VietnamProvinces.getAllProvinces();
             
-            request.setAttribute("departureCities", departureCities);
-            request.setAttribute("arrivalCities", arrivalCities);
+            // Đặt cùng một danh sách cho cả điểm đi và điểm đến
+            request.setAttribute("departureCities", provinces);
+            request.setAttribute("arrivalCities", provinces);
+            
+            System.out.println("✅ Loaded " + provinces.size() + " provinces for dropdown selection");
+            
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Không thể tải dữ liệu: " + e.getMessage());
+            request.setAttribute("error", "Không thể tải dữ liệu tỉnh thành: " + e.getMessage());
         }
         
         request.getRequestDispatcher("/index.jsp").forward(request, response);

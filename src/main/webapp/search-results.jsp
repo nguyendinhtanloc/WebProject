@@ -75,8 +75,14 @@
                                 <i class="fas fa-map-marker-alt departure-icon"></i>
                                 Điểm đi
                             </label>
-                            <input type="text" id="departureCity" name="departureCity"
-                                   value="${param.departureCity}" placeholder="Chọn điểm đi" required>
+                            <input type="text" id="departureCity" name="departure"
+                                   value="${departureCity}" placeholder="Chọn điểm đi"
+                                   list="departure-list-search" required>
+                            <datalist id="departure-list-search">
+                                <c:forEach var="city" items="${departureCities}">
+                                    <option value="${city}">
+                                </c:forEach>
+                            </datalist>
                         </div>
 
                         <div class="form-group">
@@ -84,8 +90,14 @@
                                 <i class="fas fa-map-marker-alt arrival-icon"></i>
                                 Điểm đến
                             </label>
-                            <input type="text" id="arrivalCity" name="arrivalCity"
-                                   value="${param.arrivalCity}" placeholder="Chọn điểm đến" required>
+                            <input type="text" id="arrivalCity" name="arrival"
+                                   value="${arrivalCity}" placeholder="Chọn điểm đến"
+                                   list="arrival-list-search" required>
+                            <datalist id="arrival-list-search">
+                                <c:forEach var="city" items="${arrivalCities}">
+                                    <option value="${city}">
+                                </c:forEach>
+                            </datalist>
                         </div>
 
                         <div class="form-group">
@@ -93,8 +105,8 @@
                                 <i class="fas fa-calendar-alt"></i>
                                 Ngày đi
                             </label>
-                            <input type="date" id="departureDate" name="departureDate"
-                                   value="${param.departureDate}" required>
+                            <input type="date" id="departureDate" name="date"
+                                   value="${departureDate}" required>
                         </div>
 
                         <div class="form-group">
