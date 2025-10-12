@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chatbot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/chatbot.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-note {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .test-steps {
+            background: #f3e5f5;
+            border: 1px solid #9c27b0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🤖 Test Chatbot Gemini AI</h1>
+        
+        <div class="test-note">
+            <h3>📝 Lưu ý quan trọng:</h3>
+            <ul>
+                <li>Đảm bảo đã cấu hình <strong>GEMINI_API_KEY</strong> trong ChatbotServlet.java</li>
+                <li>Server phải đang chạy (Tomcat/Jetty)</li>
+                <li>Endpoint <code>/api/chatbot</code> phải hoạt động</li>
+            </ul>
+        </div>
+
+        <div class="test-steps">
+            <h3>🚀 Cách test:</h3>
+            <ol>
+                <li>Click vào biểu tượng chat ở góc phải màn hình</li>
+                <li>Thử các câu hỏi mẫu:</li>
+                <ul>
+                    <li>"Cách đặt vé xe buýt như thế nào?"</li>
+                    <li>"Giá vé từ Hà Nội đi TP.HCM?"</li>
+                    <li>"Tôi có thể hủy vé không?"</li>
+                    <li>"Các phương thức thanh toán nào được hỗ trợ?"</li>
+                </ul>
+                <li>Kiểm tra response time và chất lượng câu trả lời</li>
+                <li>Test trên mobile device</li>
+            </ol>
+        </div>
+
+        <h2>🔧 Debug Information</h2>
+        <p><strong>Current URL:</strong> <span id="current-url"></span></p>
+        <p><strong>Context Path:</strong> <span id="context-path"></span></p>
+        <p><strong>API Endpoint:</strong> <span id="api-endpoint"></span></p>
+        
+        <h2>📊 Console Logs</h2>
+        <p>Mở Developer Tools (F12) để xem logs chi tiết khi test chatbot.</p>
+        
+        <div class="test-note">
+            <h3>⚠️ Troubleshooting:</h3>
+            <ul>
+                <li><strong>Chatbot không hiện:</strong> Kiểm tra console errors</li>
+                <li><strong>API lỗi 404:</strong> Kiểm tra servlet mapping</li>
+                <li><strong>API lỗi 500:</strong> Kiểm tra Gemini API key</li>
+                <li><strong>CORS errors:</strong> Kiểm tra headers trong servlet</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/chatbot.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display debug info
+            document.getElementById('current-url').textContent = window.location.href;
+            document.getElementById('context-path').textContent = window.location.pathname.split('/')[1];
+            document.getElementById('api-endpoint').textContent = '/Web-project/api/chatbot';
+            
+            console.log('🧪 Chatbot Test Page Loaded');
+            console.log('🌐 Current URL:', window.location.href);
+            console.log('📍 Context Path:', window.location.pathname.split('/')[1]);
+            console.log('🔗 Expected API Endpoint: /Web-project/api/chatbot');
+        });
+    </script>
+</body>
+</html>

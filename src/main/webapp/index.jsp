@@ -16,6 +16,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Chatbot CSS -->
+    <link rel="stylesheet" href="css/chatbot.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/chatbot.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/chatbot.css">
+    
     <!-- Fallback inline styles -->
     <style>
         body { 
@@ -324,5 +329,10 @@
             }
         });
     </script>
+    
+    <!-- Chatbot JavaScript -->
+    <script src="js/chatbot.js"></script>
+    <script src="<%=request.getContextPath()%>/js/chatbot.js"></script>
+    <script src="${pageContext.request.contextPath}/js/chatbot.js"></script>
 </body>
 </html>
