@@ -1,14 +1,11 @@
 package com.busbooking.model;
 
-import com.busbooking.model.enums.TripStatus;
 import com.busbooking.util.PostgreSQLEnumType;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)

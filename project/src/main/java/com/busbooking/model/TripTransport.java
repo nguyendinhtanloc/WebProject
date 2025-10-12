@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity

@@ -2,6 +2,26 @@
     --main-color: #f1f4f6;
     --add-button-color: #27738e;
     --delete-button-color: #c05485;
+
+    /* Trip Form Colors */
+    --trip-primary: #2563eb;
+    --trip-primary-dark: #1d4ed8;
+    --trip-secondary: #64c5c0;
+    --trip-accent: #f59e0b;
+    --trip-success: #10b981;
+    --trip-danger: #ef4444;
+    --trip-warning: #f59e0b;
+    --trip-light: #f8fafc;
+    --trip-gray-50: #f9fafb;
+    --trip-gray-100: #f3f4f6;
+    --trip-gray-200: #e5e7eb;
+    --trip-gray-300: #d1d5db;
+    --trip-gray-400: #9ca3af;
+    --trip-gray-500: #6b7280;
+    --trip-gray-600: #4b5563;
+    --trip-gray-700: #374151;
+    --trip-gray-800: #1f2937;
+    --trip-gray-900: #111827;
 }
 * {
     box-sizing: border-box;
@@ -35,7 +55,7 @@ a {
 
 .top {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     margin-top: 15px;
 }
@@ -104,6 +124,66 @@ a {
 .addbutton:hover {
     background: #1e40af;
     color: #fff;
+}
+
+/* Thanh tìm kiếm */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 25px;
+    font-size: 14px;
+    background: white;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+    border-color: var(--add-button-color);
+    box-shadow: 0 0 0 3px rgba(39, 115, 142, 0.1);
+}
+
+.search-input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    color: #6b7280;
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.search-input:focus + .search-icon {
+    color: var(--add-button-color);
+}
+
+/* Responsive cho thanh tìm kiếm */
+@media (max-width: 768px) {
+    .search-container {
+        max-width: 250px;
+        margin-right: 15px;
+    }
+
+    .search-input {
+        font-size: 13px;
+        padding: 8px 35px 8px 12px;
+    }
+
+    .search-input::placeholder {
+        font-size: 12px;
+    }
 }
 
 .form-block {
@@ -545,7 +625,7 @@ header {
 .grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    column-gap: 20px;
+    column-gap: 15px;
 }
 
 .infor-card {
@@ -648,7 +728,7 @@ header {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
-    height: 350px;
+    height: 450px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative;
 }
@@ -663,7 +743,7 @@ header {
 
 .big-chart canvas {
     width: 100% !important;
-    height: calc(100% - 40px) !important;
+    height: calc(100% - 50px) !important;
 }
 
 .premium-chart {
@@ -672,7 +752,7 @@ header {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
-    height: 350px;
+    height: 450px; /* Tăng từ 350px lên 450px để biểu đồ tròn không bị méo */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -686,16 +766,10 @@ header {
 
 .premium-chart canvas {
     width: 100% !important;
-    height: calc(100% - 50px) !important;
-    border: 1px solid #ddd; /* Debug border */
-    background-color: #fafafa; /* Debug background */
-}
-
-.big-chart canvas {
-    width: 100% !important;
-    height: calc(100% - 50px) !important;
-    border: 1px solid #ddd; /* Debug border */
-    background-color: #fafafa; /* Debug background */
+    height: calc(
+        100% - 60px
+    ) !important; /* Điều chỉnh để có thêm không gian cho title */
+    max-height: 380px; /* Giới hạn chiều cao tối đa để đảm bảo tỷ lệ tròn */
 }
 
 /* driver */
@@ -813,4 +887,398 @@ header {
     border-radius: 8px;
     text-align: center;
     font-size: 0.9em;
+}
+
+/* ========== TRIP FORM STYLING ========== */
+
+/* Trip Content Container */
+.content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px;
+    background: var(--main-color);
+    min-height: 100vh;
+}
+
+.content-container > div:first-of-type {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.content-container > div:first-of-type::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        var(--trip-primary),
+        var(--trip-secondary),
+        var(--trip-accent)
+    );
+}
+
+/* Trip Form Title */
+.content-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--trip-gray-800);
+    margin: 0 0 32px 0;
+    text-align: center;
+    position: relative;
+    padding-bottom: 16px;
+}
+
+.content-container h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--trip-primary),
+        var(--trip-secondary)
+    );
+    border-radius: 2px;
+}
+
+/* Error Message Styling */
+.error-message {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border: 1px solid #f87171;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.error-message::before {
+    content: "⚠️";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.error-message p {
+    margin: 0;
+    color: #dc2626;
+    font-weight: 500;
+    padding-left: 32px;
+}
+
+/* Trip Data Form */
+.data-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* Form Groups */
+.data-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+/* Special Grid Layouts */
+.data-form .form-group:nth-child(1),
+.data-form .form-group:nth-child(2),
+.data-form .form-group:nth-child(3) {
+    grid-column: span 1;
+}
+
+.data-form .form-group:nth-child(16) {
+    /* form-actions */
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 32px;
+}
+
+/* Form Labels */
+.data-form label {
+    font-weight: 600;
+    color: var(--trip-gray-700);
+    font-size: 14px;
+    margin-bottom: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.data-form label::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: var(--trip-primary);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* Required Field Indicator */
+.data-form input[required] + label::after,
+.data-form select[required] + label::after {
+    content: "*";
+    color: var(--trip-danger);
+    font-weight: bold;
+    margin-left: 4px;
+}
+
+/* Input Styling */
+.data-form input[type="text"],
+.data-form input[type="date"],
+.data-form input[type="time"],
+.data-form input[type="number"],
+.data-form select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--trip-gray-200);
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 400;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.data-form input:focus,
+.data-form select:focus {
+    outline: none;
+    border-color: var(--trip-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    transform: translateY(-1px);
+}
+
+.data-form input:hover:not(:focus),
+.data-form select:hover:not(:focus) {
+    border-color: var(--trip-gray-300);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Select Specific Styling */
+.data-form select {
+    cursor: pointer;
+    padding-right: 48px;
+}
+
+/* Form Actions */
+.data-form .form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 2px solid var(--trip-gray-100);
+}
+
+/* Button Styling */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(
+        135deg,
+        var(--trip-primary),
+        var(--trip-primary-dark)
+    );
+    color: white;
+    border: 2px solid var(--trip-primary);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Back Link Styling */
+.data-form .form-actions a {
+    color: var(--trip-gray-600);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--trip-gray-200);
+    background: white;
+}
+
+.data-form .form-actions a:hover {
+    color: var(--trip-gray-800);
+    background: var(--trip-gray-50);
+    border-color: var(--trip-gray-300);
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-container {
+        padding: 16px;
+    }
+
+    .content-container > div:first-of-type {
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    .data-form {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .content-container h2 {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
+    .data-form .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-container > div:first-of-type {
+        padding: 20px;
+    }
+
+    .content-container h2 {
+        font-size: 20px;
+    }
+
+    .data-form input,
+    .data-form select {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+}
+
+/* Animation for form appearance */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-container > div:first-of-type {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.data-form .form-group {
+    animation: slideInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.data-form .form-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.data-form .form-group:nth-child(2) {
+    animation-delay: 0.15s;
+}
+.data-form .form-group:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.data-form .form-group:nth-child(4) {
+    animation-delay: 0.25s;
+}
+.data-form .form-group:nth-child(5) {
+    animation-delay: 0.3s;
+}
+.data-form .form-group:nth-child(6) {
+    animation-delay: 0.35s;
+}
+.data-form .form-group:nth-child(7) {
+    animation-delay: 0.4s;
+}
+.data-form .form-group:nth-child(8) {
+    animation-delay: 0.45s;
+}
+.data-form .form-group:nth-child(9) {
+    animation-delay: 0.5s;
+}
+.data-form .form-group:nth-child(10) {
+    animation-delay: 0.55s;
+}
+.data-form .form-group:nth-child(11) {
+    animation-delay: 0.6s;
+}
+.data-form .form-group:nth-child(12) {
+    animation-delay: 0.65s;
+}
+.data-form .form-group:nth-child(13) {
+    animation-delay: 0.7s;
+}
+.data-form .form-group:nth-child(14) {
+    animation-delay: 0.75s;
+}
+.data-form .form-group:nth-child(15) {
+    animation-delay: 0.8s;
+}
+.data-form .form-group:nth-child(16) {
+    animation-delay: 0.85s;
 }

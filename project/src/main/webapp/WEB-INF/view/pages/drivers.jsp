@@ -30,6 +30,19 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     <div class="driver">
                         <h1 class="driver-title title">Tài xế</h1>
                         <div class="driver-top top">
+                            <div class="search-container">
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="search-input" 
+                                    placeholder="Tìm kiếm theo tên, công ty, SĐT, bằng lái..." 
+                                    onkeyup="searchDrivers()"
+                                />
+                                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                </svg>
+                            </div>
                             <label
                                 for="addform-checkbox"
                                 class="driver-top__addbutton addbutton"
@@ -321,6 +334,63 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 	    // ẩn form = uncheck checkbox
 	    const checkbox = document.getElementById('editform-checkbox-' + driverId);
 	    if (checkbox) checkbox.checked = false;
+	}
+
+	// Hàm tìm kiếm tài xế
+	function searchDrivers() {
+	    const searchTerm = document.getElementById('searchInput').value.toLowerCase()
+	        .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Loại bỏ dấu
+	    const tableRows = document.querySelectorAll('.driver-table__body tr');
+	    
+	    tableRows.forEach(row => {
+	        const cells = row.querySelectorAll('td');
+	        let found = false;
+	        
+	        // Tìm kiếm trong tất cả các cột (trừ cột cuối là hành động)
+	        for (let i = 0; i < cells.length - 1; i++) {
+	            const cellText = cells[i].textContent.toLowerCase()
+	                .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Loại bỏ dấu
+	            
+	            if (cellText.includes(searchTerm)) {
+	                found = true;
+	                break;
+	            }
+	        }
+	        
+	        // Hiển thị hoặc ẩn dòng
+	        if (found || searchTerm === '') {
+	            row.style.display = '';
+	        } else {
+	            row.style.display = 'none';
+	        }
+	    });
+	    
+	    // Ẩn/hiện thông báo không tìm thấy kết quả
+	    updateNoResultsMessage(searchTerm);
+	}
+
+	// Hàm hiển thị thông báo không có kết quả
+	function updateNoResultsMessage(searchTerm) {
+	    const tableBody = document.querySelector('.driver-table__body');
+	    const visibleRows = tableBody.querySelectorAll('tr:not([style*="display: none"])');
+	    
+	    // Xóa thông báo cũ nếu có
+	    const existingMessage = document.getElementById('no-results-message');
+	    if (existingMessage) {
+	        existingMessage.remove();
+	    }
+	    
+	    // Nếu không có kết quả và có từ khóa tìm kiếm
+	    if (visibleRows.length === 0 && searchTerm !== '') {
+	        const noResultsRow = document.createElement('tr');
+	        noResultsRow.id = 'no-results-message';
+	        noResultsRow.innerHTML = `
+	            <td colspan="8" style="text-align: center; padding: 20px; color: #666; font-style: italic;">
+	                Không tìm thấy tài xế nào phù hợp với từ khóa "${document.getElementById('searchInput').value}"
+	            </td>
+	        `;
+	        tableBody.appendChild(noResultsRow);
+	    }
 	}
 	</script>
 

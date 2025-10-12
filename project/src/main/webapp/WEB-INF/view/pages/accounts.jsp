@@ -3,7 +3,21 @@
 
 <div class="account">
     <h1 class="driver-title title">Lịch sử đăng nhập hệ thống</h1>
-    <div class="account-top top"></div>
+    <div class="account-top top">
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="searchAccountInput" 
+                class="search-input" 
+                placeholder="Tìm kiếm theo tên, email, IP, trình duyệt, trạng thái..." 
+                onkeyup="searchAccounts()"
+            />
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </div>
+    </div>
 
     <table class="account-table table">
         <thead class="account-table__head table-head">
@@ -96,3 +110,78 @@
         </div>
     </c:if>
 </div>
+
+<script>
+    // Hàm tìm kiếm lịch sử đăng nhập
+    function searchAccounts() {
+        const searchTerm = document.getElementById('searchAccountInput').value.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Loại bỏ dấu
+        const tableRows = document.querySelectorAll('.account-table__body tr');
+        
+        tableRows.forEach(row => {
+            // Bỏ qua dòng "Không có bản ghi" nếu có
+            if (row.querySelector('td[colspan]')) {
+                return;
+            }
+            
+            const cells = row.querySelectorAll('td');
+            let found = false;
+            
+            // Tìm kiếm trong tất cả các cột
+            for (let i = 0; i < cells.length; i++) {
+                const cellText = cells[i].textContent.toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Loại bỏ dấu
+                
+                if (cellText.includes(searchTerm)) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            // Hiển thị hoặc ẩn dòng
+            if (found || searchTerm === '') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        // Ẩn/hiện thông báo không tìm thấy kết quả
+        updateAccountNoResultsMessage(searchTerm);
+    }
+
+    // Hàm hiển thị thông báo không có kết quả
+    function updateAccountNoResultsMessage(searchTerm) {
+        const tableBody = document.querySelector('.account-table__body');
+        const visibleRows = tableBody.querySelectorAll('tr:not([style*="display: none"]):not([id="no-account-results-message"])');
+        const emptyRow = tableBody.querySelector('td[colspan]')?.parentElement;
+        
+        // Xóa thông báo cũ nếu có
+        const existingMessage = document.getElementById('no-account-results-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+        
+        // Nếu không có kết quả và có từ khóa tìm kiếm
+        if (visibleRows.length === 0 && searchTerm !== '') {
+            // Ẩn dòng "Không có bản ghi" ban đầu nếu có
+            if (emptyRow) {
+                emptyRow.style.display = 'none';
+            }
+            
+            const noResultsRow = document.createElement('tr');
+            noResultsRow.id = 'no-account-results-message';
+            noResultsRow.innerHTML = `
+                <td colspan="8" style="text-align: center; padding: 20px; color: #666; font-style: italic;">
+                    Không tìm thấy bản ghi đăng nhập nào phù hợp với từ khóa "${document.getElementById('searchAccountInput').value}"
+                </td>
+            `;
+            tableBody.appendChild(noResultsRow);
+        } else {
+            // Hiện lại dòng "Không có bản ghi" ban đầu nếu cần
+            if (emptyRow && searchTerm === '') {
+                emptyRow.style.display = '';
+            }
+        }
+    }
+</script>
