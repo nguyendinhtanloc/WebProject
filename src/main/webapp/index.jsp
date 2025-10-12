@@ -78,43 +78,40 @@
                     <i class="fas fa-bus"></i>
                     <span>BusBooking</span>
                 </div>
-
                 <ul class="nav-menu">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">Trang chủ</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">Tra cứu vé</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">Liên hệ</a>
-                                    </li>
-
-                                    <!-- Kiểm tra session user -->
-                                    <c:choose>
-                                        <c:when test="${not empty sessionScope.user}">
-                                            <!-- Đã đăng nhập - hiển thị thông tin user -->
-                                            <li class="nav-item">
-                                                <span class="nav-link" style="color: #10b981;">
-                                                    <i class="fas fa-user"></i> ${sessionScope.email}
-                                                </span>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="${pageContext.request.contextPath}/logout" class="nav-link">Đăng xuất</a>
-                                            </li>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <!-- Chưa đăng nhập - hiển thị nút đăng nhập/đăng ký -->
-                                            <li class="nav-item">
-                                                <a href="${pageContext.request.contextPath}/login.jsp" class="nav-link">Đăng nhập</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="${pageContext.request.contextPath}/register.jsp" class="nav-link">Đăng ký</a>
-                                            </li>
-                                        </c:otherwise>
-                                    </c:choose>
-
-                                </ul>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Tra cứu vé</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Liên hệ</a>
+                    </li>
+                </ul>
+                <div class="nav-auth">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <div class="user-menu">
+                                <span class="user-name">
+                                    <i class="fas fa-user"></i>
+                                    ${sessionScope.user.email}
+                                </span>
+                                <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline" style="margin-left: 10px;">
+                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
+                                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                            </a>
+                            <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary" style="margin-left: 10px;">
+                                <i class="fas fa-user-plus"></i> Đăng ký
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
                 <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
