@@ -35,8 +35,11 @@ public class TripTransportStatusLog implements Serializable {
     @Column(name = "changedAt", nullable = false)
     private LocalDateTime changedAt;
 
-    @Column(name = "tripSnapshot", columnDefinition = "TEXT")
-    private String tripSnapshot;
+    @Column(name = "oldContent", columnDefinition = "TEXT")
+    private String oldContent;
+
+    @Column(name = "newContent", columnDefinition = "TEXT")
+    private String newContent;
 
     public TripTransportStatusLog() {
     }
@@ -81,11 +84,19 @@ public class TripTransportStatusLog implements Serializable {
         this.type = type;
     }
 
-    public String getTripSnapshot() {
-        return tripSnapshot;
+    public String getOldContent() {
+        return oldContent;
     }
 
-    public void setTripSnapshot(String tripSnapshot) {
-        this.tripSnapshot = tripSnapshot;
+    public void setOldContent(String oldContent) {
+        this.oldContent = oldContent;
+    }
+
+    public String getNewContent() {
+        return newContent;
+    }
+
+    public void setNewContent(String newContent) {
+        this.newContent = newContent;
     }
 }

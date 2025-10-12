@@ -11,6 +11,7 @@ public class TripTransportDAO {
     private final TripTransportStatusLogDAO tripTransportStatusLogDAO = new TripTransportStatusLogDAO();
 
     // Thêm Trip mới
+    // Thêm mới
     public void insertTrip(TripTransport trip, String userEmail) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
@@ -18,43 +19,63 @@ public class TripTransportDAO {
             em.persist(trip);
             em.getTransaction().commit();
 
-            // Ghi log kiểu insert
-            tripTransportStatusLogDAO.logChange(trip, userEmail, "insert");
+            tripTransportStatusLogDAO.logChange(null, trip, userEmail, "insert");
         } finally {
             em.close();
         }
     }
 
-    // Cập nhật Trip
+    // Cập nhật
     public void updateTrip(TripTransport trip, String userEmail) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
+
+            // Lấy dữ liệu cũ trước khi merge
+            TripTransport oldTrip = em.find(TripTransport.class, trip.getTripId());
+            TripTransport oldSnapshot = oldTrip != null ? cloneTrip(oldTrip) : null;
+
             em.merge(trip);
             em.getTransaction().commit();
 
-            // Ghi log kiểu update
-            tripTransportStatusLogDAO.logChange(trip, userEmail, "update");
+            tripTransportStatusLogDAO.logChange(oldSnapshot, trip, userEmail, "update");
         } finally {
             em.close();
         }
     }
 
-    // Xóa Trip
+    // Xóa
     public void deleteTrip(Integer tripId, String userEmail) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            TripTransport trip = em.find(TripTransport.class, tripId);
-            if (trip != null) {
-                // Ghi log kiểu delete
-                tripTransportStatusLogDAO.logChange(trip, userEmail, "delete");
-                em.remove(trip);
+            TripTransport oldTrip = em.find(TripTransport.class, tripId);
+            if (oldTrip != null) {
+                TripTransport snapshot = cloneTrip(oldTrip);
+                em.remove(oldTrip);
+                em.getTransaction().commit();
+
+                tripTransportStatusLogDAO.logChange(snapshot, null, userEmail, "delete");
+            } else {
+                em.getTransaction().rollback();
             }
-            em.getTransaction().commit();
         } finally {
             em.close();
         }
+    }
+
+    // Helper: sao chép nhanh dữ liệu cũ (tránh lỗi lazy load)
+    private TripTransport cloneTrip(TripTransport src) {
+        TripTransport t = new TripTransport();
+        t.setTripId(src.getTripId());
+        t.setDeparturePoint(src.getDeparturePoint());
+        t.setDepartureCity(src.getDepartureCity());
+        t.setDepartureAddress(src.getDepartureAddress());
+        t.setArrivalPoint(src.getArrivalPoint());
+        t.setArrivalCity(src.getArrivalCity());
+        t.setArrivalAddress(src.getArrivalAddress());
+        t.setStatus(src.getStatus());
+        return t;
     }
 
     // Lấy Trip theo ID
@@ -63,10 +84,10 @@ public class TripTransportDAO {
         try {
             return em.createQuery(
                     "SELECT t FROM TripTransport t " +
-                    "LEFT JOIN FETCH t.transportCompany " +
-                    "LEFT JOIN FETCH t.vehicleTransport " +
-                    "LEFT JOIN FETCH t.driverTransport " +
-                    "WHERE t.tripId = :tripId",
+                            "LEFT JOIN FETCH t.transportCompany " +
+                            "LEFT JOIN FETCH t.vehicleTransport " +
+                            "LEFT JOIN FETCH t.driverTransport " +
+                            "WHERE t.tripId = :tripId",
                     TripTransport.class)
                     .setParameter("tripId", tripId)
                     .getSingleResult();
@@ -81,10 +102,10 @@ public class TripTransportDAO {
         try {
             return em.createQuery(
                     "SELECT DISTINCT t FROM TripTransport t " +
-                    "LEFT JOIN FETCH t.transportCompany " +
-                    "LEFT JOIN FETCH t.vehicleTransport " +
-                    "LEFT JOIN FETCH t.driverTransport " +
-                    "ORDER BY t.departureDate DESC, t.departureTime DESC",
+                            "LEFT JOIN FETCH t.transportCompany " +
+                            "LEFT JOIN FETCH t.vehicleTransport " +
+                            "LEFT JOIN FETCH t.driverTransport " +
+                            "ORDER BY t.departureDate DESC, t.departureTime DESC",
                     TripTransport.class)
                     .setFirstResult((pageNumber - 1) * pageSize)
                     .setMaxResults(pageSize)

@@ -44990,3 +44990,1540 @@ Hibernate:
                 on triptransp0_.changedBy=appuser1_.userId 
         order by
             triptransp0_.changedAt DESC limit ?
+12-Oct-2025 08:11:23.688 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/BusBooking]
+12-Oct-2025 08:11:23.721 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [BusBooking] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+12-Oct-2025 08:11:23.722 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [BusBooking] appears to have started a thread named [Hibernate Connection Pool Validation Thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.15/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.15/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.15/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1679)
+ java.base@17.0.15/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.15/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.15/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.15/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.15/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.15/java.lang.Thread.run(Thread.java:840)
+12-Oct-2025 08:11:23.758 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/BusBooking.war]
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+12-Oct-2025 08:11:24.275 INFO [Catalina-utility-2] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+12-Oct-2025 08:11:24.281 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/BusBooking.war] has finished in [523] ms
+12-Oct-2025 08:11:24.365 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.108
+12-Oct-2025 08:11:24.367 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jul 31 2025 18:19:48 UTC
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.108.0
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Mac OS X
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            15.6.1
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          aarch64
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /opt/homebrew/Cellar/openjdk@17/17.0.15/libexec/openjdk.jdk/Contents/Home
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           17.0.15+0
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Homebrew
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat
+12-Oct-2025 08:11:24.368 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/conf/logging.properties
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+12-Oct-2025 08:11:24.375 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.io.useCanonCaches=false
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat
+12-Oct-2025 08:11:24.376 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/temp
+12-Oct-2025 08:11:24.381 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [/Users/nguyendinhtanloc/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.]
+12-Oct-2025 08:11:24.521 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+12-Oct-2025 08:11:24.531 SEVERE [main] org.apache.catalina.util.LifecycleBase.handleSubClassException Failed to initialize component [Connector["http-nio-8080"]]
+	org.apache.catalina.LifecycleException: Protocol handler initialization failed
+		at org.apache.catalina.connector.Connector.initInternal(Connector.java:1072)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:122)
+		at org.apache.catalina.core.StandardService.initInternal(StandardService.java:522)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:122)
+		at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:986)
+		at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:122)
+		at org.apache.catalina.startup.Catalina.load(Catalina.java:690)
+		at org.apache.catalina.startup.Catalina.load(Catalina.java:713)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+		at org.apache.catalina.startup.Bootstrap.load(Bootstrap.java:302)
+		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:475)
+	Caused by: java.net.BindException: Address already in use
+		at java.base/sun.nio.ch.Net.bind0(Native Method)
+		at java.base/sun.nio.ch.Net.bind(Net.java:555)
+		at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
+		at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
+		at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:298)
+		at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:253)
+		at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1465)
+		at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:1478)
+		at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:663)
+		at org.apache.coyote.http11.AbstractHttp11Protocol.init(AbstractHttp11Protocol.java:80)
+		at org.apache.catalina.connector.Connector.initInternal(Connector.java:1070)
+		... 13 more
+12-Oct-2025 08:11:24.531 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [271] milliseconds
+12-Oct-2025 08:11:24.548 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+12-Oct-2025 08:11:24.548 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.108]
+12-Oct-2025 08:11:24.553 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/BusBooking.war]
+12-Oct-2025 08:11:25.070 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+12-Oct-2025 08:11:25.086 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/BusBooking.war] has finished in [533] ms
+12-Oct-2025 08:11:25.086 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/docs]
+12-Oct-2025 08:11:25.095 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/docs] has finished in [9] ms
+12-Oct-2025 08:11:25.095 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/manager]
+12-Oct-2025 08:11:25.108 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/manager] has finished in [13] ms
+12-Oct-2025 08:11:25.108 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/examples]
+12-Oct-2025 08:11:25.193 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/examples] has finished in [85] ms
+12-Oct-2025 08:11:25.193 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/ROOT]
+12-Oct-2025 08:11:25.199 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/ROOT] has finished in [6] ms
+12-Oct-2025 08:11:25.199 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/host-manager]
+12-Oct-2025 08:11:25.206 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [/Users/nguyendinhtanloc/Documents/Project/WebProject/tomCat/webapps/host-manager] has finished in [7] ms
+12-Oct-2025 08:11:25.207 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [676] milliseconds
+12-Oct-2025 08:11:25.210 SEVERE [main] org.apache.catalina.core.StandardServer.await Failed to create server shutdown socket on address [localhost] and port [8005] (base port [8005] and offset [0])
+	java.net.BindException: Address already in use
+		at java.base/sun.nio.ch.Net.bind0(Native Method)
+		at java.base/sun.nio.ch.Net.bind(Net.java:555)
+		at java.base/sun.nio.ch.Net.bind(Net.java:544)
+		at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:648)
+		at java.base/java.net.ServerSocket.bind(ServerSocket.java:388)
+		at java.base/java.net.ServerSocket.<init>(ServerSocket.java:274)
+		at org.apache.catalina.core.StandardServer.await(StandardServer.java:537)
+		at org.apache.catalina.startup.Catalina.await(Catalina.java:829)
+		at org.apache.catalina.startup.Catalina.start(Catalina.java:777)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+		at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+		at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:345)
+		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:476)
+12-Oct-2025 08:11:25.210 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+12-Oct-2025 08:11:25.210 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+12-Oct-2025 08:11:25.219 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+12-Oct-2025 08:11:25.219 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+Email đã gửi tới: nttl01012000@gmail.com
+12-Oct-2025 08:12:11.589 INFO [http-nio-8080-exec-11] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: busBookingPU]
+12-Oct-2025 08:12:11.636 INFO [http-nio-8080-exec-11] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 5.6.15.Final
+12-Oct-2025 08:12:11.738 INFO [http-nio-8080-exec-11] org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit> HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+12-Oct-2025 08:12:11.842 WARN [http-nio-8080-exec-11] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.configure HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+12-Oct-2025 08:12:11.845 INFO [http-nio-8080-exec-11] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres]
+12-Oct-2025 08:12:11.845 INFO [http-nio-8080-exec-11] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator HHH10001001: Connection properties: {password=****, user=postgres.kognqhcifxbpihjrwocg}
+12-Oct-2025 08:12:11.845 INFO [http-nio-8080-exec-11] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator HHH10001003: Autocommit mode: false
+12-Oct-2025 08:12:11.846 INFO [http-nio-8080-exec-11] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections.<init> HHH000115: Hibernate connection pool size: 20 (min=1)
+12-Oct-2025 08:12:12.627 INFO [http-nio-8080-exec-11] org.hibernate.dialect.Dialect.<init> HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+12-Oct-2025 08:12:13.769 INFO [http-nio-8080-exec-11] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7a91c04c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+12-Oct-2025 08:12:17.989 INFO [http-nio-8080-exec-11] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: 
+    /* SELECT
+        u 
+    FROM
+        AppUser u 
+    WHERE
+        u.email = :email */ select
+            appuser0_.userId as userid1_0_,
+            appuser0_.address as address2_0_,
+            appuser0_.birthDate as birthdat3_0_,
+            appuser0_.createdAt as createda4_0_,
+            appuser0_.email as email5_0_,
+            appuser0_.gender as gender6_0_,
+            appuser0_.name as name7_0_,
+            appuser0_.phone as phone8_0_,
+            appuser0_.role as role9_0_,
+            appuser0_.status as status10_0_,
+            appuser0_.updatedAt as updated11_0_,
+            appuser0_.userUuid as useruui12_0_ 
+        from
+            AppUser appuser0_ 
+        where
+            appuser0_.email=?
+Hibernate: 
+    select
+        appuser0_.userId as userid1_0_0_,
+        appuser0_.address as address2_0_0_,
+        appuser0_.birthDate as birthdat3_0_0_,
+        appuser0_.createdAt as createda4_0_0_,
+        appuser0_.email as email5_0_0_,
+        appuser0_.gender as gender6_0_0_,
+        appuser0_.name as name7_0_0_,
+        appuser0_.phone as phone8_0_0_,
+        appuser0_.role as role9_0_0_,
+        appuser0_.status as status10_0_0_,
+        appuser0_.updatedAt as updated11_0_0_,
+        appuser0_.userUuid as useruui12_0_0_ 
+    from
+        AppUser appuser0_ 
+    where
+        appuser0_.userId=?
+Hibernate: 
+    /* insert com.busbooking.model.LoginLog
+        */ insert 
+        into
+            LoginLog
+            (createdAt, description, ipAddress, loginTime, logoutTime, status, userId, userAgent) 
+        values
+            (?, ?, ?, ?, ?, ?, ?, ?)
+Email đã gửi tới: nttl01012000@gmail.com
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransportStatusLog t */ select
+            count(triptransp0_.logId) as col_0_0_ 
+        from
+            TripTransportStatusLog triptransp0_
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransportStatusLog t 
+    LEFT JOIN
+        FETCH t.changedBy 
+    ORDER BY
+        t.changedAt DESC */ select
+            triptransp0_.logId as logid1_5_0_,
+            appuser1_.userId as userid1_0_1_,
+            triptransp0_.changedAt as changeda2_5_0_,
+            triptransp0_.changedBy as changedb7_5_0_,
+            triptransp0_.newContent as newconte3_5_0_,
+            triptransp0_.oldContent as oldconte4_5_0_,
+            triptransp0_.tripId as tripid5_5_0_,
+            triptransp0_.type as type6_5_0_,
+            appuser1_.address as address2_0_1_,
+            appuser1_.birthDate as birthdat3_0_1_,
+            appuser1_.createdAt as createda4_0_1_,
+            appuser1_.email as email5_0_1_,
+            appuser1_.gender as gender6_0_1_,
+            appuser1_.name as name7_0_1_,
+            appuser1_.phone as phone8_0_1_,
+            appuser1_.role as role9_0_1_,
+            appuser1_.status as status10_0_1_,
+            appuser1_.updatedAt as updated11_0_1_,
+            appuser1_.userUuid as useruui12_0_1_ 
+        from
+            TripTransportStatusLog triptransp0_ 
+        left outer join
+            AppUser appuser1_ 
+                on triptransp0_.changedBy=appuser1_.userId 
+        order by
+            triptransp0_.changedAt DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        c 
+    FROM
+        TransportCompany c 
+    ORDER BY
+        c.name ASC */ select
+            transportc0_.companyId as companyi1_3_,
+            transportc0_.address as address2_3_,
+            transportc0_.contactInfo as contacti3_3_,
+            transportc0_.createdAt as createda4_3_,
+            transportc0_.name as name5_3_,
+            transportc0_.status as status6_3_,
+            transportc0_.updatedBy as updatedb7_3_ 
+        from
+            TransportCompany transportc0_ 
+        order by
+            transportc0_.name ASC
+Hibernate: 
+    /* SELECT
+        v 
+    FROM
+        VehicleTransport v 
+    ORDER BY
+        v.licensePlate ASC */ select
+            vehicletra0_.vehicleId as vehiclei1_6_,
+            vehicletra0_.amenities as amenitie2_6_,
+            vehicletra0_.capacity as capacity3_6_,
+            vehicletra0_.licensePlate as licensep4_6_,
+            vehicletra0_.seatLayout as seatlayo5_6_,
+            vehicletra0_.status as status6_6_,
+            vehicletra0_.companyId as companyi8_6_,
+            vehicletra0_.type as type7_6_,
+            vehicletra0_.updatedBy as updatedb9_6_ 
+        from
+            VehicleTransport vehicletra0_ 
+        order by
+            vehicletra0_.licensePlate ASC
+Hibernate: 
+    /* SELECT
+        d 
+    FROM
+        DriverTransport d 
+    ORDER BY
+        d.name ASC */ select
+            drivertran0_.driverId as driverid1_1_,
+            drivertran0_.endDate as enddate2_1_,
+            drivertran0_.hireDate as hiredate3_1_,
+            drivertran0_.licenseNo as licensen4_1_,
+            drivertran0_.name as name5_1_,
+            drivertran0_.phone as phone6_1_,
+            drivertran0_.status as status7_1_,
+            drivertran0_.companyId as companyi8_1_,
+            drivertran0_.updatedBy as updatedb9_1_ 
+        from
+            DriverTransport drivertran0_ 
+        order by
+            drivertran0_.name ASC
+Hibernate: 
+    /* SELECT
+        COUNT(c) 
+    FROM
+        TransportCompany c 
+    WHERE
+        c.companyId = :id */ select
+            count(transportc0_.companyId) as col_0_0_ 
+        from
+            TransportCompany transportc0_ 
+        where
+            transportc0_.companyId=?
+Hibernate: 
+    /* SELECT
+        COUNT(v) 
+    FROM
+        VehicleTransport v 
+    WHERE
+        v.vehicleId = :id */ select
+            count(vehicletra0_.vehicleId) as col_0_0_ 
+        from
+            VehicleTransport vehicletra0_ 
+        where
+            vehicletra0_.vehicleId=?
+Hibernate: 
+    /* SELECT
+        COUNT(d) 
+    FROM
+        DriverTransport d 
+    WHERE
+        d.driverId = :id */ select
+            count(drivertran0_.driverId) as col_0_0_ 
+        from
+            DriverTransport drivertran0_ 
+        where
+            drivertran0_.driverId=?
+Hibernate: 
+    /* insert com.busbooking.model.TripTransport
+        */ insert 
+        into
+            TripTransport
+            (arrivalAddress, arrivalCity, arrivalDate, arrivalPoint, arrivalTime, departureAddress, departureCity, departureDate, departurePoint, departureTime, distanceKm, driverId, price, status, companyId, updatedBy, vehicleId) 
+        values
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    /* SELECT
+        u 
+    FROM
+        AppUser u 
+    WHERE
+        u.email = :email */ select
+            appuser0_.userId as userid1_0_,
+            appuser0_.address as address2_0_,
+            appuser0_.birthDate as birthdat3_0_,
+            appuser0_.createdAt as createda4_0_,
+            appuser0_.email as email5_0_,
+            appuser0_.gender as gender6_0_,
+            appuser0_.name as name7_0_,
+            appuser0_.phone as phone8_0_,
+            appuser0_.role as role9_0_,
+            appuser0_.status as status10_0_,
+            appuser0_.updatedAt as updated11_0_,
+            appuser0_.userUuid as useruui12_0_ 
+        from
+            AppUser appuser0_ 
+        where
+            appuser0_.email=?
+Hibernate: 
+    /* insert com.busbooking.model.TripTransportStatusLog
+        */ insert 
+        into
+            TripTransportStatusLog
+            (changedAt, changedBy, newContent, oldContent, tripId, type) 
+        values
+            (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransportStatusLog t */ select
+            count(triptransp0_.logId) as col_0_0_ 
+        from
+            TripTransportStatusLog triptransp0_
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransportStatusLog t 
+    LEFT JOIN
+        FETCH t.changedBy 
+    ORDER BY
+        t.changedAt DESC */ select
+            triptransp0_.logId as logid1_5_0_,
+            appuser1_.userId as userid1_0_1_,
+            triptransp0_.changedAt as changeda2_5_0_,
+            triptransp0_.changedBy as changedb7_5_0_,
+            triptransp0_.newContent as newconte3_5_0_,
+            triptransp0_.oldContent as oldconte4_5_0_,
+            triptransp0_.tripId as tripid5_5_0_,
+            triptransp0_.type as type6_5_0_,
+            appuser1_.address as address2_0_1_,
+            appuser1_.birthDate as birthdat3_0_1_,
+            appuser1_.createdAt as createda4_0_1_,
+            appuser1_.email as email5_0_1_,
+            appuser1_.gender as gender6_0_1_,
+            appuser1_.name as name7_0_1_,
+            appuser1_.phone as phone8_0_1_,
+            appuser1_.role as role9_0_1_,
+            appuser1_.status as status10_0_1_,
+            appuser1_.updatedAt as updated11_0_1_,
+            appuser1_.userUuid as useruui12_0_1_ 
+        from
+            TripTransportStatusLog triptransp0_ 
+        left outer join
+            AppUser appuser1_ 
+                on triptransp0_.changedBy=appuser1_.userId 
+        order by
+            triptransp0_.changedAt DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ? offset ?
+Hibernate: 
+    /* SELECT
+        c 
+    FROM
+        TransportCompany c 
+    ORDER BY
+        c.name ASC */ select
+            transportc0_.companyId as companyi1_3_,
+            transportc0_.address as address2_3_,
+            transportc0_.contactInfo as contacti3_3_,
+            transportc0_.createdAt as createda4_3_,
+            transportc0_.name as name5_3_,
+            transportc0_.status as status6_3_,
+            transportc0_.updatedBy as updatedb7_3_ 
+        from
+            TransportCompany transportc0_ 
+        order by
+            transportc0_.name ASC
+Hibernate: 
+    /* SELECT
+        v 
+    FROM
+        VehicleTransport v 
+    ORDER BY
+        v.licensePlate ASC */ select
+            vehicletra0_.vehicleId as vehiclei1_6_,
+            vehicletra0_.amenities as amenitie2_6_,
+            vehicletra0_.capacity as capacity3_6_,
+            vehicletra0_.licensePlate as licensep4_6_,
+            vehicletra0_.seatLayout as seatlayo5_6_,
+            vehicletra0_.status as status6_6_,
+            vehicletra0_.companyId as companyi8_6_,
+            vehicletra0_.type as type7_6_,
+            vehicletra0_.updatedBy as updatedb9_6_ 
+        from
+            VehicleTransport vehicletra0_ 
+        order by
+            vehicletra0_.licensePlate ASC
+Hibernate: 
+    /* SELECT
+        d 
+    FROM
+        DriverTransport d 
+    ORDER BY
+        d.name ASC */ select
+            drivertran0_.driverId as driverid1_1_,
+            drivertran0_.endDate as enddate2_1_,
+            drivertran0_.hireDate as hiredate3_1_,
+            drivertran0_.licenseNo as licensen4_1_,
+            drivertran0_.name as name5_1_,
+            drivertran0_.phone as phone6_1_,
+            drivertran0_.status as status7_1_,
+            drivertran0_.companyId as companyi8_1_,
+            drivertran0_.updatedBy as updatedb9_1_ 
+        from
+            DriverTransport drivertran0_ 
+        order by
+            drivertran0_.name ASC
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    WHERE
+        t.tripId = :tripId */ select
+            triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        where
+            triptransp0_.tripId=?
+Hibernate: 
+    /* SELECT
+        COUNT(c) 
+    FROM
+        TransportCompany c 
+    WHERE
+        c.companyId = :id */ select
+            count(transportc0_.companyId) as col_0_0_ 
+        from
+            TransportCompany transportc0_ 
+        where
+            transportc0_.companyId=?
+Hibernate: 
+    /* SELECT
+        COUNT(v) 
+    FROM
+        VehicleTransport v 
+    WHERE
+        v.vehicleId = :id */ select
+            count(vehicletra0_.vehicleId) as col_0_0_ 
+        from
+            VehicleTransport vehicletra0_ 
+        where
+            vehicletra0_.vehicleId=?
+Hibernate: 
+    /* SELECT
+        COUNT(d) 
+    FROM
+        DriverTransport d 
+    WHERE
+        d.driverId = :id */ select
+            count(drivertran0_.driverId) as col_0_0_ 
+        from
+            DriverTransport drivertran0_ 
+        where
+            drivertran0_.driverId=?
+Hibernate: 
+    select
+        triptransp0_.tripId as tripid1_4_0_,
+        triptransp0_.arrivalAddress as arrivala2_4_0_,
+        triptransp0_.arrivalCity as arrivalc3_4_0_,
+        triptransp0_.arrivalDate as arrivald4_4_0_,
+        triptransp0_.arrivalPoint as arrivalp5_4_0_,
+        triptransp0_.arrivalTime as arrivalt6_4_0_,
+        triptransp0_.departureAddress as departur7_4_0_,
+        triptransp0_.departureCity as departur8_4_0_,
+        triptransp0_.departureDate as departur9_4_0_,
+        triptransp0_.departurePoint as departu10_4_0_,
+        triptransp0_.departureTime as departu11_4_0_,
+        triptransp0_.distanceKm as distanc12_4_0_,
+        triptransp0_.driverId as driveri15_4_0_,
+        triptransp0_.price as price13_4_0_,
+        triptransp0_.status as status14_4_0_,
+        triptransp0_.companyId as company16_4_0_,
+        triptransp0_.updatedBy as updated17_4_0_,
+        triptransp0_.vehicleId as vehicle18_4_0_ 
+    from
+        TripTransport triptransp0_ 
+    where
+        triptransp0_.tripId=?
+Hibernate: 
+    /* update
+        com.busbooking.model.TripTransport */ update
+            TripTransport 
+        set
+            arrivalAddress=?,
+            arrivalCity=?,
+            arrivalDate=?,
+            arrivalPoint=?,
+            arrivalTime=?,
+            departureAddress=?,
+            departureCity=?,
+            departureDate=?,
+            departurePoint=?,
+            departureTime=?,
+            distanceKm=?,
+            driverId=?,
+            price=?,
+            status=?,
+            companyId=?,
+            updatedBy=?,
+            vehicleId=? 
+        where
+            tripId=?
+Hibernate: 
+    /* SELECT
+        u 
+    FROM
+        AppUser u 
+    WHERE
+        u.email = :email */ select
+            appuser0_.userId as userid1_0_,
+            appuser0_.address as address2_0_,
+            appuser0_.birthDate as birthdat3_0_,
+            appuser0_.createdAt as createda4_0_,
+            appuser0_.email as email5_0_,
+            appuser0_.gender as gender6_0_,
+            appuser0_.name as name7_0_,
+            appuser0_.phone as phone8_0_,
+            appuser0_.role as role9_0_,
+            appuser0_.status as status10_0_,
+            appuser0_.updatedAt as updated11_0_,
+            appuser0_.userUuid as useruui12_0_ 
+        from
+            AppUser appuser0_ 
+        where
+            appuser0_.email=?
+Hibernate: 
+    /* insert com.busbooking.model.TripTransportStatusLog
+        */ insert 
+        into
+            TripTransportStatusLog
+            (changedAt, changedBy, newContent, oldContent, tripId, type) 
+        values
+            (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransportStatusLog t */ select
+            count(triptransp0_.logId) as col_0_0_ 
+        from
+            TripTransportStatusLog triptransp0_
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransportStatusLog t 
+    LEFT JOIN
+        FETCH t.changedBy 
+    ORDER BY
+        t.changedAt DESC */ select
+            triptransp0_.logId as logid1_5_0_,
+            appuser1_.userId as userid1_0_1_,
+            triptransp0_.changedAt as changeda2_5_0_,
+            triptransp0_.changedBy as changedb7_5_0_,
+            triptransp0_.newContent as newconte3_5_0_,
+            triptransp0_.oldContent as oldconte4_5_0_,
+            triptransp0_.tripId as tripid5_5_0_,
+            triptransp0_.type as type6_5_0_,
+            appuser1_.address as address2_0_1_,
+            appuser1_.birthDate as birthdat3_0_1_,
+            appuser1_.createdAt as createda4_0_1_,
+            appuser1_.email as email5_0_1_,
+            appuser1_.gender as gender6_0_1_,
+            appuser1_.name as name7_0_1_,
+            appuser1_.phone as phone8_0_1_,
+            appuser1_.role as role9_0_1_,
+            appuser1_.status as status10_0_1_,
+            appuser1_.updatedAt as updated11_0_1_,
+            appuser1_.userUuid as useruui12_0_1_ 
+        from
+            TripTransportStatusLog triptransp0_ 
+        left outer join
+            AppUser appuser1_ 
+                on triptransp0_.changedBy=appuser1_.userId 
+        order by
+            triptransp0_.changedAt DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransportStatusLog t */ select
+            count(triptransp0_.logId) as col_0_0_ 
+        from
+            TripTransportStatusLog triptransp0_
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransportStatusLog t 
+    LEFT JOIN
+        FETCH t.changedBy 
+    ORDER BY
+        t.changedAt DESC */ select
+            triptransp0_.logId as logid1_5_0_,
+            appuser1_.userId as userid1_0_1_,
+            triptransp0_.changedAt as changeda2_5_0_,
+            triptransp0_.changedBy as changedb7_5_0_,
+            triptransp0_.newContent as newconte3_5_0_,
+            triptransp0_.oldContent as oldconte4_5_0_,
+            triptransp0_.tripId as tripid5_5_0_,
+            triptransp0_.type as type6_5_0_,
+            appuser1_.address as address2_0_1_,
+            appuser1_.birthDate as birthdat3_0_1_,
+            appuser1_.createdAt as createda4_0_1_,
+            appuser1_.email as email5_0_1_,
+            appuser1_.gender as gender6_0_1_,
+            appuser1_.name as name7_0_1_,
+            appuser1_.phone as phone8_0_1_,
+            appuser1_.role as role9_0_1_,
+            appuser1_.status as status10_0_1_,
+            appuser1_.updatedAt as updated11_0_1_,
+            appuser1_.userUuid as useruui12_0_1_ 
+        from
+            TripTransportStatusLog triptransp0_ 
+        left outer join
+            AppUser appuser1_ 
+                on triptransp0_.changedBy=appuser1_.userId 
+        order by
+            triptransp0_.changedAt DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ? offset ?
+Hibernate: 
+    select
+        triptransp0_.tripId as tripid1_4_0_,
+        triptransp0_.arrivalAddress as arrivala2_4_0_,
+        triptransp0_.arrivalCity as arrivalc3_4_0_,
+        triptransp0_.arrivalDate as arrivald4_4_0_,
+        triptransp0_.arrivalPoint as arrivalp5_4_0_,
+        triptransp0_.arrivalTime as arrivalt6_4_0_,
+        triptransp0_.departureAddress as departur7_4_0_,
+        triptransp0_.departureCity as departur8_4_0_,
+        triptransp0_.departureDate as departur9_4_0_,
+        triptransp0_.departurePoint as departu10_4_0_,
+        triptransp0_.departureTime as departu11_4_0_,
+        triptransp0_.distanceKm as distanc12_4_0_,
+        triptransp0_.driverId as driveri15_4_0_,
+        triptransp0_.price as price13_4_0_,
+        triptransp0_.status as status14_4_0_,
+        triptransp0_.companyId as company16_4_0_,
+        triptransp0_.updatedBy as updated17_4_0_,
+        triptransp0_.vehicleId as vehicle18_4_0_ 
+    from
+        TripTransport triptransp0_ 
+    where
+        triptransp0_.tripId=?
+Hibernate: 
+    /* delete com.busbooking.model.TripTransport */ delete 
+        from
+            TripTransport 
+        where
+            tripId=?
+Hibernate: 
+    /* SELECT
+        u 
+    FROM
+        AppUser u 
+    WHERE
+        u.email = :email */ select
+            appuser0_.userId as userid1_0_,
+            appuser0_.address as address2_0_,
+            appuser0_.birthDate as birthdat3_0_,
+            appuser0_.createdAt as createda4_0_,
+            appuser0_.email as email5_0_,
+            appuser0_.gender as gender6_0_,
+            appuser0_.name as name7_0_,
+            appuser0_.phone as phone8_0_,
+            appuser0_.role as role9_0_,
+            appuser0_.status as status10_0_,
+            appuser0_.updatedAt as updated11_0_,
+            appuser0_.userUuid as useruui12_0_ 
+        from
+            AppUser appuser0_ 
+        where
+            appuser0_.email=?
+Hibernate: 
+    /* insert com.busbooking.model.TripTransportStatusLog
+        */ insert 
+        into
+            TripTransportStatusLog
+            (changedAt, changedBy, newContent, oldContent, tripId, type) 
+        values
+            (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransport t */ select
+            count(triptransp0_.tripId) as col_0_0_ 
+        from
+            TripTransport triptransp0_
+Hibernate: 
+    /* SELECT
+        DISTINCT t 
+    FROM
+        TripTransport t 
+    LEFT JOIN
+        FETCH t.transportCompany 
+    LEFT JOIN
+        FETCH t.vehicleTransport 
+    LEFT JOIN
+        FETCH t.driverTransport 
+    ORDER BY
+        t.departureDate DESC,
+        t.departureTime DESC */ select
+            distinct triptransp0_.tripId as tripid1_4_0_,
+            transportc1_.companyId as companyi1_3_1_,
+            vehicletra2_.vehicleId as vehiclei1_6_2_,
+            drivertran3_.driverId as driverid1_1_3_,
+            triptransp0_.arrivalAddress as arrivala2_4_0_,
+            triptransp0_.arrivalCity as arrivalc3_4_0_,
+            triptransp0_.arrivalDate as arrivald4_4_0_,
+            triptransp0_.arrivalPoint as arrivalp5_4_0_,
+            triptransp0_.arrivalTime as arrivalt6_4_0_,
+            triptransp0_.departureAddress as departur7_4_0_,
+            triptransp0_.departureCity as departur8_4_0_,
+            triptransp0_.departureDate as departur9_4_0_,
+            triptransp0_.departurePoint as departu10_4_0_,
+            triptransp0_.departureTime as departu11_4_0_,
+            triptransp0_.distanceKm as distanc12_4_0_,
+            triptransp0_.driverId as driveri15_4_0_,
+            triptransp0_.price as price13_4_0_,
+            triptransp0_.status as status14_4_0_,
+            triptransp0_.companyId as company16_4_0_,
+            triptransp0_.updatedBy as updated17_4_0_,
+            triptransp0_.vehicleId as vehicle18_4_0_,
+            transportc1_.address as address2_3_1_,
+            transportc1_.contactInfo as contacti3_3_1_,
+            transportc1_.createdAt as createda4_3_1_,
+            transportc1_.name as name5_3_1_,
+            transportc1_.status as status6_3_1_,
+            transportc1_.updatedBy as updatedb7_3_1_,
+            vehicletra2_.amenities as amenitie2_6_2_,
+            vehicletra2_.capacity as capacity3_6_2_,
+            vehicletra2_.licensePlate as licensep4_6_2_,
+            vehicletra2_.seatLayout as seatlayo5_6_2_,
+            vehicletra2_.status as status6_6_2_,
+            vehicletra2_.companyId as companyi8_6_2_,
+            vehicletra2_.type as type7_6_2_,
+            vehicletra2_.updatedBy as updatedb9_6_2_,
+            drivertran3_.endDate as enddate2_1_3_,
+            drivertran3_.hireDate as hiredate3_1_3_,
+            drivertran3_.licenseNo as licensen4_1_3_,
+            drivertran3_.name as name5_1_3_,
+            drivertran3_.phone as phone6_1_3_,
+            drivertran3_.status as status7_1_3_,
+            drivertran3_.companyId as companyi8_1_3_,
+            drivertran3_.updatedBy as updatedb9_1_3_ 
+        from
+            TripTransport triptransp0_ 
+        left outer join
+            TransportCompany transportc1_ 
+                on triptransp0_.companyId=transportc1_.companyId 
+        left outer join
+            VehicleTransport vehicletra2_ 
+                on triptransp0_.vehicleId=vehicletra2_.vehicleId 
+        left outer join
+            DriverTransport drivertran3_ 
+                on triptransp0_.driverId=drivertran3_.driverId 
+        order by
+            triptransp0_.departureDate DESC,
+            triptransp0_.departureTime DESC limit ?
+Hibernate: 
+    /* SELECT
+        COUNT(t) 
+    FROM
+        TripTransportStatusLog t */ select
+            count(triptransp0_.logId) as col_0_0_ 
+        from
+            TripTransportStatusLog triptransp0_
+Hibernate: 
+    /* SELECT
+        t 
+    FROM
+        TripTransportStatusLog t 
+    LEFT JOIN
+        FETCH t.changedBy 
+    ORDER BY
+        t.changedAt DESC */ select
+            triptransp0_.logId as logid1_5_0_,
+            appuser1_.userId as userid1_0_1_,
+            triptransp0_.changedAt as changeda2_5_0_,
+            triptransp0_.changedBy as changedb7_5_0_,
+            triptransp0_.newContent as newconte3_5_0_,
+            triptransp0_.oldContent as oldconte4_5_0_,
+            triptransp0_.tripId as tripid5_5_0_,
+            triptransp0_.type as type6_5_0_,
+            appuser1_.address as address2_0_1_,
+            appuser1_.birthDate as birthdat3_0_1_,
+            appuser1_.createdAt as createda4_0_1_,
+            appuser1_.email as email5_0_1_,
+            appuser1_.gender as gender6_0_1_,
+            appuser1_.name as name7_0_1_,
+            appuser1_.phone as phone8_0_1_,
+            appuser1_.role as role9_0_1_,
+            appuser1_.status as status10_0_1_,
+            appuser1_.updatedAt as updated11_0_1_,
+            appuser1_.userUuid as useruui12_0_1_ 
+        from
+            TripTransportStatusLog triptransp0_ 
+        left outer join
+            AppUser appuser1_ 
+                on triptransp0_.changedBy=appuser1_.userId 
+        order by
+            triptransp0_.changedAt DESC limit ?
