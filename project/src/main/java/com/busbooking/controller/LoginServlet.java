@@ -3,15 +3,18 @@ package com.busbooking.controller;
 import com.busbooking.model.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
     private AuthService authService;
     private static final int MAX_FAILED_ATTEMPTS = 5;
     private static final long LOCKOUT_DURATION_MS = 15 * 60 * 1000;
@@ -29,6 +32,15 @@ public class LoginServlet extends HttpServlet {
         getServletContext().setAttribute("loginAttemptsMap", this.loginAttempts);
     }
 
+    // Hàm hash OTP bằng SHA-256 (giống OtpServlet)
+    private String hashOtp(String otp) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(otp.getBytes(StandardCharsets.UTF_8));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hash) sb.append(String.format("%02x", b));
+        return sb.toString();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,6 +50,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -55,14 +68,21 @@ public class LoginServlet extends HttpServlet {
             if (authResponse != null) {
                 loginAttempts.remove(email);
 
-                HttpSession session = request.getSession();
+                HttpSession session = request.getSession(true);
                 String otp = authService.generateAndSendOtp(email, request);
-                session.setAttribute("otp_code", otp);
-                session.setAttribute("user_email", email);
-                session.setAttribute("otp_timestamp", System.currentTimeMillis());
-                session.setAttribute("otp_attempts", 0);
+                try {
+                    String otpHash = hashOtp(otp);
+                    session.setAttribute("otpHash", otpHash);
+                } catch (Exception e) {
+                    throw new ServletException("Không thể hash OTP", e);
+                }
+                session.setAttribute("userEmail", email);
+                session.setAttribute("otpTimestamp", System.currentTimeMillis());
+                session.setAttribute("otpAttempts", 0);
 
+                // Chuyển đến trang xác thực OTP
                 response.sendRedirect(request.getContextPath() + "/verify-otp");
+
             } else {
                 attempt.count++;
                 if (attempt.count >= MAX_FAILED_ATTEMPTS) {

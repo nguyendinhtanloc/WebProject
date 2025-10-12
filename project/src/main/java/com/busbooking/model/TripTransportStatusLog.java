@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.security.PrivateKey;
 import java.time.LocalDateTime;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
@@ -18,63 +19,42 @@ public class TripTransportStatusLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "logId")
-    private Long logId;
+    private Integer logId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tripId", nullable = false)
-    private TripTransport trip;
+    @Column(name = "tripId", nullable = false)
+    private Integer tripId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "oldStatus", columnDefinition = "TripStatus")
-    @Type(type = "pgsql_enum")
-    private TripStatus oldStatus;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "newStatus", columnDefinition = "TripStatus")
-    @Type(type = "pgsql_enum")
-    private TripStatus newStatus;
+    @Column(name = "type")
+    private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "changedBy")
     private AppUser changedBy;
 
     @CreationTimestamp
-    @Column(name = "changedAt")
+    @Column(name = "changedAt", nullable = false)
     private LocalDateTime changedAt;
+
+    @Column(name = "tripSnapshot", columnDefinition = "TEXT")
+    private String tripSnapshot;
 
     public TripTransportStatusLog() {
     }
 
-    public Long getLogId() {
+    public Integer getLogId() {
         return logId;
     }
 
-    public void setLogId(Long logId) {
+    public void setLogId(Integer logId) {
         this.logId = logId;
     }
 
-    public TripTransport getTrip() {
-        return trip;
+    public Integer getTripId() {
+        return tripId;
     }
 
-    public void setTrip(TripTransport trip) {
-        this.trip = trip;
-    }
-
-    public TripStatus getOldStatus() {
-        return oldStatus;
-    }
-
-    public void setOldStatus(TripStatus oldStatus) {
-        this.oldStatus = oldStatus;
-    }
-
-    public TripStatus getNewStatus() {
-        return newStatus;
-    }
-
-    public void setNewStatus(TripStatus newStatus) {
-        this.newStatus = newStatus;
+    public void setTripId(Integer tripId) {
+        this.tripId = tripId;
     }
 
     public AppUser getChangedBy() {
@@ -91,5 +71,21 @@ public class TripTransportStatusLog implements Serializable {
 
     public void setChangedAt(LocalDateTime changedAt) {
         this.changedAt = changedAt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTripSnapshot() {
+        return tripSnapshot;
+    }
+
+    public void setTripSnapshot(String tripSnapshot) {
+        this.tripSnapshot = tripSnapshot;
     }
 }

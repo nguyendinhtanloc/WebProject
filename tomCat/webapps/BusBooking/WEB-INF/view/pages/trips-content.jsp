@@ -1,23 +1,28 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="content-container">
     <h2>Danh sách chuyến xe</h2>
-    <a href="${pageContext.request.contextPath}/trips?action=new" class="btn btn-primary">Thêm chuyến</a>
-    
+
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger">${errorMessage}</div>
+    </c:if>
+
+    <a href="trips?action=new" class="btn btn-primary mb-3">Thêm chuyến xe mới</a>
+
     <table class="content-table">
         <thead>
             <tr>
                 <th>Công ty</th>
-                <th>Biển số xe</th>
+                <th>Xe</th>
                 <th>Tài xế</th>
-                <th>Nơi đi</th>
-                <th>Nơi đến</th>
-                <th>Ngày đi</th>
-                <th>Giờ đi</th>
-                <th>Giá</th>
+                <th>Điểm đi</th>
+                <th>Điểm đến</th>
+                <th>Khoảng cách (km)</th>
+                <th>Ngày giờ đi</th>
+                <th>Ngày giờ đến</th>
                 <th>Trạng thái</th>
+                <th>Giá chuyến</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -29,72 +34,55 @@
                     <td>${t.driverTransport.name}</td>
                     <td>${t.departurePoint}</td>
                     <td>${t.arrivalPoint}</td>
-                    <td>${t.departureDatetime != null ? t.departureDatetime.toLocalDate() : ''}</td>
-                    <td>${t.departureDatetime != null ? t.departureDatetime.toLocalTime() : ''}</td>
+                    <td>${t.distanceKm}</td>
+                    <td>
+                        <c:if test="${t.departureDate != null && t.departureTime != null}">
+                            ${t.departureDate} ${t.departureTime}
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${t.arrivalDate != null && t.arrivalTime != null}">
+                            ${t.arrivalDate} ${t.arrivalTime}
+                        </c:if>
+                    </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty t.seats}">
-                                <c:set var="minPrice" value="${t.seats[0].price}" />
-                                <c:forEach var="s" items="${t.seats}">
-                                    <c:if test="${s.price < minPrice}">
-                                        <c:set var="minPrice" value="${s.price}" />
-                                    </c:if>
-                                </c:forEach>
-                                ${minPrice}
+                            <c:when test="${t.status != null}">
+                                ${t.status}
                             </c:when>
                             <c:otherwise>
-                                Chưa có
+                                Chưa cập nhật
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td>${t.status}</td>
-                    <td style="display: flex; gap: 5px; align-items: center;">
-                        <a href="${pageContext.request.contextPath}/trips?action=edit&id=${t.tripId}" class="btn btn-edit">Sửa</a>
-                        <form action="${pageContext.request.contextPath}/trips" method="post" style="display:inline;">
-                            <input type="hidden" name="action" value="delete"/>
-                            <input type="hidden" name="tripId" value="${t.tripId}"/>
-                            <button type="submit" class="btn btn-delete" onclick="return confirm('Xóa chuyến này?')">Xóa</button>
+                    <td>
+                        <c:if test="${t.price != null}">
+                            ${t.price}
+                        </c:if>
+                    </td>
+                    <td>
+                        <a href="trips?action=edit&id=${t.tripId}" class="btn btn-edit">Sửa</a>
+                        <form action="trips" method="post" style="display:inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="tripId" value="${t.tripId}">
+                            <button type="submit" class="btn btn-delete"
+                                    onclick="return confirm('Bạn có chắc muốn xóa?');">
+                                Xóa
+                            </button>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
-            <c:if test="${empty tripList}">
-                <tr>
-                    <td colspan="10" style="text-align:center; padding: 20px;">Không có dữ liệu để hiển thị.</td>
-                </tr>
-            </c:if>
         </tbody>
     </table>
 
-    <c:if test="${totalPages > 1}">
-        <div class="pagination-container">
-            <a href="?page=1" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&laquo;</a>
-            <a href="?page=${currentPage - 1}" class="pagination-btn ${currentPage == 1 ? 'disabled' : ''}">&lsaquo;</a>
-
-            <c:set var="startPage" value="${currentPage - 2}" />
-            <c:set var="endPage" value="${currentPage + 2}" />
-            <c:if test="${startPage < 1}">
-                <c:set var="endPage" value="${endPage + (1 - startPage)}" />
-                <c:set var="startPage" value="1" />
-            </c:if>
-            <c:if test="${endPage > totalPages}">
-                <c:set var="startPage" value="${startPage - (endPage - totalPages)}" />
-                <c:set var="endPage" value="${totalPages}" />
-            </c:if>
-            <c:if test="${startPage < 1}"><c:set var="startPage" value="1" /></c:if>
-
-            <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                <a href="?page=${i}" class="pagination-btn ${currentPage == i ? 'active' : ''}">${i}</a>
-            </c:forEach>
-
-            <a href="?page=${currentPage + 1}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&rsaquo;</a>
-            <a href="?page=${totalPages}" class="pagination-btn ${currentPage == totalPages ? 'disabled' : ''}">&raquo;</a>
-
-            <form class="pagination-goto" action="${pageContext.request.contextPath}/trips" method="get">
-                <input type="number" name="page" min="1" max="${totalPages}" 
-                       placeholder="${currentPage}/${totalPages}" required
-                       title="Nhập số trang rồi nhấn Enter để đi tới">
-            </form>
-        </div>
-    </c:if>
+    <!-- Pagination -->
+    <div class="pagination-container">
+        <c:forEach var="i" begin="1" end="${totalPages}">
+            <a href="trips?page=${i}" 
+               class="pagination-btn ${i == currentPage ? 'active' : ''}">
+               ${i}
+            </a>
+        </c:forEach>
+    </div>
 </div>

@@ -19,4 +19,9 @@ public class PostgreSQLEnumType extends EnumType {
             st.setNull(index, Types.OTHER);
         }
     }
+
+    @Override
+    public int[] sqlTypes() {
+        return new int[]{Types.OTHER};
+    }
 }

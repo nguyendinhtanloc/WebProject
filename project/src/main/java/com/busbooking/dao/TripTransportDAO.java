@@ -1,7 +1,6 @@
 package com.busbooking.dao;
 
 import com.busbooking.model.TripTransport;
-import com.busbooking.model.enums.TripStatus;
 import com.busbooking.util.JPAUtil;
 
 import javax.persistence.EntityManager;
@@ -19,7 +18,8 @@ public class TripTransportDAO {
             em.persist(trip);
             em.getTransaction().commit();
 
-            tripTransportStatusLogDAO.logChange(trip, null, trip.getStatus(), userEmail);
+            // Ghi log kiểu insert
+            tripTransportStatusLogDAO.logChange(trip, userEmail, "insert");
         } finally {
             em.close();
         }
@@ -30,40 +30,46 @@ public class TripTransportDAO {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            TripTransport oldTrip = em.find(TripTransport.class, trip.getTripId());
-            TripStatus oldStatus = oldTrip != null ? oldTrip.getStatus() : null;
-
             em.merge(trip);
             em.getTransaction().commit();
 
-            tripTransportStatusLogDAO.logChange(trip, oldStatus, trip.getStatus(), userEmail);
+            // Ghi log kiểu update
+            tripTransportStatusLogDAO.logChange(trip, userEmail, "update");
         } finally {
             em.close();
         }
     }
 
-    // Xóa Trip theo tripId (Integer)
+    // Xóa Trip
     public void deleteTrip(Integer tripId, String userEmail) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             TripTransport trip = em.find(TripTransport.class, tripId);
             if (trip != null) {
+                // Ghi log kiểu delete
+                tripTransportStatusLogDAO.logChange(trip, userEmail, "delete");
                 em.remove(trip);
-                em.getTransaction().commit();
-
-                tripTransportStatusLogDAO.logChange(trip, trip.getStatus(), null, userEmail);
             }
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    // Lấy Trip theo tripId (Integer)
+    // Lấy Trip theo ID
     public TripTransport getTripById(Integer tripId) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            return em.find(TripTransport.class, tripId);
+            return em.createQuery(
+                    "SELECT t FROM TripTransport t " +
+                    "LEFT JOIN FETCH t.transportCompany " +
+                    "LEFT JOIN FETCH t.vehicleTransport " +
+                    "LEFT JOIN FETCH t.driverTransport " +
+                    "WHERE t.tripId = :tripId",
+                    TripTransport.class)
+                    .setParameter("tripId", tripId)
+                    .getSingleResult();
         } finally {
             em.close();
         }
@@ -73,35 +79,28 @@ public class TripTransportDAO {
     public List<TripTransport> getTripsByPage(int pageNumber, int pageSize) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            List<TripTransport> trips = em.createQuery(
-                    "SELECT t FROM TripTransport t " +
-                            "JOIN FETCH t.transportCompany " +
-                            "JOIN FETCH t.vehicleTransport " +
-                            "JOIN FETCH t.driverTransport " +
-                            "ORDER BY t.departureDatetime DESC",
+            return em.createQuery(
+                    "SELECT DISTINCT t FROM TripTransport t " +
+                    "LEFT JOIN FETCH t.transportCompany " +
+                    "LEFT JOIN FETCH t.vehicleTransport " +
+                    "LEFT JOIN FETCH t.driverTransport " +
+                    "ORDER BY t.departureDate DESC, t.departureTime DESC",
                     TripTransport.class)
                     .setFirstResult((pageNumber - 1) * pageSize)
                     .setMaxResults(pageSize)
                     .getResultList();
-
-            SeatTransportDAO seatDAO = new SeatTransportDAO();
-            for (TripTransport t : trips) {
-                t.setSeats(seatDAO.getSeatsByVehicle(t.getVehicleTransport().getVehicleId()));
-            }
-
-            return trips;
         } finally {
             em.close();
         }
     }
 
-    // Lấy tổng số Trip
+    // Tổng số Trip
     public int getTotalTripCount() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             Long count = em.createQuery("SELECT COUNT(t) FROM TripTransport t", Long.class)
                     .getSingleResult();
-            return count.intValue(); // ép Long -> int
+            return count.intValue();
         } finally {
             em.close();
         }

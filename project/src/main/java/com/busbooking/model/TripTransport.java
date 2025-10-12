@@ -8,7 +8,8 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
@@ -51,26 +52,32 @@ public class TripTransport implements Serializable {
     @Column(name = "arrivalAddress")
     private String arrivalAddress;
 
-    @Column(name = "distanceKm", nullable = false)
+    @Column(name = "distanceKm")
     private BigDecimal distanceKm;
 
-    @Column(name = "departureDatetime")
-    private LocalDateTime departureDatetime;
+    @Column(name = "departureDate")
+    private LocalDate departureDate;
 
-    @Column(name = "arrivalDatetime")
-    private LocalDateTime arrivalDatetime;
+    @Column(name = "departureTime")
+    private LocalTime departureTime;
+
+    @Column(name = "arrivalDate")
+    private LocalDate arrivalDate;
+
+    @Column(name = "arrivalTime")
+    private LocalTime arrivalTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "TripStatus")
-    @Type(type = "pgsql_enum") 
+    @Type(type = "pgsql_enum")
     private TripStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updatedBy")
     private AppUser updatedBy;
 
-    @Transient
-    private List<SeatTransport> seats;
+    @Column(name = "price")
+    private BigDecimal price;
 
     public TripTransport() {
     }
@@ -163,20 +170,36 @@ public class TripTransport implements Serializable {
         this.distanceKm = distanceKm;
     }
 
-    public LocalDateTime getDepartureDatetime() {
-        return departureDatetime;
+    public LocalDate getDepartureDate() {
+        return departureDate;
     }
 
-    public void setDepartureDatetime(LocalDateTime departureDatetime) {
-        this.departureDatetime = departureDatetime;
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
     }
 
-    public LocalDateTime getArrivalDatetime() {
-        return arrivalDatetime;
+    public LocalTime getDepartureTime() {
+        return departureTime;
     }
 
-    public void setArrivalDatetime(LocalDateTime arrivalDatetime) {
-        this.arrivalDatetime = arrivalDatetime;
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public TripStatus getStatus() {
@@ -195,11 +218,11 @@ public class TripTransport implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public List<SeatTransport> getSeats() {
-        return seats;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setSeats(List<SeatTransport> seats) {
-        this.seats = seats;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

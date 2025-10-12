@@ -3,7 +3,6 @@ package com.busbooking.dao;
 import com.busbooking.model.AppUser;
 import com.busbooking.model.TripTransportStatusLog;
 import com.busbooking.model.TripTransport;
-import com.busbooking.model.enums.TripStatus;
 import com.busbooking.util.JPAUtil;
 
 import javax.persistence.EntityManager;
@@ -12,30 +11,39 @@ import java.util.List;
 
 public class TripTransportStatusLogDAO {
 
-    /** Ghi log thay đổi trạng thái chuyến xe */
-    public void logChange(TripTransport trip, TripStatus oldStatus, TripStatus newStatus, String email) {
+    /** Ghi log hành động chuyến xe */
+    public void logChange(TripTransport trip, String email, String type) { // type: insert/update/delete
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
 
-            // Lấy thông tin user theo email
+            // Lấy user thực hiện thay đổi
             AppUser user = null;
             try {
                 user = em.createQuery(
                         "SELECT u FROM AppUser u WHERE u.email = :email", AppUser.class)
                         .setParameter("email", email)
                         .getSingleResult();
-            } catch (NoResultException e) {
-                // Nếu không tìm thấy user, có thể tạo user ảo hoặc xử lý tùy nhu cầu
-                System.out.println("User email không tồn tại: " + email);
-            }
+            } catch (NoResultException ignored) {}
 
-            // Tạo log mới
             TripTransportStatusLog log = new TripTransportStatusLog();
-            log.setTrip(trip);
-            log.setOldStatus(oldStatus);
-            log.setNewStatus(newStatus);
+            log.setTripId(trip != null ? trip.getTripId() : null);
             log.setChangedBy(user);
+            log.setType(type); // "insert", "update", "delete"
+
+            // Tạo snapshot cơ bản chuyến xe
+            if (trip != null) {
+                String snapshot = String.format(
+                        "{\"tripId\": %d, \"departurePoint\": \"%s\", \"departureCity\": \"%s\", " +
+                        "\"departureAddress\": \"%s\", \"arrivalPoint\": \"%s\", \"arrivalCity\": \"%s\", \"arrivalAddress\": \"%s\", " +
+                        "\"status\": \"%s\"}",
+                        trip.getTripId(),
+                        trip.getDeparturePoint(), trip.getDepartureCity(), trip.getDepartureAddress(),
+                        trip.getArrivalPoint(), trip.getArrivalCity(), trip.getArrivalAddress(),
+                        trip.getStatus() != null ? trip.getStatus().name() : null
+                );
+                log.setTripSnapshot(snapshot);
+            }
 
             em.persist(log);
             em.getTransaction().commit();
@@ -48,7 +56,9 @@ public class TripTransportStatusLogDAO {
     public List<TripTransportStatusLog> getLogsByPage(int pageNumber, int pageSize) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            return em.createQuery("SELECT t FROM TripTransportStatusLog t ORDER BY t.changedAt DESC", TripTransportStatusLog.class)
+            return em.createQuery(
+                    "SELECT t FROM TripTransportStatusLog t LEFT JOIN FETCH t.changedBy ORDER BY t.changedAt DESC",
+                    TripTransportStatusLog.class)
                     .setFirstResult((pageNumber - 1) * pageSize)
                     .setMaxResults(pageSize)
                     .getResultList();

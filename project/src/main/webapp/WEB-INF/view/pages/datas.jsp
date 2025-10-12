@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="content-container">
     <h2>Lịch sử Thay đổi Chuyến xe</h2>
@@ -12,8 +11,7 @@
                 <th>Hành động</th>
                 <th>Người thực hiện</th>
                 <th>Thời gian</th>
-                <th>Trạng thái cũ</th>
-                <th>Trạng thái mới</th>
+                <th>Chi tiết Snapshot</th>
             </tr>
         </thead>
         <tbody>
@@ -22,24 +20,29 @@
                     <td>${log.logId}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${log.oldStatus == null}">INSERT</c:when>
-                            <c:otherwise>UPDATE</c:otherwise>
+                            <c:when test="${log.type == 'insert'}">INSERT</c:when>
+                            <c:when test="${log.type == 'update'}">UPDATE</c:when>
+                            <c:when test="${log.type == 'delete'}">DELETE</c:when>
+                            <c:otherwise>UNKNOWN</c:otherwise>
                         </c:choose>
                     </td>
                     <td>
                         <c:out value="${log.changedBy != null ? log.changedBy.name : 'Unknown'}"/>
                     </td>
                     <td>
-                        <fmt:formatDate value="${log.changedAt}" pattern="HH:mm:ss dd/MM/yyyy"/>
+                        <c:if test="${log.changedAt != null}">
+                            ${log.changedAt.toString().substring(0,16).replace('T',' ')}
+                        </c:if>
                     </td>
-                    <td>${log.oldStatus != null ? log.oldStatus : '-'}</td>
-                    <td>${log.newStatus != null ? log.newStatus : '-'}</td>
+                    <td>
+                        <c:out value="${log.tripSnapshot != null ? log.tripSnapshot : '-'}"/>
+                    </td>
                 </tr>
             </c:forEach>
 
             <c:if test="${empty logList}">
                 <tr>
-                    <td colspan="6" style="text-align:center; padding:20px;">Không có dữ liệu.</td>
+                    <td colspan="5" style="text-align:center; padding:20px;">Không có dữ liệu.</td>
                 </tr>
             </c:if>
         </tbody>

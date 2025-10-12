@@ -5,15 +5,23 @@
 
     <!-- Khai báo các entity -->
     <class>com.busbooking.model.AppUser</class>
-    <class>com.busbooking.model.AuthService</class>
     <class>com.busbooking.model.DriverTransport</class>
     <class>com.busbooking.model.LoginLog</class>
-    <class>com.busbooking.model.LoginStatusLog</class>
-    <class>com.busbooking.model.SeatTransport</class>
     <class>com.busbooking.model.TransportCompany</class>
+    <!-- <class>com.busbooking.model.TripDetail</class> -->
     <class>com.busbooking.model.TripTransport</class>
     <class>com.busbooking.model.TripTransportStatusLog</class>
-    <class>com.busbooking.model.UserActivityLog</class>
     <class>com.busbooking.model.VehicleTransport</class>
+
+    <properties>
+  <!-- Hiển thị câu lệnh SQL -->
+  <property name="hibernate.show_sql" value="true"/>
+  <property name="hibernate.format_sql" value="true"/>
+  <property name="hibernate.use_sql_comments" value="true"/>
+
+  <!-- Log các giá trị tham số truyền vào câu SQL -->
+  <property name="hibernate.type" value="trace"/>
+</properties>
+
   </persistence-unit>
 </persistence>

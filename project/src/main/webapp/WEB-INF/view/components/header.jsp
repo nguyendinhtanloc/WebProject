@@ -45,12 +45,15 @@ pageEncoding="UTF-8"%>
                         <li class="dropdown-item">Profile</li>
                         <li class="dropdown-item">Settings</li>
                         
-                        <!-- === NÂNG CẤP BẢO MẬT: Chuyển link logout thành form === -->
+                        <!-- === NÂNG CẤP BẢO MẬT: Chuyển link logout thành form với confirm === -->
                         <li class="dropdown-item">
                             <form action="${pageContext.request.contextPath}/logout" method="post" style="display: inline;">
                                 <!-- Thêm token bí mật vào form -->
                                 <input type="hidden" name="<%= CsrfTokenFilter.CSRF_TOKEN_SESSION_ATTR %>" value="${sessionScope.csrfToken}">
-                                <button type="submit" class="logout-button">Logout</button>
+                                <button type="submit" class="logout-button"
+                                        onclick="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                                    Logout
+                                </button>
                             </form>
                         </li>
                         <!-- === KẾT THÚC NÂNG CẤP === -->
@@ -62,6 +65,7 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 </header>
+
 <%-- Thêm một chút CSS để nút logout trông giống như một link bình thường --%>
 <style>
     .logout-button {
@@ -76,7 +80,6 @@ pageEncoding="UTF-8"%>
         width: 100%;
     }
     .logout-button:hover {
-        /* Bạn có thể thêm hiệu ứng hover ở đây nếu muốn */
         text-decoration: underline;
     }
 </style>
