@@ -1,0 +1,47 @@
+# ====================================
+# .dockerignore - Optimize Docker build
+# ====================================
+
+# Maven target directory (sẽ được build trong container)
+target/
+!target/Web-project.war
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Development files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Test files
+src/test/
+
+# Environment files (sẽ set qua Render environment variables)
+.env
+*.properties
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~

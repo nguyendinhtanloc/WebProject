@@ -1,0 +1,67 @@
+# ====================================
+# Render.com Deployment Configuration
+# ====================================
+
+services:
+  - type: web
+    name: bus-booking-app
+    env: docker
+    dockerfilePath: ./Dockerfile
+    
+    # Build settings
+    buildCommand: echo "Docker build will handle compilation"
+    startCommand: echo "Docker CMD will handle startup"
+    
+    # Environment settings
+    envVars:
+      # Java settings
+      - key: JAVA_OPTS
+        value: "-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
+      
+      # Email configuration (SET THESE IN RENDER DASHBOARD)
+      - key: EMAIL_SMTP_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_SMTP_PORT
+        value: "587"
+      - key: EMAIL_FROM
+        sync: false  # Set manually in Render dashboard
+      - key: EMAIL_PASSWORD
+        sync: false  # Set manually in Render dashboard (App Password)
+      
+      # Database configuration (SET THESE IN RENDER DASHBOARD)
+      - key: DB_URL
+        sync: false  # Set to your PostgreSQL connection string
+      - key: DB_USERNAME
+        sync: false  # Set manually
+      - key: DB_PASSWORD
+        sync: false  # Set manually
+      
+      # Application settings
+      - key: TZ
+        value: Asia/Ho_Chi_Minh
+      - key: LANG
+        value: en_US.UTF-8
+    
+    # Health check
+    healthCheckPath: /
+
+    # Scaling settings
+    numInstances: 1
+    
+    # Resource limits (adjust based on your Render plan)
+    plan: starter  # free, starter, standard, pro
+    
+    # Auto-deploy settings
+    autoDeploy: true
+    
+    # Custom domains (optional)
+    # domains:
+    #   - busbooking.yourdomain.com
+
+# ====================================  
+# Database service (if using Render PostgreSQL)
+# ====================================
+# databases:
+#   - name: bus-booking-db
+#     databaseName: busbooking
+#     user: bususer
