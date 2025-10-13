@@ -48,7 +48,7 @@ public class PaymentService {
 
             // 3. Cập nhật Order với thời gian hết hạn
             order.setOrderStatus("Đang Chờ Thanh Toán"); // Cập nhật trạng thái
-            order.setExpiresAt(LocalDateTime.now().plusMinutes(1));
+            order.setExpiresAt(LocalDateTime.now().plusMinutes(3));
             orderRepository.update(order, em); // Dùng phương thức update mới
 
             // 4. Tạo Payment (Logic từ hàm createPayment được đưa trực tiếp vào đây)
