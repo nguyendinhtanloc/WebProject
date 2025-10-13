@@ -42,6 +42,39 @@ public class OrderRepository {
         return em.merge(order);
     }
 
+    public boolean updateOrderStatus(Long orderId, String newStatus) {
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            
+            // 1. Tìm Order trong DB
+            Order orderToUpdate = em.find(Order.class, orderId);
+
+            if (orderToUpdate != null) {
+                // 2. Thay đổi trạng thái
+                orderToUpdate.setStatus(newStatus);
+                
+                // 3. Gọi công cụ cấp thấp của bạn để lưu lại
+                update(orderToUpdate, em);
+                
+                tx.commit();
+                return true;
+            } else {
+                // Không tìm thấy order, không cần làm gì cả
+                return false;
+            }
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
     // Trong class OrderRepository.java
     public int cleanupExpiredOrders() {
         EntityManager em = JPAUtil.getEntityManager();
