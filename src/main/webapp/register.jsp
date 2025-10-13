@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký - BusBooking</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register.css">
     <style>
         .form-group {
             margin-bottom: 15px;
@@ -66,7 +66,7 @@
     </style>
 </head>
 <body>
-<div class="container" style="max-width:500px;margin:60px auto;padding:30px;border:1px solid #ddd;border-radius:8px;">
+<div class="container" style="max-width:500px;margin:60px auto;padding:30px;border:1px solid #ddd;border-radius:30px;">
     <h2 style="text-align:center;margin-bottom:30px;">Đăng ký tài khoản</h2>
 
     <!-- Hiển thị thông báo lỗi -->
