@@ -26,18 +26,17 @@ public class Seat {
     @Column(name = "\"numSeat\"")
     private String numSeat;
 
-    @Column(name= "price")
-    private float price;
+
 
     // Constructors
     public Seat() {}
 
-    public Seat(Integer idSeat, Vehicle idVehicle, String statusBook, String numSeat, float price) {
+    public Seat(Integer idSeat, Vehicle idVehicle, String statusBook, String numSeat) {
         this.idSeat = idSeat;
         this.idVehicle = idVehicle;
         this.statusBook = statusBook;
         this.numSeat = numSeat;
-        this.price = price;
+
     }
 
     // Getters and Setters
@@ -62,13 +61,7 @@ public class Seat {
         this.numSeat = numSeat;
     }
 
-    public float getPrice() {
-        return price;
-    }
 
-    public void setPrice(float price) {
-        this.price = price;
-    }
 
     public Vehicle getIdVehicle() {
         return idVehicle;
