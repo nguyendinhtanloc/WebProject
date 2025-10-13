@@ -1,4 +1,5 @@
 package com.busbooking.util;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -8,13 +9,19 @@ import javax.persistence.Persistence;
 public class JPAUtil {
     private static final String PERSISTENCE_UNIT_NAME = "busbookingPU";
     private static final EntityManagerFactory factory;
-    
+
     static {
         try {
-              // Lấy biến môi trường từ hệ thống (Render inject trực tiếp)
+            // Lấy biến môi trường từ hệ thống
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
-            properties.put("javax.persistence.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
+
+            // ✅ SỬA LỖI Ở ĐÂY: Thêm "?prepareThreshold=0" vào cuối chuỗi URL
+            // Việc này sẽ vô hiệu hóa server-side prepared statements,
+            // tránh lỗi khi dùng với connection pooler của Supabase.
+            String dbUrl = System.getenv("JDBC_DATABASE_URL") + "?prepareThreshold=0";
+            properties.put("javax.persistence.jdbc.url", dbUrl);
+            
             properties.put("javax.persistence.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
             properties.put("javax.persistence.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
 
@@ -29,11 +36,11 @@ public class JPAUtil {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    
+
     public static EntityManager getEntityManager() {
         return factory.createEntityManager();
     }
-    
+
     public static void close() {
         if (factory != null) {
             factory.close();
