@@ -74,25 +74,37 @@ public class TicketDAO {
     }
 
     // Tạo ticket cho từng ghế đã đặt khi order đã thanh toán thành công
-    public void createTicketsForOrder(com.busbooking.entity.Order order) {
-        if (order == null || order.getOrderStatus() == null || !"paid".equalsIgnoreCase(order.getOrderStatus())) {
-            return; // Chỉ tạo ticket khi order đã thanh toán
+    public void createTicketsForOrder(Order order) {
+        // 1. Việc kiểm tra order đã được Service thực hiện, nhưng kiểm tra lại vẫn tốt
+        if (order == null || !"paid".equalsIgnoreCase(order.getStatus())) {
+            return;
         }
-        java.util.List<com.busbooking.entity.Seat> seats = order.getSeatBooked();
-        long userId = order.getUserId();
-        int tripId = order.getTripId();
-        double pricePerTicket = order.getAmount().doubleValue() / (seats != null && seats.size() > 0 ? seats.size() : 1);
-        em.getTransaction().begin();
-        for (com.busbooking.entity.Seat seat : seats) {
-            com.busbooking.entity.Ticket ticket = new com.busbooking.entity.Ticket();
-            ticket.setUserId(userId);
-            ticket.setTripId(tripId);
-            ticket.setSeatId(String.valueOf(seat.getIdSeat()));
-            ticket.setBookingTime(java.time.LocalDateTime.now());
-            ticket.setStatus(com.busbooking.entity.Ticket.TicketStatus.booked);
-            ticket.setPrice(pricePerTicket);
+
+        List<Seat> seats = order.getSeatBooked();
+        if (seats == null || seats.isEmpty()) {
+            return; // Không có ghế để tạo vé
+        }
+        
+        // 2. Sử dụng BigDecimal để tính toán giá vé cho an toàn
+        BigDecimal totalAmount = order.getAmount();
+        BigDecimal numberOfSeats = new BigDecimal(seats.size());
+        BigDecimal pricePerTicket = totalAmount.divide(numberOfSeats, 2, RoundingMode.HALF_UP);
+
+        // 3. Vòng lặp tạo vé - KHÔNG CÓ QUẢN LÝ TRANSACTION Ở ĐÂY
+        for (Seat seat : seats) {
+            Ticket ticket = new Ticket();
+            
+            // 4. Thiết lập các mối quan hệ đối tượng trực tiếp
+            ticket.setOrder(order);
+            ticket.setUser(order.getUser());   // Giả định Order có getUser() trả về AppUser
+            ticket.setTrip(order.getTrip());     // Giả định Order có getTrip() trả về Trip
+            ticket.setSeat(seat);
+            
+            ticket.setBookingTime(LocalDateTime.now());
+            ticket.setStatus("active"); // Nên dùng hằng số hoặc Enum
+            ticket.setPrice(pricePerTicket); // Lưu dưới dạng BigDecimal
+            
             em.persist(ticket);
         }
-        em.getTransaction().commit();
     }
 }
