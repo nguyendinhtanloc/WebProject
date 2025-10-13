@@ -42,7 +42,7 @@ public class OrderRepository {
         return em.merge(order);
     }
 
-    public boolean updateOrderStatus(Long orderId, String newStatus) {
+    public void updateOrderStatus(Long orderId, String newStatus) {
         EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
@@ -56,17 +56,17 @@ public class OrderRepository {
                 orderToUpdate.setOrderStatus(newStatus); 
                 
                 tx.commit();
-                return true;
+                return;
             } else {
                 // Không tìm thấy order, không cần làm gì cả
-                return false;
+                return;
             }
         } catch (Exception e) {
             if (tx.isActive()) {
                 tx.rollback();
             }
             e.printStackTrace();
-            return false;
+            return;
         } finally {
             em.close();
         }
