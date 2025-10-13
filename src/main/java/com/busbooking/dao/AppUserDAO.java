@@ -1,7 +1,7 @@
 package com.busbooking.dao;
-
+import javax.persistence.EntityTransaction;
 import java.util.List;
-
+import com.busbooking.util.JPAUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -10,14 +10,15 @@ import javax.persistence.TypedQuery;
 import com.busbooking.entity.AppUser;
 
 public class AppUserDAO {
-    private final EntityManagerFactory emf;
+    // private final EntityManagerFactory emf;
 
     public AppUserDAO() {
-        emf = Persistence.createEntityManagerFactory("busbookingPU");
+        // emf = Persistence.createEntityManagerFactory("busbookingPU");
     }
 
     public void save(AppUser user) {
-        EntityManager em = emf.createEntityManager();
+        // EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(user);
@@ -47,7 +48,8 @@ public class AppUserDAO {
     }
 
     public AppUser findByEmail(String email) {
-        EntityManager em = emf.createEntityManager();
+        // EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         try {
             TypedQuery<AppUser> query = em.createQuery("SELECT u FROM AppUser u WHERE u.email = :email", AppUser.class);
             query.setParameter("email", email);
