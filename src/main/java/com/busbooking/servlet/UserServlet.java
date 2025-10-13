@@ -24,6 +24,49 @@ public class UserServlet extends HttpServlet {
         request.getRequestDispatcher("/user.jsp").forward(request, response);
     }
 
+    private void handleUpdateInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
+        AppUser user = (AppUser) session.getAttribute("user");
+
+        // Cập nhật thông tin từ form vào đối tượng user
+        user.setName(request.getParameter("fullName"));
+        user.setPhone(request.getParameter("phone"));
+        user.setAddress(request.getParameter("address"));
+        user.setGender(request.getParameter("gender"));
+        try {
+             user.setBirthDate(LocalDate.parse(request.getParameter("birthDate")));
+        } catch (Exception e) { /* Bỏ qua nếu ngày sinh không hợp lệ */ }
+        
+        // Cập nhật mật khẩu nếu có
+        String password = request.getParameter("password");
+        if (password != null && !password.isEmpty()) {
+            user.setPassword(password); // Nên mã hóa
+        }
+
+        if (fullName != null && !fullName.isEmpty()) {
+                user.setName(fullName);
+        }
+        if (phone != null && !phone.isEmpty()) {
+            user.setPhone(phone);
+        }
+        if (address != null && !address.isEmpty()) {
+            user.setAddress(address);
+        }
+        if (gender != null && !gender.isEmpty()) {
+            user.setGender(gender);
+        }
+
+        // Lưu vào DB thông qua DAO
+        AppUser updatedUser = appUserDAO.update(user);
+
+        if (updatedUser != null) {
+            session.setAttribute("user", updatedUser);
+            request.setAttribute("message", "Cập nhật thông tin thành công!");
+        } else {
+            request.setAttribute("error", "Cập nhật thông tin thất bại!");
+        }
+        request.getRequestDispatcher("/user.jsp").forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -33,43 +76,7 @@ public class UserServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
                 return;
             }
-            AppUser user = (AppUser) session.getAttribute("user");
-            String fullName = request.getParameter("fullName");
-            String phone = request.getParameter("phone");
-            String birthDate = request.getParameter("birthDate");
-            String address = request.getParameter("address");
-            String gender = request.getParameter("gender");
-            String password = request.getParameter("password");
-
-            if (fullName != null && !fullName.isEmpty()) {
-                user.setName(fullName);
-            }
-            if (phone != null && !phone.isEmpty()) {
-                user.setPhone(phone);
-            }
-            if (birthDate != null && !birthDate.isEmpty()) {
-                try {
-                    user.setBirthDate(java.time.LocalDate.parse(birthDate));
-                } catch (Exception e) {
-                    request.setAttribute("error", "Ngày sinh không hợp lệ!");
-                }
-            }
-            if (address != null && !address.isEmpty()) {
-                user.setAddress(address);
-            }
-            if (gender != null && !gender.isEmpty()) {
-                user.setGender(gender);
-            }
-            if (password != null && !password.isEmpty()) {
-                user.setPassword(password); // Nên mã hóa mật khẩu ở thực tế
-            }
-            // Lưu cập nhật vào DB
-            new com.busbooking.dao.AppUserDAO().save(user);
-            // Cập nhật lại session
-            session.setAttribute("user", user);
-            request.setAttribute("message", "Cập nhật thông tin thành công!");
-            request.getRequestDispatcher("/user.jsp").forward(request, response);
-            return;
+            handleUpdateInfo(request, response, session);
         } else if ("refundTicket".equals(action)) {
             // Xử lý hoàn vé
             String ticketIdStr = request.getParameter("ticketId");
