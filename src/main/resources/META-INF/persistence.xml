@@ -18,6 +18,7 @@
         <class>com.busbooking.entity.Voucher</class>
         <class>com.busbooking.entity.PaymentTransactionLog</class>
         <class>com.busbooking.entity.Order</class>
+        <class>com.busbooking.entity.Ticket</class>
 
         <properties>
             <!-- 🔐 Cấu hình kết nối database thông qua biến môi trường -->
