@@ -27,6 +27,25 @@ public class AppUserDAO {
         }
     }
 
+    public AppUser update(AppUser user) {
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            AppUser updatedUser = em.merge(user); // Dùng merge để cập nhật
+            tx.commit();
+            return updatedUser;
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
     public AppUser findByEmail(String email) {
         EntityManager em = emf.createEntityManager();
         try {
