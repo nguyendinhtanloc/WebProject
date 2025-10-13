@@ -78,7 +78,7 @@
             </c:if>
 
             <div class="btn-group">
-                <a href="http://localhost:8080/index.jsp" class="btn btn-primary">Về trang chủ</a>
+                <a href="https://webbusbooking.onrender.com/" class="btn btn-primary">Về trang chủ</a>
             </div>
         </div>
     </main>
