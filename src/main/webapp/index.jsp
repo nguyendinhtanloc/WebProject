@@ -87,7 +87,7 @@
 
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Liên hệ</a>
+                        <a href="${pageContext.request.contextPath}/faq" class="nav-link">Liên hệ</a>
                     </li>
                 </ul>
                 <div class="nav-auth">
