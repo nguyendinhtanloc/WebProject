@@ -1,5 +1,6 @@
 package com.busbooking.util;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -22,7 +23,7 @@ public class JPAUtil {
             properties.put("hibernate.hbm2ddl.auto", "update");
             properties.put("hibernate.show_sql", "true");
 
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, properties);
         } catch (Throwable ex) {
             System.err.println("Failed to create EntityManagerFactory: " + ex);
             throw new ExceptionInInitializerError(ex);
