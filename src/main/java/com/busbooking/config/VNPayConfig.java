@@ -9,9 +9,9 @@ import java.util.*;
 
 public class VNPayConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = System.getenv(VNP_RETURN_URL);
-    public static String vnp_TmnCode = System.getenv(VNP_TMNCODE);
-    public static String secretKey = System.getenv(VNP_HASH_SECRET);
+    public static String vnp_ReturnUrl = System.getenv("VNP_RETURN_URL");
+    public static String vnp_TmnCode = System.getenv("VNP_TMNCODE");
+    public static String secretKey = System.getenv("VNP_HASH_SECRET");
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
