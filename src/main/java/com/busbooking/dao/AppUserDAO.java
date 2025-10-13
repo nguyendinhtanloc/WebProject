@@ -10,15 +10,15 @@ import javax.persistence.TypedQuery;
 import com.busbooking.entity.AppUser;
 
 public class AppUserDAO {
-    // private final EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
     public AppUserDAO() {
-        // emf = Persistence.createEntityManagerFactory("busbookingPU");
+        emf = Persistence.createEntityManagerFactory("busbookingPU");
     }
 
     public void save(AppUser user) {
-        // EntityManager em = emf.createEntityManager();
-        EntityManager em = JPAUtil.getEntityManager();
+        EntityManager em = emf.createEntityManager();
+        // EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(user);
@@ -29,7 +29,7 @@ public class AppUserDAO {
     }
 
     public AppUser update(AppUser user) {
-        EntityManager em = JPAUtil.getEntityManager();
+        // EntityManager em = JPAUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -48,8 +48,8 @@ public class AppUserDAO {
     }
 
     public AppUser findByEmail(String email) {
-        // EntityManager em = emf.createEntityManager();
-        EntityManager em = JPAUtil.getEntityManager();
+        EntityManager em = emf.createEntityManager();
+        // EntityManager em = JPAUtil.getEntityManager();
         try {
             TypedQuery<AppUser> query = em.createQuery("SELECT u FROM AppUser u WHERE u.email = :email", AppUser.class);
             query.setParameter("email", email);
@@ -61,8 +61,8 @@ public class AppUserDAO {
     }
 
     public AppUser login(String email, String password) {
-        // EntityManager em = emf.createEntityManager();
-        EntityManager em = JPAUtil.getEntityManager();
+        EntityManager em = emf.createEntityManager();
+        // EntityManager em = JPAUtil.getEntityManager();
         try {
             TypedQuery<AppUser> query = em.createQuery(
                     "SELECT u FROM AppUser u WHERE u.email = :email AND u.password = :password AND u.status = 'active'",
@@ -77,8 +77,8 @@ public class AppUserDAO {
     }
 
     public void delete(AppUser user) {
-        // EntityManager em = emf.createEntityManager();
-        EntityManager em = JPAUtil.getEntityManager(); 
+        EntityManager em = emf.createEntityManager();
+        // EntityManager em = JPAUtil.getEntityManager(); 
         try {
             em.getTransaction().begin();
             AppUser managedUser = em.find(AppUser.class, user.getUserUuid());
