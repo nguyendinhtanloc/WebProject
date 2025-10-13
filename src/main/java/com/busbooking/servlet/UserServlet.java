@@ -10,9 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import com.busbooking.dao.AppUserDAO;
 
 @WebServlet(name = "UserServlet", urlPatterns = {"/user"})
 public class UserServlet extends HttpServlet {
+    private AppUserDAO appUserDAO;
+
+    @Override
+    public void init() throws ServletException {
+        appUserDAO = new AppUserDAO();
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
