@@ -8,6 +8,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('../images/img.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* Container của form */
