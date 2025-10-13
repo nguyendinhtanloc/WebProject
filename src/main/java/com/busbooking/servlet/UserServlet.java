@@ -20,7 +20,18 @@ public class UserServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
-		// TODO: Lấy lịch sử vé, thông tin user từ DB nếu cần
+		// Lấy lịch sử vé đã đặt của user
+		AppUser user = (AppUser) session.getAttribute("user");
+		java.util.List<com.busbooking.dto.TicketTripDTO> userTickets = java.util.Collections.emptyList();
+		if (user != null && user.getEmail() != null) {
+			javax.persistence.EntityManager em = com.busbooking.util.JPAUtil.getEntityManager();
+			try {
+				userTickets = new com.busbooking.dao.TicketDAO(em).findTicketsByEmail(user.getEmail());
+			} finally {
+				em.close();
+			}
+		}
+		request.setAttribute("userTickets", userTickets);
 		request.getRequestDispatcher("/user.jsp").forward(request, response);
 	}
 

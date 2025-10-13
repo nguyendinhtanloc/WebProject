@@ -112,6 +112,15 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
                 orderRepository.updateOrderStatus(payment.getOrder().getOrderId(), "paid");
+                // Tạo ticket tự động nếu order đã paid
+                try {
+                    com.busbooking.entity.Order paidOrder = payment.getOrder();
+                    javax.persistence.EntityManager em = com.busbooking.util.JPAUtil.getEntityManager();
+                    new com.busbooking.dao.TicketDAO(em).createTicketsForOrder(paidOrder);
+                    em.close();
+                } catch (Exception ex) {
+                    logger.log(Level.SEVERE, "Lỗi tạo ticket tự động cho order đã paid", ex);
+                }
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {
