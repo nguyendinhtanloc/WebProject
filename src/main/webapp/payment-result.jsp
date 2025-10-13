@@ -16,7 +16,7 @@
         </div>
         <nav class="navbar">
             <ul class="nav-links">
-                <li><a href="index.jsp">Trang chủ</a></li>
+                <li><a href="https://webbusbooking.onrender.com/payment/index.jsp">Trang chủ</a></li>
                 <li><a href="schedule.jsp">Lịch trình</a></li>
                 <li><a href="contact.jsp">Liên hệ</a></li>
             </ul>
