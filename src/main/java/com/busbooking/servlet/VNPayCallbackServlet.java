@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.busbooking.dao.UserRepository;
+import com.busbooking.dao.OrderRepository;
 import com.busbooking.entity.AppUser;
 import com.busbooking.entity.Payment;
 import com.busbooking.entity.PaymentTransactionLog;
@@ -108,7 +109,7 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setStatus("success");
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
-                updateOrderStatus(payment.getOrder().getOrderId(), "paid");
+                OrderRepository.updateOrderStatus(payment.getOrder().getOrderId(), "paid");
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {
