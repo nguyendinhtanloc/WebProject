@@ -1,54 +1,38 @@
 package com.busbooking.servlet;
 
 import com.busbooking.dao.OrderRepository;
-import com.busbooking.dao.PaymentRepository;
 import com.busbooking.dao.SeatDAO;
 import com.busbooking.entity.Order;
 import com.busbooking.entity.Seat; // Import Seat entity
-import com.busbooking.entity.Voucher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.busbooking.entity.AppUser;
 
 @WebServlet("/saveInf")
 public class SaveInfBookServlet extends HttpServlet {
-
-    private PaymentRepository paymentRepository;
-
-    @Override
-    public void init() {
-        paymentRepository = new PaymentRepository();
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        AppUser loggedInUser = (AppUser) session.getAttribute("user");
-
-
         // Lấy thông tin khách hàng và tổng tiền
         String customerName = request.getParameter("customerName");
         String customerPhone = request.getParameter("customerPhone");
         String customerEmail = request.getParameter("customerEmail");
         String totalPriceStr = request.getParameter("totalPrice");
+        Integer tripId = Integer.valueOf(request.getParameter("tripId"));
+        String vehicleType = request.getParameter("vehicle_type");
+        Integer veId = Integer.valueOf(request.getParameter("veId"));
         BigDecimal total = new BigDecimal(totalPriceStr);
 
         String selectedSeatIdsStr = request.getParameter("selected_seats");
@@ -72,28 +56,11 @@ public class SaveInfBookServlet extends HttpServlet {
         newOrder.setAmount(total);
         newOrder.setSeatBooked(selectedSeatsList);
 
-        //newOrder.setUserId(loggedInUser.getUserUuid());
-
         Order currentOrder = orderRepo.addOrder(newOrder);
-
-        //  Lấy voucherCode (tùy chọn)
-        String voucherCode = request.getParameter("voucher_code");
-        BigDecimal discountAmount = BigDecimal.ZERO;
-        BigDecimal finalAmount = currentOrder.getAmount();
-
-        if (voucherCode != null && !voucherCode.trim().isEmpty()) {
-            Voucher voucher = paymentRepository.findVoucherByCode(voucherCode);
-            if (voucher != null && voucher.isValid()) {
-                discountAmount = voucher.calculateDiscount(currentOrder.getAmount());
-                finalAmount = currentOrder.getAmount().subtract(discountAmount);
-                request.setAttribute("voucherMessage", "Áp dụng mã giảm giá thành công!");
-            } else {
-                request.setAttribute("voucherMessage", "Mã giảm giá không hợp lệ!");
-            }
-        }
         request.setAttribute("currentOrder", currentOrder);
-        request.setAttribute("discountAmount", discountAmount);
-        request.setAttribute("finalAmount", finalAmount);
+        request.setAttribute("tripId", tripId);
+        request.setAttribute("veId", veId);
+        request.setAttribute("vehicleType", vehicleType);
         request.getRequestDispatcher("/payment.jsp").forward(request, response);
     }
 }

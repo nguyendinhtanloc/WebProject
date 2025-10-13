@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalPriceSpan = document.getElementById('total-price');
     const finalTotalPriceSpan = document.getElementById('final-total-price');
 
-    // SỬA LỖI 1: Khai báo các biến tham chiếu đến input ẩn
     const hiddenSelectedSeats = document.getElementById('hidden_selected_seats');
     const hiddenTotalPrice = document.getElementById('hidden-total-price-value');
 
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCheckboxes = Array.from(seatCheckboxes)
                                        .filter(checkbox => checkbox.checked);
 
-        // SỬA LỖI 2: Tạo ra 2 danh sách riêng biệt
         // 1. Danh sách SỐ GHẾ (A1, B5) để hiển thị cho người dùng
         const selectedSeatNumbers = selectedCheckboxes.map(checkbox => checkbox.dataset.seatNumber);
 
@@ -25,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // --- Cập nhật giao diện ---
         seatNumbersSpan.textContent = selectedSeatNumbers.length > 0 ? selectedSeatNumbers.join(', ') : 'Chưa chọn';
-        seatCountSpan.textContent = selectedCheckboxes.length; // SỬA LỖI 3: Dùng độ dài của mảng đúng
+        seatCountSpan.textContent = selectedCheckboxes.length;
 
-        const totalPrice = selectedCheckboxes.length * ticketPrice; // SỬA LỖI 3: Dùng độ dài của mảng đúng
+        const totalPrice = selectedCheckboxes.length * ticketPrice;
         const formattedPrice = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
         totalPriceSpan.textContent = formattedPrice;
@@ -42,39 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
        checkbox.addEventListener('change', updateSelection);
     });
 
-    // --- Phần code để lấy thông tin đón/trả (giữ nguyên) ---
-    const pickupOptionRadios = document.querySelectorAll('input[name="pickup_option"]');
-    const pickupLocationSelect = document.getElementById('pickup-location');
-    const dropoffOptionRadios = document.querySelectorAll('input[name="dropoff_option"]');
-    const dropoffLocationSelect = document.getElementById('dropoff-location');
-
-    const hiddenPickupOption = document.getElementById('hidden_pickup_option');
-    const hiddenPickupLocation = document.getElementById('hidden_pickup_location');
-    const hiddenDropoffOption = document.getElementById('hidden_dropoff_option');
-    const hiddenDropoffLocation = document.getElementById('hidden_dropoff_location');
-
-    function updateHiddenFields() {
-        document.querySelectorAll('input[name="pickup_option"]').forEach(radio => {
-            if (radio.checked) {
-                hiddenPickupOption.value = radio.value;
-            }
-        });
-        hiddenPickupLocation.value = pickupLocationSelect.value;
-
-        document.querySelectorAll('input[name="dropoff_option"]').forEach(radio => {
-            if (radio.checked) {
-                hiddenDropoffOption.value = radio.value;
-            }
-        });
-        hiddenDropoffLocation.value = dropoffLocationSelect.value;
-    }
-
-    pickupOptionRadios.forEach(radio => radio.addEventListener('change', updateHiddenFields));
-    pickupLocationSelect.addEventListener('change', updateHiddenFields);
-    dropoffOptionRadios.forEach(radio => radio.addEventListener('change', updateHiddenFields));
-    dropoffLocationSelect.addEventListener('change', updateHiddenFields);
-
-    // Chạy cả hai hàm cập nhật một lần lúc tải trang để lấy giá trị mặc định
+    // Chạy hàm cập nhật một lần lúc tải trang để khởi tạo giá trị
     updateSelection();
-    updateHiddenFields();
 });

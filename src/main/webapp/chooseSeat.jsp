@@ -58,7 +58,7 @@
                                 <i class="fas fa-user-plus"></i>
                                 Đăng ký
                             </a>
-                        </c:otherwise>
+</c:otherwise>
                     </c:choose>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                                                     startFloor1++;
                                                 %>
                                                 <td class="seat-cell">
-                                                    <input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat"
+<input type="checkbox" id="seat-<%= seat.getNumSeat() %>" name="seat"
                                                         value="<%= seat.getIdSeat() %>" data-seat-number="<%= seat.getNumSeat() %>"
                                                         <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                     <label for="seat-<%= seat.getNumSeat() %>">
@@ -152,7 +152,7 @@
                                                         value="<%= seat.getIdSeat() %>" data-seat-number="<%= seat.getNumSeat() %>"
                                                         <%= "booked".equals(seat.getStatusBook()) ? "disabled" : "" %>>
                                                     <label for="seat-<%= seat.getNumSeat() %>">
-                                                        <img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
+<img src="${pageContext.request.contextPath}/css/seat.png" class="seat-icon">
                                                         <span><%= seat.getNumSeat() %></span>
                                                     </label>
                                                 </td>
@@ -198,7 +198,7 @@
                                         </td>
                                         <% } else { %>
                                             <td></td>
-                                        <% }
+<% }
                                         }
                                         } %>
                                     </tr>
@@ -244,22 +244,12 @@
                     <div class="pickup-dropoff-info">
                         <h3 class="customer-info-title">Thông tin đón trả</h3>
                         <div class="pickup-dropoff-container">
+
                             <div class="location-point-section">
                                 <h4>ĐIỂM ĐÓN</h4>
-                                <div class="radio-group">
-                                    <div>
-                                        <input type="radio" id="pickup-station" name="pickup_option" value="station" checked>
-                                        <label for="pickup-station">Bến xe/VP</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="pickup-transfer" name="pickup_option" value="transfer">
-                                        <label for="pickup-transfer">Trung chuyển</label>
-                                    </div>
+                                <div class="location-textbox">
+                                    ${trip.departurePoint}
                                 </div>
-                                <select name="pickup_location" id="pickup-location" class="location-select">
-                                    <option value="${trip.departurePoint}" selected>${trip.departurePoint}</option>
-                                    <option value="another_place_1">Một điểm đón khác 1</option>
-                                </select>
                                 <p class="location-note">
                                     Quý khách vui lòng có mặt tại Bến xe/Văn phòng <strong>${trip.departurePoint}</strong>
                                     trước <strong>${trip.departureTime} ${trip.departureDate}</strong>
@@ -269,21 +259,11 @@
 
                             <div class="location-point-section">
                                 <h4>ĐIỂM TRẢ</h4>
-                                <div class="radio-group">
-                                    <div>
-                                        <input type="radio" id="dropoff-station" name="dropoff_option" value="station" checked>
-                                        <label for="dropoff-station">Bến xe/VP</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" id="dropoff-transfer" name="dropoff_option" value="transfer">
-                                        <label for="dropoff-transfer">Trung chuyển</label>
-                                    </div>
+<div class="location-textbox">
+                                    ${trip.arrivalPoint}
                                 </div>
-                                <select name="dropoff_location" id="dropoff-location" class="location-select">
-                                    <option value="${trip.arrivalPoint}" selected>${trip.arrivalPoint}</option>
-                                    <option value="another_place_2">Một điểm trả khác 2</option>
-                                </select>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -321,18 +301,17 @@
                     <div class="payment-bar">
                         <div class="payment-total">
                             <span class="payment-label">Tổng cộng</span>
-                            <span class="payment-total-price" id="final-total-price">0đ</span>
+<span class="payment-total-price" id="final-total-price">0đ</span>
                         </div>
 
                         <input type="hidden" name="selected_seats" id="hidden_selected_seats">
 
-                        <input type="hidden" name="selected_pickup_option" id="hidden_pickup_option">
-                        <input type="hidden" name="selected_pickup_location" id="hidden_pickup_location">
-                        <input type="hidden" name="selected_dropoff_option" id="hidden_dropoff_option">
-                        <input type="hidden" name="selected_dropoff_location" id="hidden_dropoff_location">
+                        <input type="hidden" name="departurePoint" value="${trip.departurePoint}">
+                        <input type="hidden" name="arrivalPoint" value="${trip.arrivalPoint}">
                         <input type="hidden" name="totalPrice" id="hidden-total-price-value" value="0">
-
+                        <input type="hidden" name="tripId" value="<c:out value='${trip.tripId}'/>">
                         <input type="hidden" name="vehicle_type" value="${trip.vehicle.type}">
+                        <input type="hidden" name="veId" value="${trip.vehicle.vehicleId}">
                         <button type="submit" class="btn-submit">Tiếp tục</button>
                     </div>
                 </form>

@@ -2,6 +2,8 @@ package com.busbooking.entity;
 
 import java.math.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -52,6 +54,22 @@ public class Payment {
 
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
+
+    @OneToMany(
+            mappedBy = "payment", // "payment" là tên thuộc tính trong class PaymentTransactionLog
+            cascade = CascadeType.ALL, // Xóa Payment sẽ xóa tất cả Log liên quan
+            orphanRemoval = true
+    )
+    private List<PaymentTransactionLog> transactionLogs = new ArrayList<>();
+
+    // Thêm Getter và Setter cho transactionLogs
+    public List<PaymentTransactionLog> getTransactionLogs() {
+        return transactionLogs;
+    }
+
+    public void setTransactionLogs(List<PaymentTransactionLog> transactionLogs) {
+        this.transactionLogs = transactionLogs;
+    }
 
     //Tự động gọi trước khi entity được lưu lần đầu.
     @PrePersist

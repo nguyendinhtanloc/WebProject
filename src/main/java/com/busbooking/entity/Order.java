@@ -18,6 +18,9 @@ public class Order {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "tripid")
+    private int tripId;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderid") // khóa ngoại trong bảng Seat
     private List<Seat> seatBooked;
@@ -36,10 +39,6 @@ public class Order {
 
     @Column(name = "orderstatus")
     private String orderStatus;
-
-    // Thêm trường tripId cho Order
-    @Column(name = "tripid")
-    private int tripId;
 
     @Column(name = "expiresAt")
     private LocalDateTime expiresAt;
@@ -80,7 +79,7 @@ public class Order {
         this.seatBooked = seatBooked;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -94,6 +93,14 @@ public class Order {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+    public int getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(int tripId) {
+        this.tripId = tripId;
+
     }
 
     public String getCustomerPhone() {
@@ -123,17 +130,9 @@ public class Order {
     public Long getOrderId() {
         return orderId;
     }
+
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public int getTripId() {
-        return tripId;
-    }
-
-    public void setTripId(int tripId) {
-        this.tripId = tripId;
-
     }
     public LocalDateTime getExpiresAt() {
         return expiresAt;

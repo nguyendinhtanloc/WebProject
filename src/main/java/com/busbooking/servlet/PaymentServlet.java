@@ -1,6 +1,7 @@
 package com.busbooking.servlet;
 
 import com.busbooking.entity.Payment;
+import com.busbooking.exception.SeatUnavailableException;
 import com.busbooking.service.PaymentService;
 import com.busbooking.service.VNPayService;
 import com.google.gson.Gson;
@@ -44,16 +45,31 @@ public class PaymentServlet extends HttpServlet {
             }
 
             // Parse parameters
-            long orderId = Long.parseLong(orderIdStr);
+            Long orderId = Long.parseLong(orderIdStr);
 
-            // Create payment record
-            Payment payment = paymentService.createPayment(orderId, voucherCode);
+            // THAY ĐỔI LỚN: Gọi phương thức service mới, thực hiện toàn bộ giao dịch
+            // Phương thức này sẽ giữ ghế, tạo payment, và đặt hẹn giờ trong 1 transaction.
+            Payment payment = paymentService.initiatePaymentTransaction(orderId, voucherCode);
 
-            // Generate VNPay payment URL
+            // Nếu không có lỗi, tạo URL thanh toán VNPay và chuyển hướng người dùng
             String paymentUrl = vnPayService.createPaymentUrl(payment, req);
-
             resp.sendRedirect(paymentUrl);
-        } catch (NumberFormatException e) {
+
+        } catch (SeatUnavailableException e) {
+
+            Integer tripId = Integer.valueOf(req.getParameter("tripId"));
+            Integer veId = Integer.valueOf(req.getParameter("veId"));
+            String vehicleType = req.getParameter("vehicleType");
+
+            // XỬ LÝ QUAN TRỌNG: Bắt lỗi nghiệp vụ khi ghế đã bị người khác đặt
+            // Đặt một thông báo lỗi vào session để hiển thị trên trang tiếp theo
+            req.getSession().setAttribute("errorMessage", "Rất tiếc, một hoặc nhiều ghế bạn chọn đã có người khác đặt. Vui lòng chọn lại.");
+            String redirectUrl = req.getContextPath() + "/book?tripId=" + tripId
+                    + "&veId=" + veId
+                    + "&vehicleType=" + vehicleType;
+            resp.sendRedirect(redirectUrl);
+
+        }catch (NumberFormatException e) {
             e.printStackTrace();
             resp.sendRedirect("/payment-error.jsp?code=02");
         } catch (Exception e) {
@@ -77,6 +93,6 @@ public class PaymentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // Forward to payment page
-        req.getRequestDispatcher("/payment.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/payment.jsp").forward(req, resp);
     }
 }
