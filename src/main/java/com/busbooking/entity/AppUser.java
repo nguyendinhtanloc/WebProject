@@ -158,11 +158,8 @@ public class AppUser implements Serializable {
         this.address = address;
     }
 
-    @Column(
-            name = "gender",
-            columnDefinition = "gender::gender",
-            nullable = true
-    )
+    @Column(name = "gender", nullable = true)
+    @org.hibernate.annotations.Type(type = "com.busbooking.entity.GenderEnumType")
     public String getGender() {
         return this.gender;
     }

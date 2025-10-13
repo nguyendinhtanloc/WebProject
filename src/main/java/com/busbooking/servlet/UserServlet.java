@@ -50,7 +50,6 @@ public class UserServlet extends HttpServlet {
 			String birthDate = request.getParameter("birthDate");
 			String address = request.getParameter("address");
 			String gender = request.getParameter("gender");
-			String password = request.getParameter("password");
 
 			if (fullName != null && !fullName.isEmpty()) {
 				user.setName(fullName);
@@ -71,11 +70,12 @@ public class UserServlet extends HttpServlet {
 			if (gender != null && !gender.isEmpty()) {
 				user.setGender(gender);
 			}
-			if (password != null && !password.isEmpty()) {
-				user.setPassword(password); // Nên mã hóa mật khẩu ở thực tế
-			}
 			// Lưu cập nhật vào DB
-			new com.busbooking.dao.AppUserDAO().save(user);
+			if (user.getUserId() != null) {
+				user = new com.busbooking.dao.AppUserDAO().update(user);
+			} else {
+				request.setAttribute("error", "Không thể cập nhật user chưa tồn tại trong hệ thống!");
+			}
 			// Cập nhật lại session
 			session.setAttribute("user", user);
 			request.setAttribute("message", "Cập nhật thông tin thành công!");

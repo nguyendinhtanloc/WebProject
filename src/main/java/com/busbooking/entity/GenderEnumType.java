@@ -98,7 +98,6 @@ class UserStatusEnumType implements UserType {
         if (value == null) {
             st.setNull(index, Types.OTHER);
         } else {
-            // Ép kiểu về enum PostgreSQL bằng cú pháp ::userstatus
             st.setObject(index, value + "::userstatus", Types.OTHER);
         }
     }
