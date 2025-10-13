@@ -7,6 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
+import com.busbooking.entity.Order;
+import com.busbooking.entity.Seat;
+import com.busbooking.entity.Ticket;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.EntityManager;
 
 public class TicketDAO {
 
