@@ -30,12 +30,14 @@ public class VNPayCallbackServlet extends HttpServlet {
     private VNPayService vnPayService;
     private final Gson gson = new Gson();
     private static final Logger logger = Logger.getLogger(VNPayCallbackServlet.class.getName());
+    private OrderRepository orderRepository;
 
     @Override
     public void init() throws ServletException {
         super.init();
         paymentService = new PaymentService();
         vnPayService = new VNPayService(paymentService);
+        orderRepository = new OrderRepository();
     }
 
     @Override
@@ -109,7 +111,7 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setStatus("success");
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
-                OrderRepository.updateOrderStatus(payment.getOrder().getOrderId(), "paid");
+                orderRepository.updateOrderStatus(payment.getOrder().getOrderId(), "paid");
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {
