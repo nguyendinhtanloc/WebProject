@@ -1,22 +1,24 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 package com.busbooking.entity;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "appuser")
+@Table(
+        name = "appuser"
+)
 public class AppUser implements Serializable {
-
+    private Integer userId;
     private String userUuid;
     private String name;
     private String email;
@@ -30,136 +32,186 @@ public class AppUser implements Serializable {
     private LocalDateTime updatedAt;
     private LocalDate birthDateOld;
     private LocalDateTime createdAtOld;
+    private LocalDateTime updatedAtOld;
     private String password;
 
     public AppUser() {
-        this.userUuid = UUID.randomUUID().toString();
     }
 
-    // ===== Lifecycle hooks =====
     @PrePersist
     public void onCreate() {
-        if (userUuid == null) {
-            userUuid = UUID.randomUUID().toString();
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
         }
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+
+        if (this.updatedAt == null) {
+            this.updatedAt = LocalDateTime.now();
+        }
+
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
-
-    // ===== Getters & Setters =====
 
     @Id
-    @Column(name = "useruuid")
-    public String getUserUuid() {
-        return userUuid;
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    @Column(
+            name = "userid"
+    )
+    public Integer getUserId() {
+        return this.userId;
     }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    @Column(
+            name = "useruuid"
+    )
+    public String getUserUuid() {
+        return this.userUuid;
+    }
+
     public void setUserUuid(String userUuid) {
         this.userUuid = userUuid;
     }
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false
+    )
     public String getName() {
-        return name;
+        return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Column(unique = true, nullable = false)
+    @Column(
+            unique = true,
+            nullable = false
+    )
     public String getEmail() {
-        return email;
+        return this.email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     public String getRole() {
-        return role;
+        return this.role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
 
-    @Column(name = "status")
+    @Column(
+            name = "status",
+            columnDefinition = "userstatus"
+    )
     public String getStatus() {
-        return status;
+        return this.status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Column(name = "birthdate")
+    @Column(
+            name = "birthdate"
+    )
     public LocalDate getBirthDate() {
-        return birthDate;
+        return this.birthDate;
     }
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
 
+    @Column(
+            name = "gender",
+            columnDefinition = "gender::gender",
+            nullable = true
+    )
     public String getGender() {
-        return gender;
+        return this.gender;
     }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    @Column(name = "createdat")
+    @Column(
+            name = "createdat"
+    )
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    @Column(name = "updatedat")
+    @Column(
+            name = "updatedat"
+    )
     public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt;
     }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    // Mapping cho birth_date column trong Supabase
-    @Column(name = "birth_date")
+    @Column(
+            name = "birth_date"
+    )
     public LocalDate getBirthDateOld() {
-        return birthDateOld;
+        return this.birthDateOld;
     }
+
     public void setBirthDateOld(LocalDate birthDateOld) {
         this.birthDateOld = birthDateOld;
     }
 
-    // Mapping cho created_at column trong Supabase
-    @Column(name = "created_at")
-    public LocalDateTime getCreatedAtOld() {
-        return createdAtOld;
+    @Column(
+            name = "user_id"
+    )
+    public Integer getUserIdOld() {
+        return this.userId;
     }
-    public void setCreatedAtOld(LocalDateTime createdAtOld) {
-        this.createdAtOld = createdAtOld;
+
+    public void setUserIdOld(Integer userId) {
+        this.userId = userId;
     }
 }

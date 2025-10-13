@@ -97,7 +97,7 @@
 
             <div class="form-group">
                 <label for="name">Họ và tên:</label>
-                <input type="text" id="name" name="name" required
+<input type="text" id="name" name="name" required
                        value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
             </div>
 
@@ -169,7 +169,7 @@
 
         var actionInput = document.createElement('input');
         actionInput.type = 'hidden';
-        actionInput.name = 'action';
+actionInput.name = 'action';
         actionInput.value = 'sendOTP';
         form.appendChild(actionInput);
 

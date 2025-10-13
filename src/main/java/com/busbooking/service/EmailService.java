@@ -1,79 +1,57 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 package com.busbooking.service;
 
-import java.util.Properties;
-
-import jakarta.mail.*;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.Message.RecipientType;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.util.Properties;
+
 public class EmailService {
-    
-    // Cấu hình email (cần thay đổi theo thông tin thực tế)
-    private static final String SMTP_HOST = "smtp.gmail.com";
-    private static final String SMTP_PORT = "587";
-    private static final String EMAIL_USERNAME = "your-email@gmail.com"; // Thay bằng email thực tế
-    private static final String EMAIL_PASSWORD = "your-app-password"; // Thay bằng app password thực tế
-    private static final String FROM_EMAIL = "your-email@gmail.com"; // Thay bằng email thực tế
-    
+    private static final String GMAIL_USERNAME = "doancaothai3004@gmail.com";
+    private static final String GMAIL_APP_PASSWORD = "htmrkwolocfottfu";
+    private static final String FROM_NAME = "BusBooking";
+
+    public EmailService() {
+    }
+
     public static boolean sendOTPEmail(String toEmail, String otp) {
+        System.out.println("\ud83d\ude80 Attempting to send OTP email to: " + toEmail);
+        System.out.println("\ud83d\udce7 OTP: " + otp);
+
         try {
-            // Cấu hình properties cho SMTP
-            Properties properties = new Properties();
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.put("mail.smtp.host", SMTP_HOST);
-            properties.put("mail.smtp.port", SMTP_PORT);
-            
-            // Tạo session với authenticator
-            Session session = Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+                protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new jakarta.mail.PasswordAuthentication(GMAIL_USERNAME, GMAIL_APP_PASSWORD);
                 }
             });
-            
-            // Tạo message
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(FROM_EMAIL));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setFrom(new InternetAddress("doancaothai3004@gmail.com", "BusBooking"));
+            message.setRecipients(RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject("Mã xác thực OTP - BusBooking");
-            
-            // Nội dung email
-            String emailContent = createOTPEmailContent(otp);
-            message.setContent(emailContent, "text/html; charset=utf-8");
-            
-            // Gửi email
+            String htmlContent = String.format("<html><body style='font-family: Arial, sans-serif;'><div style='max-width: 600px; margin: 0 auto; padding: 20px;'><h2 style='color: #2196F3; text-align: center;'>\ud83d\ude8c Bus Booking Service</h2><div style='background: #f5f5f5; padding: 20px; border-radius: 10px; text-align: center;'><h3>Mã xác thực OTP của bạn:</h3><div style='font-size: 32px; font-weight: bold; color: #FF5722; letter-spacing: 5px; margin: 20px 0;'>%s</div><p style='color: #666;'>Mã này có hiệu lực trong <strong>5 phút</strong></p></div></div></body></html>", otp);
+            message.setContent(htmlContent, "text/html; charset=utf-8");
+            System.out.println("\ud83d\udce4 Sending email via Gmail SMTP...");
             Transport.send(message);
+            System.out.println("✅ Email sent successfully via Gmail!");
             return true;
-            
-        } catch (MessagingException e) {
-            e.printStackTrace();
+        } catch (MessagingException var6) {
+            System.err.println("❌ MessagingException when sending email: " + var6.getMessage());
+            var6.printStackTrace();
+            return false;
+        } catch (Exception var7) {
+            System.err.println("❌ Exception when sending email: " + var7.getMessage());
+            var7.printStackTrace();
             return false;
         }
-    }
-    
-    private static String createOTPEmailContent(String otp) {
-        return "<!DOCTYPE html>" +
-                "<html>" +
-                "<head>" +
-                "<meta charset='UTF-8'>" +
-                "<title>Mã xác thực OTP</title>" +
-                "</head>" +
-                "<body>" +
-                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>" +
-                "<h2 style='color: #333; text-align: center;'>Xác thực tài khoản BusBooking</h2>" +
-                "<div style='background-color: #f9f9f9; padding: 20px; border-radius: 10px; text-align: center;'>" +
-                "<p style='font-size: 16px; margin-bottom: 20px;'>Mã xác thực OTP của bạn là:</p>" +
-                "<div style='background-color: #007bff; color: white; padding: 15px; border-radius: 5px; font-size: 24px; font-weight: bold; letter-spacing: 3px;'>" +
-                otp +
-                "</div>" +
-                "<p style='font-size: 14px; color: #666; margin-top: 20px;'>Mã này có hiệu lực trong 5 phút.</p>" +
-                "<p style='font-size: 14px; color: #666;'>Vui lòng không chia sẻ mã này với bất kỳ ai.</p>" +
-                "</div>" +
-                "<p style='font-size: 12px; color: #999; text-align: center; margin-top: 30px;'>" +
-                "Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này." +
-                "</p>" +
-                "</div>" +
-                "</body>" +
-                "</html>";
     }
 }

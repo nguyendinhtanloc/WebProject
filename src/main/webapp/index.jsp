@@ -131,8 +131,8 @@
                         <span class="highlight">tiện lợi</span>
                     </h1>
                     <p class="hero-description">
-                        Tìm kiếm và đặt vé xe khách trực tuyến với hàng nghìn chuyến xe khắp Việt Nam. 
-                        An toàn, nhanh chóng và uy tín.
+                        Tìm Kiếm Và Đặt Vé Xe Khách Trực Tuyến Với Hàng Nghìn Chuyến Xe Khắp Việt Nam.
+     
                     </p>
                 </div>
             </div>
@@ -143,7 +143,7 @@
     <section class="search-section">
         <div class="container">
             <div class="search-card">
-                <h2 class="search-title">Tìm chuyến xe của bạn</h2>
+                <h2 class="search-title">Tìm Chuyến Xe Của Bạn</h2>
                 
                 <c:if test="${not empty error}">
                     <div class="alert alert-error">
