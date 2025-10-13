@@ -23,6 +23,7 @@ import com.busbooking.entity.PaymentTransactionLog;
 import com.busbooking.service.PaymentService;
 import com.busbooking.service.VNPayService;
 import com.google.gson.Gson;
+import com.busbooking.service.OrderService;
 
 @WebServlet("/payment/vnpay-callback")
 public class VNPayCallbackServlet extends HttpServlet {
@@ -31,6 +32,7 @@ public class VNPayCallbackServlet extends HttpServlet {
     private final Gson gson = new Gson();
     private static final Logger logger = Logger.getLogger(VNPayCallbackServlet.class.getName());
     private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Override
     public void init() throws ServletException {
@@ -38,6 +40,7 @@ public class VNPayCallbackServlet extends HttpServlet {
         paymentService = new PaymentService();
         vnPayService = new VNPayService(paymentService);
         orderRepository = new OrderRepository();
+        orderService = new OrderService();
     }
 
     @Override
@@ -112,6 +115,7 @@ public class VNPayCallbackServlet extends HttpServlet {
                 payment.setPaidAt(LocalDateTime.now());
                 payment.setTransactionNo(fields.get("vnp_TransactionNo"));
                 orderRepository.updateOrderStatus(payment.getOrder().getOrderId(), "paid");
+                orderService.confirmOrderAndCreateTickets(payment.getOrder().getOrderId());
                 req.setAttribute("message", "Thanh toán thành công!");
                 req.setAttribute("status", "success");
             } else {
