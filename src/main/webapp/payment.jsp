@@ -75,7 +75,7 @@
                     <div class="amount-row total">
                         <span>Tổng thanh toán:</span>
                          <%-- Hiển thị tổng tiền cuối cùng từ Controller --%>
-                        <span><c:out value="${finalAmount}" default="${cur.amount}"/> VNĐ</span>
+                        <span><c:out value="${finalAmount}" default="${currentOrder.amount}"/> VNĐ</span>
                     </div>
                 </div>
 

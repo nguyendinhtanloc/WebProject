@@ -17,52 +17,67 @@
 </head>
 <body>
     <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <a href="${pageContext.request.contextPath}/">
+            <nav class="navbar">
+                <div class="nav-container">
+                    <div class="nav-logo">
                         <i class="fas fa-bus"></i>
                         <span>BusBooking</span>
-                    </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="${pageContext.request.contextPath}/lookup" class="nav-link">Tra cứu vé</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Liên hệ</a>
+                        </li>
+                    </ul>
+                    <div class="nav-auth">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user}">
+                                <div class="user-menu" style="display: flex; align-items: center;">
+                                    <!-- Link đến trang cá nhân -->
+                                    <li class="nav-item" style="list-style: none; margin-right: 10px;">
+                                        <a href="${pageContext.request.contextPath}/user" class="nav-link" title="Trang cá nhân" style="color: #2563eb; font-weight: 700;">
+                                            <i class="fas fa-user-circle" style="font-size: 1.3em; vertical-align: middle;"></i>
+                                        </a>
+                                    </li>
+
+                                    <!-- Tên người dùng -->
+                                    <span class="user-name">
+                                        <i class="fas fa-user"></i>
+                                        ${sessionScope.user.email}
+                                    </span>
+
+                                    <!-- Nút đăng xuất -->
+                                    <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline" style="margin-left: 10px;">
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </a>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Nút đăng nhập -->
+                                <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
+                                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                                </a>
+                                <!-- Nút đăng ký -->
+                                <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary" style="margin-left: 10px;">
+                                    <i class="fas fa-user-plus"></i> Đăng ký
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
                 </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/" class="nav-link">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Lịch trình</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Tra cứu vé</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Liên hệ</a>
-                    </li>
-                </ul>
-                <div class="nav-auth">
-                    <c:choose>
-                        <c:when test="${not empty sessionScope.user}">
-                            <div class="user-menu">
-                                <span class="user-name">
-                                    <i class="fas fa-user"></i>
-                                    ${sessionScope.user.email}
-                                </span>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-outline">
-                                <i class="fas fa-sign-in-alt"></i>
-                                Đăng nhập
-                            </a>
-                            <a href="${pageContext.request.contextPath}/register.jsp" class="btn btn-primary">
-                                <i class="fas fa-user-plus"></i>
-                                Đăng ký
-                            </a>
-</c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-        </nav>
+            </nav>
     </header>
 
     <section class="search-results">
@@ -259,7 +274,7 @@
 
                             <div class="location-point-section">
                                 <h4>ĐIỂM TRẢ</h4>
-<div class="location-textbox">
+                                <div class="location-textbox">
                                     ${trip.arrivalPoint}
                                 </div>
                             </div>
