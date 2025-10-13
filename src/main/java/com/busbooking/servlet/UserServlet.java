@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @WebServlet(name = "UserServlet", urlPatterns = {"/user"})
 public class UserServlet extends HttpServlet {
@@ -76,7 +77,41 @@ public class UserServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
                 return;
             }
-            handleUpdateInfo(request, response, session);
+            AppUser user = (AppUser) session.getAttribute("user");
+            
+            String fullName = request.getParameter("fullName");
+            String phone = request.getParameter("phone");
+            String birthDate = request.getParameter("birthDate");
+            String address = request.getParameter("address");
+            String gender = request.getParameter("gender");
+            String password = request.getParameter("password");
+
+            // Cập nhật các trường
+            if (fullName != null && !fullName.isEmpty()) user.setName(fullName);
+            if (phone != null && !phone.isEmpty()) user.setPhone(phone);
+            if (address != null && !address.isEmpty()) user.setAddress(address);
+            if (gender != null && !gender.isEmpty()) user.setGender(gender);
+            
+            if (birthDate != null && !birthDate.isEmpty()) {
+                try {
+                    user.setBirthDate(LocalDate.parse(birthDate));
+                } catch (Exception e) {
+                    request.setAttribute("error", "Ngày sinh không hợp lệ!");
+                }
+            }
+            
+            if (password != null && !password.isEmpty()) {
+                user.setPassword(password); // Nên mã hóa
+            }
+
+            // Lưu cập nhật vào DB
+            AppUser updatedUser = appUserDAO.update(user); // Gọi phương thức update
+            
+            // Cập nhật lại session
+            session.setAttribute("user", updatedUser);
+            request.setAttribute("message", "Cập nhật thông tin thành công!");
+            request.getRequestDispatcher("/user.jsp").forward(request, response);
+            return;
         } else if ("refundTicket".equals(action)) {
             // Xử lý hoàn vé
             String ticketIdStr = request.getParameter("ticketId");
