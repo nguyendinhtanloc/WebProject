@@ -53,10 +53,7 @@ public class OrderRepository {
 
             if (orderToUpdate != null) {
                 // 2. Thay đổi trạng thái
-                orderToUpdate.setStatus(newStatus);
-                
-                // 3. Gọi công cụ cấp thấp của bạn để lưu lại
-                update(orderToUpdate, em);
+                orderToUpdate.setStatus(newStatus); 
                 
                 tx.commit();
                 return true;
