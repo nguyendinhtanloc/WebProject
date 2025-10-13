@@ -5,7 +5,7 @@ import com.busbooking.util.JPAUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import java.util.UUID; // Import lớp UUID
+// import java.util.UUID; // Import lớp UUID
 
 public class UserRepository {
 

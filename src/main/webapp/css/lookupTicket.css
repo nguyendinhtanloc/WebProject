@@ -1,0 +1,119 @@
+/* Kết quả tra cứu vé */
+.ticket-result {
+    max-width: 500px;
+    margin: 32px auto 0 auto;
+    background: #f8fafc;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    border: 1.5px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ticket-result h2 {
+    font-size: 1.5rem;
+    color: #2563eb;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e0e7ef;
+    padding-bottom: 6px;
+    width: 100%;
+    text-align: center;
+}
+
+.ticket-result h3 {
+    font-size: 1.15rem;
+    color: #059669;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+.ticket-result p {
+    font-size: 1rem;
+    margin: 8px 0;
+    width: 100%;
+    text-align: left;
+    color: #222;
+}
+
+.ticket-result strong {
+    color: #2563eb;
+}
+
+.print-button {
+    margin-top: 24px;
+    text-align: center;
+}
+/* ticketLookup.css */
+
+/* Container form */
+.content-wrapper {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Tiêu đề */
+.content-wrapper h1 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+/* Style form */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Label */
+form label {
+    flex: 1 0 100px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Input */
+form input[type="email"],
+form input[type="text"] {
+    flex: 2 0 200px;
+    padding: 10px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    font-size: 14px;
+}
+
+/* Focus input */
+form input[type="email"]:focus,
+form input[type="text"]:focus {
+    outline: none;
+    border-color: #3578e5;
+}
+
+/* Button */
+form button.btn-primary {
+    background-color: #3578e5;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(53, 120, 229, 0.5);
+    transition: background-color 0.3s ease;
+    flex: 1 0 100px;
+}
+
+form button.btn-primary:hover {
+    background-color: #285bb5;
+}
