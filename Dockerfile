@@ -25,7 +25,7 @@ RUN sed -i 's/port="8080"/port="'$PORT'"/' /usr/local/tomcat/conf/server.xml
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
 # Copy file .war đã build từ stage 1
-COPY --from=build /app/target/BusBooking.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
 # Mở cổng 8081
 EXPOSE 8080
