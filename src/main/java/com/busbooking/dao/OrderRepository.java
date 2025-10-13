@@ -53,7 +53,7 @@ public class OrderRepository {
 
             if (orderToUpdate != null) {
                 // 2. Thay đổi trạng thái
-                orderToUpdate.setStatus(newStatus); 
+                orderToUpdate.setOrderStatus(newStatus); 
                 
                 tx.commit();
                 return true;
