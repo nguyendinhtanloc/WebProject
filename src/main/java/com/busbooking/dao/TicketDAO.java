@@ -109,7 +109,7 @@ public class TicketDAO {
             ticket.setSeat(seat);
             
             ticket.setBookingTime(LocalDateTime.now());
-            ticket.setStatus("active"); // Nên dùng hằng số hoặc Enum
+            ticket.setStatus(Ticket.TicketStatus.ACTIVE); // Nên dùng hằng số hoặc Enum
             ticket.setPrice(pricePerTicket); // Lưu dưới dạng BigDecimal
             
             em.persist(ticket);
