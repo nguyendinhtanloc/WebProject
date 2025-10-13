@@ -5,7 +5,6 @@ import com.busbooking.dto.TicketTripDTO;
 import java.io.IOException;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,15 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/lookup")
 public class LookupTicketServlet extends HttpServlet {
-    private EntityManagerFactory emf;
 
     public LookupTicketServlet() {
     }
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        this.emf = Persistence.createEntityManagerFactory("busbookingPU");
+
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,7 +86,6 @@ public class LookupTicketServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        this.emf.close();
-        super.destroy();
+
     }
 }
