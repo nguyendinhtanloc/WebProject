@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Chat Nhân viên - Khách hàng</title>
+            <link rel="stylesheet" href="css/style.css?v=20251013-final">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login/Register Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="switchTab('login')">Đăng nhập</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Đăng ký</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form active">
+                    <h2>Đăng nhập</h2>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="loginUsername">Tên đăng nhập:</label>
+                            <input type="text" id="loginUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu:</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    </form>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="registerForm" class="auth-form">
+                    <h2>Đăng ký</h2>
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="regUsername">Tên đăng nhập:</label>
+                            <input type="text" id="regUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">Email:</label>
+                            <input type="email" id="regEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regFullName">Họ tên:</label>
+                            <input type="text" id="regFullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">Mật khẩu:</label>
+                            <input type="password" id="regPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regUserType">Loại tài khoản:</label>
+                            <select id="regUserType" required>
+                                <option value="">Chọn loại tài khoản</option>
+                                <option value="CUSTOMER">Khách hàng</option>
+                                <option value="EMPLOYEE">Nhân viên</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-comments"></i> Chat System</h1>
+                <div class="user-info">
+                    <span id="userFullName"></span>
+                    <span id="userType" class="user-type"></span>
+                    <button onclick="logout()" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h3 id="sidebarTitle">Cuộc trò chuyện</h3>
+                    <button id="createChatBtn" class="btn btn-primary" onclick="showCreateChatModal()" style="display: none;">
+                        <i class="fas fa-plus"></i> Tạo chat mới
+                    </button>
+                </div>
+                
+                <!-- Chat List -->
+                <div class="chat-list" id="chatList">
+                    <!-- Chat items will be populated here -->
+                </div>
+                
+                <!-- Open Chats (for employees) -->
+                <div id="openChatsSection" style="display: none;">
+                    <h4>Chat chờ xử lý</h4>
+                    <div class="chat-list" id="openChatList">
+                        <!-- Open chat items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div id="noChatSelected" class="no-chat-selected">
+                    <i class="fas fa-comments fa-3x"></i>
+                    <h2>Chọn một cuộc trò chuyện để bắt đầu</h2>
+                </div>
+                
+                <div id="chatContainer" class="chat-container" style="display: none;">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="chat-info">
+                            <h3 id="chatTitle"></h3>
+                            <span id="chatStatus" class="chat-status"></span>
+                        </div>
+                        <div class="chat-actions">
+                            <button id="closeChatBtn" class="btn btn-danger" onclick="closeChat()">
+                                <i class="fas fa-times"></i> Đóng chat
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages Area -->
+                    <div class="messages-area" id="messagesArea">
+                        <!-- Messages will be populated here -->
+                    </div>
+                    
+                    <!-- Message Input -->
+                    <div class="message-input">
+                        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                            <span id="typingText"></span>
+                        </div>
+                        <div class="input-container">
+                            <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." 
+                                   onkeypress="handleMessageKeyPress(event)">
+                            <button onclick="sendMessage()" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Chat Modal -->
+    <div id="createChatModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tạo cuộc trò chuyện mới</h3>
+                <button onclick="hideCreateChatModal()" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="handleCreateChat(event)">
+                    <div class="form-group">
+                        <label for="chatSubject">Chủ đề:</label>
+                        <input type="text" id="chatSubject" placeholder="Nhập chủ đề cuộc trò chuyện..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tạo chat</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Đang tải...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+            <script src="js/app.js?v=20251013-5"></script>
+</body>
+</html>
+
