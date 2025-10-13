@@ -329,18 +329,6 @@
                                                         <span class="amenities-list">${trip.vehicle.amenities}</span>
                                                     </div>
                                                 </c:if>
-
-                                                <div class="trip-status">
-                                                    <i class="fas fa-check-circle status-icon"></i>
-                                                    <span class="status-text">Còn chỗ trống</span>
-                                                </div>
-
-                                                <c:if test="${not empty trip.status}">
-                                                    <div class="trip-state">
-                                                        <i class="fas fa-info-circle"></i>
-                                                        <span>Trạng thái: ${trip.status}</span>
-                                                    </div>
-                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
