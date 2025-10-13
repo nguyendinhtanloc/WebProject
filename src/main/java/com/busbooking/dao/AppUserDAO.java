@@ -61,7 +61,8 @@ public class AppUserDAO {
     }
 
     public AppUser login(String email, String password) {
-        EntityManager em = emf.createEntityManager();
+        // EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         try {
             TypedQuery<AppUser> query = em.createQuery(
                     "SELECT u FROM AppUser u WHERE u.email = :email AND u.password = :password AND u.status = 'active'",
@@ -76,7 +77,8 @@ public class AppUserDAO {
     }
 
     public void delete(AppUser user) {
-        EntityManager em = emf.createEntityManager();
+        // EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager(); 
         try {
             em.getTransaction().begin();
             AppUser managedUser = em.find(AppUser.class, user.getUserUuid());
