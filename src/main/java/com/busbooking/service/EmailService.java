@@ -71,6 +71,59 @@ public class EmailService {
     public EmailService() {
     }
 
+        /**
+         * Gửi email với nội dung tuỳ ý (dùng SendGrid API)
+         */
+        public static boolean sendEmail(String toEmail, String subject, String htmlContent) {
+            if (SENDGRID_API_KEY == null || SENDGRID_API_KEY.isEmpty()) {
+                System.err.println("Missing SENDGRID_API_KEY in environment variables.");
+                return false;
+            }
+            if (SENDER_EMAIL == null || SENDER_EMAIL.isEmpty()) {
+                System.err.println("Missing SENDGRID_SENDER_EMAIL in environment variables.");
+                return false;
+            }
+            try {
+                URL url = new URL("https://api.sendgrid.com/v3/mail/send");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "Bearer " + SENDGRID_API_KEY);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                String payload = "{" +
+                        "\"personalizations\": [{ \"to\": [{ \"email\": \"" + toEmail + "\" }] }]," +
+                        "\"from\": { \"email\": \"" + SENDER_EMAIL + "\", \"name\": \"" + FROM_NAME + "\" }," +
+                        "\"subject\": \"" + escapeJson(subject) + "\"," +
+                        "\"content\": [{ \"type\": \"text/html\", \"value\": \"" + escapeJson(htmlContent) + "\" }]" +
+                        "}";
+
+                try (OutputStream os = conn.getOutputStream()) {
+                    os.write(payload.getBytes());
+                    os.flush();
+                }
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 200 && responseCode < 300) {
+                    System.out.println("✅ Email sent successfully via SendGrid!");
+                    return true;
+                } else {
+                    System.err.println("❌ Failed to send email. Response code: " + responseCode);
+                    try (Scanner scanner = new Scanner(conn.getErrorStream())) {
+                        StringBuilder error = new StringBuilder();
+                        while (scanner.hasNextLine()) {
+                            error.append(scanner.nextLine());
+                        }
+                        System.err.println("📩 SendGrid error response: " + error);
+                    }
+                    return false;
+                }
+            } catch (Exception e) {
+                System.err.println("❌ Exception when sending email: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        }
     public static boolean sendOTPEmail(String toEmail, String otp) {
         System.out.println("🚀 Attempting to send OTP email to: " + toEmail);
         System.out.println("📧 OTP: " + otp);

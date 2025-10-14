@@ -117,6 +117,22 @@ public class VNPayCallbackServlet extends HttpServlet {
                     com.busbooking.entity.Order paidOrder = payment.getOrder();
                     javax.persistence.EntityManager em = com.busbooking.util.JPAUtil.getEntityManager();
                     new com.busbooking.dao.TicketDAO(em).createTicketsForOrder(paidOrder);
+                    // Sau khi tạo ticket, gửi email xác nhận cho user
+                    String toEmail = paidOrder.getCustomerEmail();
+                    String subject = "Xác nhận thanh toán & thông tin vé";
+                    StringBuilder ticketInfo = new StringBuilder();
+                    ticketInfo.append("<ul>");
+                    for (com.busbooking.entity.Seat seat : paidOrder.getSeatBooked()) {
+                        ticketInfo.append("<li>Ghế: ").append(seat.getIdSeat()).append("</li>");
+                    }
+                    ticketInfo.append("</ul>");
+                    String htmlContent = "<h2>Đã thanh toán thành công!</h2>"
+                        + "<p>Cảm ơn bạn đã đặt vé. Dưới đây là thông tin vé của bạn:</p>"
+                        + "<b>Chuyến đi:</b> " + paidOrder.getTripId() + "<br>"
+                        + "<b>Ghế đã đặt:</b> " + ticketInfo.toString() + "<br>"
+                        + "<b>Thời gian đặt:</b> " + java.time.LocalDateTime.now() + "<br>"
+                        + "<b>Tổng tiền:</b> " + paidOrder.getAmount() + " VND";
+                    com.busbooking.service.EmailService.sendEmail(toEmail, subject, htmlContent);
                     em.close();
                 } catch (Exception ex) {
                     logger.log(Level.SEVERE, "Lỗi tạo ticket tự động cho order đã paid", ex);
